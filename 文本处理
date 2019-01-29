@@ -1,4 +1,4 @@
-wc命令：
+	wc命令：
 	wc [OPTION]... [FILE]...
 			-l: lines
 			-w: words
@@ -31,22 +31,104 @@ wc命令：
 			-u: 仅显示不曾重复的行；
       
  grep [OPTIONS] PATTERN [FILE...]
-
-						选项：
-							--color=auto: 对匹配到的文本着色显示；
-							-v: 显示不能够被pattern匹配到的行；
-							-i: 忽略字符大小写；
-							-o: 仅显示匹配到的字符串；
-							-q: 静默模式，不输出任何信息；
-							-A #：after, 后#行
-							-B #: before, 前#行
-							-C #：context, 前后各#行
-							-E：使用ERE；
+		选项：
+			--color=auto: 对匹配到的文本着色显示；
+			-v: 显示不能够被pattern匹配到的行；
+			-i: 忽略字符大小写；
+			-o: 仅显示匹配到的字符串；
+			-q: 静默模式，不输出任何信息；
+			-A #：after, 后#行
+			-B #: before, 前#行
+			-C #：context, 前后各#行
+			-E：使用ERE；
       
-[:digit:]  
-[:lower:]
-[:upper:]
-[:alpha:]
-[:alnum:]
-[:punct:]
-[:space:]     asas
+[:digit:]   任何数字
+[:lower:]   任何小写字母
+[:upper:]   任何大写字母
+[:alpha:]   任何字母
+[:alnum:]   任何字母和数字
+[:punct:]   任何标点符号
+[:space:]   任何空白字符
+
+
+
+
+sed
+	常用选项：
+		-n：不输出模式中的内容至屏幕；
+		-e: 多点编辑；
+		-f /PATH/TO/SCRIPT_FILE: 从指定文件中读取编辑脚本；
+		-r: 支持使用扩展正则表达式；
+		-i: 原处编辑；
+	编辑命令：
+	 	d: 删除
+      	 	p: 显示模式空间中的内容
+		a \text：在行后面追加文本；支持使用\n实现多行追加；
+		i \text：在行前面插入文本；支持使用\n实现多行插入；
+		c \text：替换行为单行或多行文本；
+		w /path/to/somefile: 保存模式空间匹配到的行至指定文件中；
+		r /path/from/somefile：读取指定文件的文本流至模式空间中匹配到的行的行后；
+		=: 为模式空间中的行打印行号；
+		!: 取反条件; 
+		s///：支持使用其它分隔符，s@@@，s###；
+			替换标记：
+				g: 行内全局替换；
+				p: 显示替换成功的行；
+				w /PATH/TO/SOMEFILE：将替换成功的结果保存至指定文件中；
+				
+awk
+
+	1、变量
+ 		2.1 内建变量
+			FS：input field seperator，默认为空白字符；
+			OFS：output field seperator，默认为空白字符；
+			RS：input record seperator，输入时的换行符；
+			ORS：output record seperator，输出时的换行符；
+
+			NF：number of field，字段数量
+					{print NF}, {print $NF}
+			NR：number of record, 行数；
+			FNR：各文件分别计数；行数；
+
+			FILENAME：当前文件名；
+
+			ARGC：命令行参数的个数；
+			ARGV：数组，保存的是命令行所给定的各参数；
+	printf命令
+		格式符：
+			%c: 显示字符的ASCII码；
+			%d, %i: 显示十进制整数；
+			%e, %E: 科学计数法数值显示；
+			%f：显示为浮点数；
+			%g, %G：以科学计数法或浮点形式显示数值；
+			%s：显示字符串；
+			%u：无符号整数；
+			%%: 显示%自身；
+条件表达式：
+	 awk -F: '{$3>=1000?usertype="Common User":usertype="Sysadmin or SysUser";printf "%15s:%-s\n",$1,usertype}' /etc/passwd
+
+ if-else				
+
+		~]# awk -F: '{if($3>=1000) {printf "Common user: %s\n",$1} else {printf "root or Sysuser: %s\n",$1}}' /etc/passwd
+
+		~]# awk -F: '{if($NF=="/bin/bash") print $1}' /etc/passwd
+
+		~]# awk '{if(NF>5) print $0}' /etc/fstab
+
+		~]# df -h | awk -F[%] '/^\/dev/{print $1}' | awk '{if($NF>=20) print $1}'
+
+			
+
+while循环			
+		~]# awk '/^[[:space:]]*linux16/{i=1;while(i<=NF) {print $i,length($i); i++}}' /etc/grub2.cfg
+
+		~]# awk '/^[[:space:]]*linux16/{i=1;while(i<=NF) {if(length($i)>=7) {print $i,length($i)}; i++}}' /etc/grub2.cfg
+
+		
+for循环
+
+		~]# awk '/^[[:space:]]*linux16/{for(i=1;i<=NF;i++) {print $i,length($i)}}' /etc/grub2.cfg
+
+			
+
+			
