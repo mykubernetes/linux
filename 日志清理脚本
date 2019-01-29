@@ -1,0 +1,10 @@
+#/bin/bash 
+#for clean the system trash log
+
+i=`df -h /home|sed -n 2p|awk '{print $5}'|awk -F '%' '{print $1}'`
+if [ $i -ge 90 ];
+then
+   find /home/hadoop/hadoop-2.2.0/logs/ -name '*datanode*' -type f -size +10240M -exec cp /dev/null {} \;
+   else
+exit
+fi
