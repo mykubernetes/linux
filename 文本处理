@@ -1,0 +1,52 @@
+wc命令：
+	wc [OPTION]... [FILE]...
+			-l: lines
+			-w: words
+			-c: characters
+
+	cut命令：
+		cut [OPTION]... [FILE]...
+			-d DELIMITER: 指明分隔符
+			-f FILEDS:
+				#: 第#个字段
+				#,#[,#]：离散的多个字段，例如1,3,6
+				#-#：连续的多个字段, 例如1-6
+
+				混合使用：1-3,7
+			--output-delimiter=STRING
+
+	sort命令：
+		sort [OPTION]... [FILE]...
+			-f: 忽略字符大小写
+			-r: 逆序
+			-t DELIMITER: 字段分隔符
+			-k #：以指定字段为标准排序
+			-n: 以数值大小进行排序
+			-u: uniq，排序后去重
+
+	uniq命令：
+		uniq [OPTION]... [FILE]...
+			-c: 显示每行重复出现的次数；
+			-d: 仅显示重复过的行；
+			-u: 仅显示不曾重复的行；
+      
+ grep [OPTIONS] PATTERN [FILE...]
+
+						选项：
+							--color=auto: 对匹配到的文本着色显示；
+							-v: 显示不能够被pattern匹配到的行；
+							-i: 忽略字符大小写；
+							-o: 仅显示匹配到的字符串；
+							-q: 静默模式，不输出任何信息；
+							-A #：after, 后#行
+							-B #: before, 前#行
+							-C #：context, 前后各#行
+							-E：使用ERE；
+      
+[:digit:]  
+[:lower:]
+[:upper:]
+[:alpha:]
+[:alnum:]
+[:punct:]
+[:space:]     asas
