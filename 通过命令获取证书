@@ -1,0 +1,12 @@
+1.通过域名获取：
+
+echo | openssl s_client -servername 域名 -connect 域名:443 2>/dev/null | openssl x509 -noout -dates
+
+Not Before: Jun 16 11:31:29 2015 GMT（起）
+Not After : Jun 17 02:38:48 2018 GMT（止）
+
+ 
+
+2.通过证书获取
+
+openssl x509 -in dingkai.crt(证书文件名，不是key) -noout -text
