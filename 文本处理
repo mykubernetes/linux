@@ -129,6 +129,6 @@ for循环
 
 		~]# awk '/^[[:space:]]*linux16/{for(i=1;i<=NF;i++) {print $i,length($i)}}' /etc/grub2.cfg
 
-			
+		~]# cat  file  | awk -F[,:]  '$12=="403"{a[$14]+=1}END{for(i in a)print i,a[i]}' |sort -nr -k2 |more			
 
 			
