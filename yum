@@ -5,27 +5,27 @@ https://mirrors.tuna.tsinghua.edu.cn/
 
 
 
-Centos6.8系统搭建本地yum源
+系统搭建本地yum源
 系统版本：centos6.8
 网络yum源：网易yum源http://mirrors.163.com/
 Yum服务器：要求可以连接公网和内网(物理机或虚拟机都可)
-1.	在yum服务器安装httpd服务并启动，监听端口可以自行修改；
-2.	下载要同步的网络yum源的repo文件
+1、在yum服务器安装httpd服务并启动，监听端口可以自行修改；
+2、下载要同步的网络yum源的repo文件
 wget -O /tmp/CentOS6-Base-163.repo   http://mirrors.163.com/.help/CentOS6-Base-163.repo
-3.	查看要同步的yum源repo ID
+3、查看要同步的yum源repo ID
  
-4.	根据repo ID同步网络yum源到本地
+4、根据repo ID同步网络yum源到本地
 reposync -p /var/www/html/ -r base
 reposync -p /var/www/html/ -r extras
 reposync -p /var/www/html/ -r updates
-5.	进到下载的目录下，执行createrepo命令创建repo文件
+5、进到下载的目录下，执行createrepo命令创建repo文件
 [root@ntp_nj base]# cd /var/www/html/base/
 [root@ntp_nj base]# pwd
 /var/www/html/base
 [root@ntp_nj base]# createrepo .
-6.	设置计划任务每天执行reposync进行同步
+6、设置计划任务每天执行reposync进行同步
  
-7.	在其他服务器上配置yum文件
+7、在其他服务器上配置yum文件
 [root@njostor0001 yum.repos.d]# cat centos-official.repo
 [base]
 name=CentOS-$releasever - Base - huanqiu.com
