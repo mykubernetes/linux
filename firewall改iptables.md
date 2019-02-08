@@ -16,5 +16,5 @@ CentOS7.2  默认使用firewalld ；iptables默认无法被systemctl控制，需
 vim /etc/sysctl.conf 
     net.ipv4.ip_forward=1
 # sysctl -p
-# less /proc/sys/net/ipv4/ip_forward  如果为1 则配置生效
+# cat /proc/sys/net/ipv4/ip_forward  如果为1 则配置生效
 ```
