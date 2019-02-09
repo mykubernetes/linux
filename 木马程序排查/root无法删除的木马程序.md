@@ -27,21 +27,22 @@ root无法删除的木马程序
 # ps -axu | grep freg
 root     15011  0.2  0.1 106152  1284 pts/0    S    10:30   0:04 /bin/bash /usr/bin/fregonnzkq
 ```  
-
+让进程变成睡眠状态
 ```
 # top -p 15011
  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                    
 15011 root      20   0  103m 1284 1080 S  0.0  0.1   0:04.11 fregonnzkq                 
 #S  表示是sleep状态  R 表示正在运行
 ```    
-
+暂停进程
 ```
 #  kill -STOP 15011   
 #让进程停止运行，不是杀掉。 直接杀死进程，会再产生新进程，这里把进程停止，让进程不在发挥攻击作用，然后你自己再慢慢排查 
 ```  
-
+查看进程状态
 ```
 # top -p 15011
  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                    
 15011 root      20   0  103m 1284 1080 T  0.0  0.1   0:04.11 fregonnzkq 
 ```  
+3、然后找到父进程删除木马程序
