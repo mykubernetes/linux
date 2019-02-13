@@ -2,7 +2,7 @@ https://pkgs.org/download/
 http://mirrors.aliyun.com/
 https://mirrors.tuna.tsinghua.edu.cn/
 
-
+yum install epel-release -y
 
 
 系统搭建本地yum源
