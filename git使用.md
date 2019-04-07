@@ -42,7 +42,7 @@ git branch --no-merged    查看未合并的分支
 git branch -d 
 git checkout              切换指针
 git merge                 合并分支
-git log
+git log 分支名            查看某个分支历史提交
 git stash
 git tag
 ```
