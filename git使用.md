@@ -36,7 +36,7 @@ git log -n4        查看最近4个历史提交
 分支
 ```
 git branch                增加一个分支
-git branch -v             
+git branch -v             查看分支
 git branch --merged       查看合并的分支
 git branch --no-merged    查看未合并的分支
 git branch -d 
