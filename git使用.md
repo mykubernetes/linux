@@ -7,10 +7,10 @@ https://git-scm.com/book/zh/v2
 ``` $ cd repo_name ```  
 3. 配置 global 和 local 两个级别的 user.name 和 user.email。  
 ```
-$ git config --local user.name 'your_local_name'
-$ git config --local user.email 'your_local_email@.'
 $ git config --global user.name 'your_global_name'
-$ git config --global user.email 'your_global_eamil@.' 
+$ git config --global user.email 'your_global_eamil@.' 
+显示所有配置信息
+$ git config --global list
 ```  
 4. 创建空的 commit  
 ``` $ git commit --allow-empty -m 'Initial' ```  
