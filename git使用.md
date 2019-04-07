@@ -1,4 +1,7 @@
-本地仓库使用方法
+官网：  
+https://git-scm.com/book/zh/v2  
+
+本地仓库使用方法  
 ```
 git add            加入暂存区  
 git status         查看状态  
