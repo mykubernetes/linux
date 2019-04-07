@@ -29,6 +29,9 @@ git reset          回滚
 git rm             从版本库中移除
 git rm --cached    从暂存区中移除
 git mv             重命名
+git log            查看历史提交
+git log --oneline  查看简易版历史提交
+git log -n4        查看最近4个历史提交
 ```
 分支
 ```
