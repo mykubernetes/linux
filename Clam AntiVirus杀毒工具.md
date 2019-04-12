@@ -2,15 +2,17 @@ Clam AntiVirus
 ============
 先安装EPEL源  
 ```
-#rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 ```  
 安装Clam  
 ```
-#yum install -y clamav clamav-updates
+# yum install -y clamav clamav-updates
 ```  
-#freshclam 更新病毒库  
-
-使用方法：
+更新病毒库  
+```
+# freshclam 
+```  
+使用方法：  
 
 1、 全盘扫描：# clamscan -r /  
 
