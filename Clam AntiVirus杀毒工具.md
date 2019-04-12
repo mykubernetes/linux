@@ -42,3 +42,19 @@ Clam AntiVirus
 
 （9） –include-dir=REGEX：只扫描与正则表达式匹配的目录
 ```  
+
+```
+# clamscan -r /
+LibClamAV Error: cli_loaddbdir(): No supported database files found in /var/lib/clamav
+ERROR: Can't open file or directory
+
+----------- SCAN SUMMARY -----------
+Known viruses: 0                      #已知病毒
+Engine version: 0.101.2               #发动机版本
+Scanned directories: 0                #扫描的目录
+Scanned files: 0                      #扫描的文件
+Infected files: 0                     #受感染的文件
+Data scanned: 0.00 MB                 #总错误数
+Data read: 0.00 MB (ratio 0.00:1)     #扫描数据
+Time: 0.012 sec (0 m 0 s)             #时间
+```  
