@@ -126,4 +126,7 @@ root	ALL=(ALL) 	ALL                        #对用户做授权
 用户名或组名 ALL=(以谁的身份运行命令) Commd_Alias运行的命令  
 Commd_Alias运行的命令：注：1命令；2目录（必须以/结尾）最好使用绝对路径  
 如果组：前面加% 如： %kill  
-
+```
+liv     ALL=(root) /sbin/fdisk,NOPASSWD:/usr/bin/systemctl,/usr/sbin/lsof,/usr/sbin/service,/usr/sbin/ifconfig,/usr/bin/mount
+```  
+添加上NOPASSWD: 后，NOPASSWD:之：后的命令都不需要输入密码。默认是PASSWD
