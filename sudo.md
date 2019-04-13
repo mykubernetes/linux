@@ -129,4 +129,21 @@ Commd_Alias运行的命令：注：1命令；2目录（必须以/结尾）最好
 ```
 liv     ALL=(root) /sbin/fdisk,NOPASSWD:/usr/bin/systemctl,/usr/sbin/lsof,/usr/sbin/service,/usr/sbin/ifconfig,/usr/bin/mount
 ```  
-添加上NOPASSWD: 后，NOPASSWD:之：后的命令都不需要输入密码。默认是PASSWD
+添加上NOPASSWD: 后，NOPASSWD:之：后的命令都不需要输入密码。默认是PASSWD   
+
+总结：  
+/etc/sudoers中常用的写法如下：  
+例1：一个用户可以执行另一个用户的某些命令  
+```
+# vim /etc/sudoers
+liv ALL=(poppy)  /opt/poppy.sh
+```  
+例2：让stu组中的所有用户，可以执行/sbin目录下的所有命令  
+```
+%stu     ALL=(root)  /sbin/
+```  
+例3： liv用户可以执行任何用户的任何命令。  
+```
+#  vim /etc/sudoers  
+liv  ALL=(ALL)  ALL
+```  
