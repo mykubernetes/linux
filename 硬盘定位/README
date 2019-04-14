@@ -36,7 +36,7 @@
 #./sas3ircu 0 display | grep -B 10 -A 4 Z840Z1M1
 Enclosure #        : 2
 Slot #             ：2
-
+······
 Serial No          : Z840Z1M1
 
 6、操作定位灯
