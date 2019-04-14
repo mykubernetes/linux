@@ -10,3 +10,7 @@ Not After : Jun 17 02:38:48 2018 GMT（止）
 2.通过证书获取
 
 openssl x509 -in dingkai.crt(证书文件名，不是key) -noout -text
+
+
+
+echo | openssl s_client -servername www.baidu.com -connect www.baidu.com:443 2>/dev/null | openssl x509 -noout -dates |awk '{print  $0  }' | awk -F"=" '{if($1=="notBefore"){print "start_date: "$2} else {print "stop_date: "$2}}' |awk 'BEGIN{print "-------------管理平台------------"}{print "\033[1;31m" $1,$5,$2,$3 "\033[0m" }'
