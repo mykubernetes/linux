@@ -83,3 +83,6 @@ access_by_lua_file /opt/nginx/conf/waf/waf.lua;
 the configuration file /opt/nginx/conf/nginx.conf syntax is ok
 # /opt/nginx/sbin/nginx  -s reload
 ```  
+
+8、输入网址测试  
+![image](https://github.com/mykubernetes/linux-install/blob/master/image/cc%E6%94%BB%E5%87%BB.png)  
