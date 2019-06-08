@@ -67,9 +67,10 @@ attacklog = "on"
 logdir = "/opt/nginx/logs/waf"
 ```  
 
-修改 tengine 的配置文件应用 ngx_lua_waf  
+6、修改 tengine 的配置文件应用 ngx_lua_waf  
 在 nginx.conf 的 http 段添加  
 ```
+# vim /opt/nginx/conf/nginx.conf
 lua_package_path "/opt/nginx/conf/waf/?.lua";
 lua_shared_dict limit 10m;
 init_by_lua_file  /opt/nginx/conf/waf/init.lua; 
