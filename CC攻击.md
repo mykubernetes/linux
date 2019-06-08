@@ -82,6 +82,7 @@ access_by_lua_file /opt/nginx/conf/waf/waf.lua;
 # /opt/nginx/sbin/nginx  -t
 the configuration file /opt/nginx/conf/nginx.conf syntax is ok
 # /opt/nginx/sbin/nginx  -s reload
+# /opt/nginx/sbin/nginx  -c /opt/nginx/conf/nginx.conf   #如果reload报错执行此命令
 ```  
 
 8、输入网址测试  
