@@ -38,28 +38,28 @@ luajit 下载地址 http://luajit.org/download.html  选择稳定的安装包下
 nginx下常见的开源waf有mod_security、naxsi、ngx_lua_waf这三个，ngx_lua_waf 性能高和易用性强，基本上零配置，而且常见的攻击类型都能防御，是比较省心的选择。  
 其git 地址为 https://github.com/loveshell/ngx_lua_waf  
 
-1.下载配置文件  
+1、下载配置文件  
 ```  
 # wget https://github.com/loveshell/ngx_lua_waf/archive/master.zip
 ```  
 
-2. 解压缩    
+2、解压缩    
 ```
 # unzip master.zip
 ```  
 
-3. 移动到nginx的目录下  
+3、移动到nginx的目录下  
 ```
 # mv ngx_lua_waf-master /opt/nginx/conf/
 ```  
 
-4. 重命名  
+4、重命名  
 ```
 # cd /opt/nginx/conf/ 
 # mv ngx_lua_waf-master  waf
 ```  
 
-5. 修改 ngx_lua_waf 配置文件适应当前的 nginx 环境。修改以下文件的三行即可（修改/opt/nginx/conf/waf下的config.lua文件，将RulePath和logdir改为实际的目录：）
+5、 修改 ngx_lua_waf 配置文件适应当前的 nginx 环境。修改以下文件的三行即可（修改/opt/nginx/conf/waf下的config.lua文件，将RulePath和logdir改为实际的目录：）
 ```
 # cat /opt/nginx/conf/waf/config.lua|head -n3
 RulePath = "/opt/nginx/conf/waf/wafconf/"
@@ -77,7 +77,7 @@ init_by_lua_file  /opt/nginx/conf/waf/init.lua;
 access_by_lua_file /opt/nginx/conf/waf/waf.lua;
 ```  
  
-启动 tengine–nginx 服务  
+7、启动 tengine–nginx 服务  
 ```  
 # /opt/nginx/sbin/nginx  -t
 the configuration file /opt/nginx/conf/nginx.conf syntax is ok
