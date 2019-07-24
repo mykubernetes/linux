@@ -107,14 +107,17 @@ firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>�
 firewall-cmd --permanent --zone=public --add-forward-port=port=555:proto=tcp:toport=22:toaddr=10.0.0.61
 firewall-cmd --reload
 ```  
+toaddr为本机地址，可以不加  
 
 2、移除本机转发555/tcp端口策略，要求当前和长期有效  
 ```
 firewall-cmd --permanent --zone=public --remove-forward-port=port=555:proto=tcp:toport=22:toaddr=10.0.0.61
 firewall-cmd --reload
 ```  
+toaddr为本机地址，可以不加  
 
-3、如果需要将本地的10.0.0.61:6666端口转发至后端10.0.0.9:22端口
+3、如果需要将本地的10.0.0.61:6666端口转发至后端10.0.0.9:22端口  
+访问本机地址，到内网地址，需要做伪装，否则不无法访问
 ```
 1、开启ip伪装
 firewall-cmd --add-masquerade --permanent
