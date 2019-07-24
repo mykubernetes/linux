@@ -113,3 +113,12 @@ firewall-cmd --reload
 firewall-cmd --permanent --zone=public --remove-forward-port=port=555:proto=tcp:toport=22:toaddr=10.0.0.61
 firewall-cmd --reload
 ```  
+
+3、覆盖需要将本地的10.0.0.61:6666端口转发至后端10.0.0.9:22端口
+```
+1、开启ip伪装
+firewall-cmd --add-masquerade --permanent
+2、配置转发
+firewall-cmd --permanent --zone=public --add-forward-port=port=6666:proto=tcp:toport=22:toaddr=10.0.0.9
+firewall-cmd --reload
+```
