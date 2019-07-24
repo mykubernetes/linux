@@ -181,5 +181,5 @@ firewall-cmd --reload
 2、客户端配置共享上网
 ```
 vim /etc/sysconfig/network-scripts/ifcfg-eth0
-配置ip,gw,dns,
+配置ip,gw,dns,网关指向，可以出公网服务器的地址
 ```  
