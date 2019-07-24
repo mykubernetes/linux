@@ -138,3 +138,9 @@ firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source 
 3)重载firewalld防火墙
 firewall-cmd --reload
 ```  
+
+2、拒绝10.0.0.0/24网段中的10.0.0.9主机发起的ssh请求，当前和永久生效  
+```
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.9/32 service name=ssh drop'
+firewall-cmd --reload
+```  
