@@ -102,9 +102,14 @@ firewall-cmd --get-active-zones
 ```
 firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>：proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
 ```  
-1、转发本机555/tcp端口的流量至22/tcp端口，要求氮气和长期有效  
+1、转发本机555/tcp端口的流量至22/tcp端口，要求当前和长期有效  
 ```
 firewall-cmd --permanent --zone=public --add-forward-port=port=555:proto=tcp:toport=22:toaddr=10.0.0.61
 firewall-cmd --reload
 ```  
 
+2、移除本机转发555/tcp端口策略，要求当前和长期有效  
+```
+firewall-cmd --permanent --zone=public --remove-forward-port=port=555:proto=tcp:toport=22:toaddr=10.0.0.61
+firewall-cmd --reload
+```  
