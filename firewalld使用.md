@@ -168,3 +168,18 @@ firewall-cmd --add-masquerade --permanent
 firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.1/32 forward-port port=6661 protocol=tcp to-port=22 to-addr=10.0.0.9'
 firewall-cmd --reload
 ```  
+
+
+防火墙开启内部上网  
+---
+1、firewalld防火墙开启ip伪装，实现地址转换  
+```
+firewall-cmd --add-masquerade --permanent
+firewall-cmd --reload
+```  
+
+2、客户端配置共享上网
+```
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
+配置ip,gw,dns,
+```  
