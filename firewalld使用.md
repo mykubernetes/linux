@@ -129,6 +129,17 @@ firewall-cmd --reload
 
 富规则
 ---
+```
+# man firewalld.richlanguage
+           rule
+             [source]
+             [destination]
+             service|port|protocol|icmp-block|icmp-type|masquerade|forward-port|source-port
+             [log]
+             [audit]
+             [accept|reject|drop|mark]
+```
+
 1、允许10.0.0.0/24网段中10.0.0.1主机访问http服务，其他同网段主机无法访问，当前和永久生效  
 ```
 1)将10.0.0.0/24所有主机至public区域
@@ -142,5 +153,18 @@ firewall-cmd --reload
 2、拒绝10.0.0.0/24网段中的10.0.0.9主机发起的ssh请求，当前和永久生效  
 ```
 firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.9/32 service name=ssh drop'
+firewall-cmd --reload
+```  
+
+3、将远程10.0.0.1主机请求firewalld的6661端口，转发至firewalld防火墙的22端口  
+```
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.1/32 forward-port port=5551 protocol=tcp to-port=22'
+firewall-cmd --reload
+```  
+
+4、将远程10.0.0.1主机请求firewalld的6661端口，转发至后端主机10.0.0.9的22端口  
+```
+firewall-cmd --add-masquerade --permanent
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.1/32 forward-port port=6661 protocol=tcp to-port=22 to-addr=10.0.0.9'
 firewall-cmd --reload
 ```  
