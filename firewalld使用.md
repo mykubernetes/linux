@@ -13,6 +13,8 @@ https://www.centos.bz/2017/08/firewalld-rule-intro-usage/
 ```
 # ls /usr/lib/firewalld/zones/ 
 block.xml  dmz.xml  drop.xml  external.xml  home.xml  internal.xml  public.xml  trusted.xml  work.xml
+
+# ls /usr/lib/firewalld/services/
 ```  
 
 2、存储规则配置文件  
