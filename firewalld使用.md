@@ -8,7 +8,7 @@
 - block（限制） 拒绝流入的流量，除非与流出的流量相关；
 - drop（丢弃） 拒绝流入的流量，除非与流出的流量相关；
 
-
+https://www.centos.bz/2017/08/firewalld-rule-intro-usage/  
 1、默认定义的区域模板配置文件  
 ```
 # ls /usr/lib/firewalld/zones/ 
@@ -71,104 +71,25 @@ permanent(持久配置): 修改后需要reload重载才能生效【强烈推荐�
 cp -r /etc/firewalld/ /etc/firewalld_backup
 ```  
 
-使用方法
----
-查看当前的区域
+使用方法  
+--
+1)将氮气默认区域修改为drop  
 ```
-firewall-cmd --get-default-zone
-```
-查询eth1网卡区域
-```
-firewall-cmd --get-zone-of-interface=eth1
-```
-查询public中相关服务是否被允许
-```
-firewall-cmd --zone=public --query-service=ssh
-firewall-cmd --zone=public --query-service=http
-```
-列出所有支持的 service
-```
-firewall-cmd --get-services
-```
-查看当前zone加载的 service
-```
-firewall-cmd --list-services
-```
-让配置文件立即生效
-```
-firewall-cmd --reload
-```
-允许https服务流量通过public
-```
-firewall-cmd --permanent --zone=public --add-service=https
-firewall-cmd --reload
-```
-允许80端口通过public
-```
-firewall-cmd --permanent --zone=public --add-port=80/tcp 
-firewall-cmd --reload
-```
-修改eth1网卡区域为external
-```
-firewall-cmd --permanent --zone=external --change-interface=eth1
-firewall-cmd --reload
-```
-拒绝172.27.10.0/22网络用户访问ssh
-```
-firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="172.27.10.0/22" service name="ssh" reject"
-```
-重读防火墙
+firewall-cmd --set-default-zone=drop
+```  
 
-并不中断用户连接，即不丢失状态信息：
+2)将网络接口关联至drop区域  
 ```
+firewall-cmd --permanent --change-interface=eth0 --zone=drop
+```  
+
+3)将10.0.0.0/24网段加入trusted白名单
+```
+firewall-cmd --permanent --add-source=10.0.0.0/24 --zone=trusted
 firewall-cmd --reload
-```
-中断用户连接，丢弃状态信息：
-```
-firewall-cmd --complete-reload
-```
-注意:通常在防火墙出现严重问题时，这个命令才会被使用。如防火墙规则正确，但态信息不正确和无法建立连接等。
+```  
 
-设置默认区域
-```
-firewall-cmd --set-default-zone=work
-```
-注意:流入默认区域中配置的接口的新访问请求将被置入新的默认区域，当前活动的连接将不受影响。
-
-获取活动的区域
+4)查看当前活动区域
 ```
 firewall-cmd --get-active-zones
-```
-根据接口获取区域
-```
-firewall-cmd –get-zone-of-interface=<interface>
-firewall-cmd --get-zone-of-interface=eth1
-```
-修改接口所属区域
-```
-firewall-cmd [–zone=] –change-interface=
-```
-列举区域中启用的服务
-```
-firewall-cmd [ –zone= ] –list-services
-```
-启用应急模式阻断所有网络连接
-```
-firewall-cmd --panic-on
-```
-禁用应急模式
-```
-firewall-cmd --panic-off
-```
-查询应急模式
-```
-firewall-cmd --query-panic
-```
-启用区域中的一种服务
-```
-firewall-cmd [--zone=<zone>] --add-service=<service> [--timeout=<seconds>]
-```
-使区域中的 ipp-client 服务生效60秒:
-```
-firewall-cmd --zone=home --add-service=ipp-client --timeout=60
-```
+```  
