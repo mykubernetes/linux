@@ -66,6 +66,10 @@ permanent(持久配置): 修改后需要reload重载才能生效【强烈推荐�
 --reload                        让"永久生效"的配置规则立即生效，并覆盖当前配置
 ```  
 
+5、备份firewalld相关配置文件（重要）  
+```
+cp -r /etc/firewalld/ /etc/firewalld_backup
+```  
 
 使用方法
 ---
