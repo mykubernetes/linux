@@ -125,3 +125,16 @@ firewall-cmd --add-masquerade --permanent
 firewall-cmd --permanent --zone=public --add-forward-port=port=6666:proto=tcp:toport=22:toaddr=10.0.0.9
 firewall-cmd --reload
 ```
+
+
+富规则
+---
+1、允许10.0.0.0/24网段中10.0.0.1主机访问http服务，其他同网段主机无法访问，当前和永久生效  
+```
+1)将10.0.0.0/24所有主机至public区域
+firewall-cmd --permanent --add-source=10.0.0.0/24 --zone=public
+2)仅允许public中的10.0.0.1主机访问http
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.1/32 port port=80 protocol=tcp accept'
+3)重载firewalld防火墙
+firewall-cmd --reload
+```  
