@@ -28,7 +28,7 @@ BONDING_MASTER=yes
 BONDING_OPTS="mode=6 miimon=100"
 ```  
 - BONDING_OPTS="mode=6 miimon=100" 表示这里配置的工作模式是mode6(adaptive load balancing)  
-- miimon表示监视网络链接的频度 (毫秒), 我们设置的是100毫秒, 根据你的需求也可以指定mode成其它的负载模式。  
+- miimon是链路监测的时间间隔单位是毫秒，miimon=100的意思就是，每100毫秒检测网卡和交换机之间是否连通，如不通则使用另外的链路。  
 
 4、配置两块网卡为slave并指向bond0网卡  
 ```
