@@ -1,3 +1,18 @@
+bonding的七种工作模式: 
+```
+balance-rr (mode=0)     轮询策略          默认, 有高可用(容错)和负载均衡的功能,需要交换机的配置，每块网卡轮询发包 (流量分发比较均衡).
+active-backup (mode=1)  主备策略          只有高可用(容错)功能, 不需要交换机配置,这种模式只有一块网卡工作,对外只有一个mac地址。缺点是端口利用率比较低
+balance-xor (mode=2)    异或策略          不常用
+broadcast (mode=3)      广播策略          不常用
+802.3ad (mode=4)        动态链接聚合       IEEE 802.3ad 动态链路聚合，需要交换机配置
+balance-tlb (mode=5)    适配器传输负载均衡  不常用
+balance-alb (mode=6)    适配器负载均衡      有高可用(容错)和负载均衡的功能，不需要交换机配置(流量分发到每个接口不是特别均衡)
+```  
+常用模式  
+- mode=0 表示负载均衡方式，两块网卡都工作，需要交换机作支持。   
+- mode=1 表示冗余方式，网卡只有一个工作，一个出问题启用另外的。   
+- mode=6 表示负载均衡方式，两块网卡都工作，不需要交换机作支持。  
+
 1、关闭和停止NetworkManager服务  
 ```
 # systemctl stop NetworkManager.service     # 停止NetworkManager服务
