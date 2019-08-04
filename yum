@@ -5,6 +5,10 @@ https://mirrors.tuna.tsinghua.edu.cn/
 yum install epel-release -y
 
 
+基于命令查找安装包
+yum provides netstat
+
+
 系统搭建本地yum源
 系统版本：centos6.8
 网络yum源：网易yum源http://mirrors.163.com/
