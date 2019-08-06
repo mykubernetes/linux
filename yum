@@ -2,6 +2,8 @@ https://pkgs.org/download/
 http://mirrors.aliyun.com/
 https://mirrors.tuna.tsinghua.edu.cn/
 
+date +%F -d -1day
+
 yum install epel-release -y
 
 
