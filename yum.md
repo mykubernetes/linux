@@ -96,7 +96,7 @@ server {
 
 8、createrepo 命令用于创建yum源（软件仓库），即为存放于本地特定位置的众多rpm包建立索引，描述各包所需依赖信息，并形成元数据。    
 ```
-cd /usr/share/nginx/html/Aliyun/CentOS/7/
+cd /usr/share/nginx/html/aliyun/CentOS/7/
 cd base && createrepo -p ./ && cd -
 cd extras && createrepo -p ./ && cd -
 cd updates && createrepo -p ./ && cd -
