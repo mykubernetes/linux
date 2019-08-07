@@ -1,17 +1,26 @@
+搜索rpm包网站
 https://pkgs.org/download/  
-http://mirrors.aliyun.com/  
+
+清华yum源  
 https://mirrors.tuna.tsinghua.edu.cn/  
 
+修改时间  
+```
 date +%F -d -1day  
+```  
 
+安装epel源  
+```
 yum install epel-release -y  
-
+```  
 
 基于命令查找安装包  
+```
 yum provides netstat  
-
+```
 
 reposync同步aliyunyum库到本地  
+---
 1、安装必要工具  
 ```
 # yum install yum-utils createrepo plugin-priorities -y
