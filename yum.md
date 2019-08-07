@@ -63,9 +63,9 @@ server {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
     }
-    autoindex on:
-    autoindex_exact_size on:
-    autoindex_localtime on:
+    autoindex on;
+    autoindex_exact_size on;
+    autoindex_localtime on;
 ```  
 - autoindex on: #表示自动在index.html的索引打开  
 - autoindex_exact_size on: #表示如果有文件则显示文件大小  
