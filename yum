@@ -1,50 +1,117 @@
-https://pkgs.org/download/
-http://mirrors.aliyun.com/
-https://mirrors.tuna.tsinghua.edu.cn/
+https://pkgs.org/download/  
+http://mirrors.aliyun.com/  
+https://mirrors.tuna.tsinghua.edu.cn/  
 
-date +%F -d -1day
+date +%F -d -1day  
 
-yum install epel-release -y
-
-
-基于命令查找安装包
-yum provides netstat
+yum install epel-release -y  
 
 
-系统搭建本地yum源
-系统版本：centos6.8
-网络yum源：网易yum源http://mirrors.163.com/
-Yum服务器：要求可以连接公网和内网(物理机或虚拟机都可)
-1、在yum服务器安装httpd服务并启动，监听端口可以自行修改；
-2、下载要同步的网络yum源的repo文件
-wget -O /tmp/CentOS6-Base-163.repo   http://mirrors.163.com/.help/CentOS6-Base-163.repo
-3、查看要同步的yum源repo ID
+基于命令查找安装包  
+yum provides netstat  
+
+
+reposync同步aliyunyum库到本地  
+1、安装必要工具  
+```
+# yum install yum-utils createrepo plugin-priorities -y
+```  
+- yum-utils：reposync同步工具  
+- createrepo：编辑yum库工具  
+- plugin-priorities：控制yum源更新优先级工具，这个工具可以用来控制进行yum源检索的先后顺序，建议可以用在client端。  
+
+2、安装nginx  
+```
+# vim /etc/yum.repos.d/nginx.repo
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=https://nginx.org/keys/nginx_signing.key
+
+# yum-config-manager --enable nginx-mainline
+# yum install nginx -y
+```  
+
+3、配置nginx  
+```
+server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    autoindex on:
+    autoindex_exact_size on:
+    autoindex_localtime on:
+```  
+
+4、下载阿里yum源,安装epel源  
+```
+# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+# yum install epel-release -y
+```  
+
+5、刷新缓存,列出安装文件数  
+```
+# yum clean all
+# yum makecache
+# yum repolist
+```  
+
+6、在nginx的html目录建立rpm库存放目录  
+```
+# mkdir -p /usr/share/nginx/html/aliyun/CentOS/7/64bit/{base,extras,updates}
+```  
+
+7、开始同步下载rpm包  
+```  
+# reposync -p /usr/share/nginx/html/aliyun/CentOS/7/64bit
+```  
+
+8、建库  
+```
+cd /usr/share/nginx/html/Aliyun/CentOS/7/
+cd base && createrepo -p ./ && cd -
+cd extras && createrepo -p ./ && cd -
+cd updates && createrepo -p ./ && cd -
+```  
+
+9、其他服务器连接YUM仓库  
+```
+# vim /etc/yum.repos.d/aliyun.repo
  
-4、根据repo ID同步网络yum源到本地
-reposync -p /var/www/html/ -r base
-reposync -p /var/www/html/ -r extras
-reposync -p /var/www/html/ -r updates
-5、进到下载的目录下，执行createrepo命令创建repo文件
-[root@ntp_nj base]# cd /var/www/html/base/
-[root@ntp_nj base]# pwd
-/var/www/html/base
-[root@ntp_nj base]# createrepo .
-6、设置计划任务每天执行reposync进行同步
- 
-7、在其他服务器上配置yum文件
-[root@njostor0001 yum.repos.d]# cat centos-official.repo
 [base]
-name=CentOS-$releasever - Base - huanqiu.com
-baseurl=http://10.10.10.197:10080/base
+name=CentOS-Base(GDS)
+baseurl=http://192.168.101.70/aliyun/CentOS/7/64bit/base
+path=/
+enabled=1
 gpgcheck=0
-#released updates
+ 
 [updates]
-name=CentOS-$releasever - Updates - huanqiu.com
-baseurl=http://10.10.10.197:10080/updates
+name=CentOS-Updates(GDS)
+baseurl=http://192.168.101.70/aliyun/CentOS/7/64bit/updates
+path=/
+enabled=1
 gpgcheck=0
-#additional packages that may be useful
+ 
 [extras]
-name=CentOS-$releasever - Extras - huanqiu.com
-baseurl=http://10.10.10.197:10080/extras
+name=CentOS-Extras(GDS)
+baseurl=http://192.168.101.70/aliyun/CentOS/7/64bit/extras
+path=/
+enabled=1
 gpgcheck=0
-
+```  
