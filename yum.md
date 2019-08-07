@@ -74,7 +74,6 @@ server {
 4、下载阿里yum源,安装epel源  
 ```
 # wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-# yum install epel-release -y
 ```  
 
 5、刷新缓存,列出安装文件数  
