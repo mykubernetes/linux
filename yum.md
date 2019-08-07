@@ -127,3 +127,9 @@ path=/
 enabled=1
 gpgcheck=0
 ```  
+
+10、立定时同步，每周一的3点同步  
+```
+# crontab -e
+0 3 * * 1 /usr/bin/reposync -np   /usr/share/nginx/html/aliyun/CentOS/7/64bit
+```  
