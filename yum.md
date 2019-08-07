@@ -67,6 +67,9 @@ server {
     autoindex_exact_size on:
     autoindex_localtime on:
 ```  
+- autoindex on: #表示自动在index.html的索引打开  
+- autoindex_exact_size on: #表示如果有文件则显示文件大小  
+- autoindex_localtime on: #表示显示文件修改时间，以当前系统时间为准  
 
 4、下载阿里yum源,安装epel源  
 ```
