@@ -41,7 +41,7 @@ c d
 # find . -name "*.txt" |xargs -I {} cp -v {} /var/tmp
 ```  
 
-6、-t显示详细过程  
+6、-t显示操作过程  
 ```
 # find . -name "*.txt" |xargs -t -I {} cp {}  /var/tmp/
 cp ./1.txt /var/tmp/ 
