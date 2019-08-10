@@ -40,3 +40,18 @@ c d
 # touch {1..10}.txt
 # find . -name "*.txt" |xargs -I {} cp -v {} /var/tmp
 ```  
+
+6、-t显示详细过程  
+```
+# find . -name "*.txt" |xargs -t -I {} cp {}  /var/tmp/
+cp ./1.txt /var/tmp/ 
+cp ./2.txt /var/tmp/ 
+cp ./3.txt /var/tmp/ 
+cp ./4.txt /var/tmp/ 
+cp ./5.txt /var/tmp/ 
+cp ./6.txt /var/tmp/ 
+cp ./7.txt /var/tmp/ 
+cp ./8.txt /var/tmp/ 
+cp ./9.txt /var/tmp/ 
+cp ./10.txt /var/tmp/ 
+```  
