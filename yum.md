@@ -137,3 +137,31 @@ gpgcheck=0
 ```
 createrepo --update  ./
 ```  
+
+
+本地不能连接外网方式
+---
+
+1、将CentOS-7.2-x86_64-DVD-1511.iso格式文件上传到服务器  
+
+2、创建iso文件将要挂在的目录  
+```
+# mkdir -p /mnt/cdrom
+```  
+
+3、挂在iso文件到刚刚创建的目录中
+```
+mount -o loop CentOS-7.2-x86_64-DVD-1511.iso /omnt/cdrom
+```  
+
+4、创建repo文件 Local.repo，然后在其中加入下面内容  
+```
+# vim /etc/yum.repos.d/Local.repo
+[Local] 
+name=Local Yum 
+baseurl=file:///mnt/cdrom
+gpgcheck=0
+enabled=1
+```  
+
+5、制作成网络yum源，方法同上  
