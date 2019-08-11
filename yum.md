@@ -132,3 +132,8 @@ gpgcheck=0
 # crontab -e
 0 3 * * 1 /usr/bin/reposync -np   /usr/share/nginx/html/aliyun/CentOS/7/64bit
 ```  
+
+11、如果添加或者删除了个人的rpm包，不需要再次重新create，只需要--update就可以了,写入周期性任务计划  
+```
+createrepo --update  ./
+```  
