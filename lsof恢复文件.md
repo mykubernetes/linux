@@ -13,7 +13,6 @@ lr-x------. 1 root root 64 Mar 21 16:08 0 -> /dev/null
 l-wx------. 1 root root 64 Mar 21 16:08 1 -> /dev/null
 l-wx------. 1 root root 64 Mar 21 16:08 2 -> /dev/null
 l-wx------. 1 root root 64 Mar 21 16:08 3 -> /var/log/messages
-lr-x------. 1 root root 64 Mar 21 16:08 4 -> anon_inode:inotify
 lr-x------. 1 root root 64 Mar 21 16:08 5 -> /run/log/journal/7135e589c17244f39b4674b10a5b1706/system@10f5e9be86e9455e81545dd4ed8df88c-0000000000000001-0005849f4360648f.journal
 l-wx------. 1 root root 64 Mar 21 16:08 6 -> /var/log/cron
 l-wx------. 1 root root 64 Mar 21 16:08 7 -> /var/log/secure
