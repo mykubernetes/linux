@@ -39,5 +39,6 @@ lr-x------. 1 root root 64 Mar 21 16:08 9 -> /run/log/journal/7135e589c17244f39b
 
 恢复被删除的文件
 # less /proc/898/fd/3 > /var/log/messages
-
+或者
+# cp /proc/898/fd/3 /var/log/messages
 ```  
