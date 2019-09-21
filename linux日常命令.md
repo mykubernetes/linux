@@ -8,3 +8,8 @@ md5sum md5-file1 -c md5-file2 --status
 ```
 curl -I -o /dev/null -s -w %{http_code} http://localhost:80
 ```  
+
+3、查看进程启动时间  
+```
+ps -eo pid,lstart,etime |grep `ps -ef |grep java_process |grep -v grep|awk '{print $2}'`
+```  
