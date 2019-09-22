@@ -8,6 +8,7 @@ md5sum md5-file1 -c md5-file2 --status
 ```
 curl -I -o /dev/null -s -w %{http_code} http://localhost:80
 ```  
+https://www.jianshu.com/p/07c4dddae43a  
 
 3、查看进程启动时间  
 ```
