@@ -14,3 +14,8 @@ https://www.jianshu.com/p/07c4dddae43a
 ```
 ps -eo pid,lstart,etime |grep `ps -ef |grep java_process |grep -v grep|awk '{print $2}'`
 ```  
+
+4、vim粘贴
+```
+set paste 
+```
