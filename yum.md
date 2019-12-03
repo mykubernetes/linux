@@ -165,3 +165,25 @@ enabled=1
 ```  
 
 5、制作成网络yum源，方法同上  
+
+
+
+
+
+使用http+createrepo搭建本地yum源仓库
+---
+```
+1、安装所需软件包
+# yum install httpd createrepo -y
+2、创建目录并导入rpm包作为本地yum源
+# mkdir -p /var/www/html/ceph/12.2.12
+# cd /var/www/html/ceph/12.2.12
+wget https://mirrors.aliyun.com/ceph/rpm-luminous/el7/x86_64/ceph-12.2.12-0.el7.x86_64.rpm
+wget https://mirrors.aliyun.com/ceph/rpm-luminous/el7/x86_64/ceph-12.2.12-0.el7.x86_64.rpm
+
+
+3、创建本地yum仓库
+# createrepo /var/www/html/ceph/12.2.12
+4、启动http服务
+# systemctl start httpd
+```  
