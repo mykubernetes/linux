@@ -1,5 +1,7 @@
+git下载地址
+https://gitforwindows.org/
 
-下载git小乌龟地址
+下载git小乌龟地址,需要先安装git才能安装git小乌龟
 https://tortoisegit.org/download/  
 使用说明  
 ![image](https://github.com/mykubernetes/linux-install/blob/master/image/TortoiseGit.png)
