@@ -1,7 +1,7 @@
 
 下载git小乌龟地址
-https://tortoisegit.org/download/
-使用说明
+https://tortoisegit.org/download/  
+使用说明  
 ![image](https://github.com/mykubernetes/linux-install/blob/master/image/TortoiseGit.png)
 
 官网：  
