@@ -35,9 +35,9 @@ set MINOR 标志 状态                             #改变编号为 MINOR 的�
 
 操作实例  
 1、选择分区硬盘
-
-首先类似fdisk一样，先选择要分区的硬盘，此处为/dev/vdb： ((parted)表示在parted中输入的命令，其他为自动打印的信息)
 ```
+首先类似fdisk一样，先选择要分区的硬盘，此处为/dev/vdb： ((parted)表示在parted中输入的命令，其他为自动打印的信息)
+
 [root@node1 ~]# parted /dev/vdb
 GNU Parted 3.1
 使用 /dev/vdb
@@ -63,7 +63,7 @@ Welcome to GNU Parted! Type 'help' to view a list of commands.
 2、创建分区
 ```
 选择了/dev/hdd作为我们操作的磁盘，接下来需要创建一个分区表(在parted中可以使用help命令打印帮助信息)：
-```
+
 (parted) mklabel
 新的磁盘标签类型？ gpt  # (我们要正确分区大于2TB的磁盘，应该使用gpt方式的分区表，输入gpt后回车)
 ```
