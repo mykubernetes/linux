@@ -7,21 +7,7 @@ https://tortoisegit.org/download/
 官网：  
 https://git-scm.com/book/zh/v2  
 
-1. 在 Git 命令⾏⽅式下，⽤ init 创建⼀个 Git 仓库。  
-``` $ git init repo_name ```  
-2. cd 到 repo 中。  
-``` $ cd repo_name ```  
-3. 配置 global 和 local 两个级别的 user.name 和 user.email。  
-```
-$ git config --global user.name 'your_global_name'
-$ git config --global user.email 'your_global_eamil@.' 
-显示所有配置信息
-$ git config --global list
-```  
-4. 创建空的 commit  
-``` $ git commit --allow-empty -m 'Initial' ```  
-5. ⽤ log 看 commit 信息，Author 的 name 和 email 是什么？  
-``` $ git log ```  
+
 
 一、新建代码库
 ---
