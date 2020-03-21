@@ -1,3 +1,22 @@
+lsof常用参数
+---
+
+lsof 如果不加任何参数，就会打开所有被打开的文件，建议加上一下参数来具体定位  
+lsof -i 列出所有网络连接  
+lsof -i tcp 列出所有tcp连接信息  
+lsof -i udp 列出所有udp连接信息  
+lsof -i :3306 列出谁在使用某端口  
+lsof abc.txt 显示开启文件abc.txt的进程 (谁在使用某个文件)  
+lsof -u username 列出某用户打开的文件  
+lsof -c abc 显示abc进程现在打开的文件  
+lsof -c -p 1234 列出进程号为1234的进程所打开的文件  
+lsof -g gid 显示归属gid的进程情况  
+lsof +d /usr/local/ 显示目录下被进程开启的文件  
+lsof +D /usr/local/ 同上，但是会搜索目录下的目录，时间较长 lsof -d 4 显示使用fd为4的进程  
+lsof -i 用以显示符合条件的进程情况  
+
+
+
 文件被删除，但是进程还在的文件可以被恢复
 ```
 查看被删除的文件进程号为898
