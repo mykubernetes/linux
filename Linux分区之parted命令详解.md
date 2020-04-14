@@ -33,6 +33,18 @@ select 设备                                     #选择要编辑的设备
 set MINOR 标志 状态                             #改变编号为 MINOR 的分区的标志
 ```
 
+```
+parted /dev/sdb              # select /dev/sdb
+mklabel gpt                  # 设置分区类型为gpt
+unit mb                      # 设置单位mb
+mkpart primary 0% 100% 或者  mkpart primary 0 -1  //整块磁盘分为一个区
+mkpart primary 0 10240       # 建立从0M开始的10g的分区
+mkpart primary 10240 -1      # 建立从10g开始，剩下所有的空间都建立分区
+print
+quit
+mkfs.xfs -f /dev/sdb1
+```
+
 操作实例  
 1、选择分区硬盘
 ```
