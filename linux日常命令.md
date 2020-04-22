@@ -8,6 +8,12 @@ md5sum md5-file1 -c md5-file2 --status
 ```
 curl -I -o /dev/null -s -w %{http_code} http://localhost:80
 ```  
+
+查看解析时间
+```
+curl -o /dev/null -s -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n"
+```
+
 https://www.jianshu.com/p/07c4dddae43a  
 
 3、查看进程启动时间  
