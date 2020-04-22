@@ -11,7 +11,7 @@ curl -I -o /dev/null -s -w %{http_code} http://localhost:80
 
 查看解析时间
 ```
-curl -o /dev/null -s -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n"
+curl -o /dev/null -s -w %{time_namelookup}::%{time_connect}::%{time_starttransfer}::%{time_total}::%{speed_download}"\n" "ip地址"
 ```
 
 https://www.jianshu.com/p/07c4dddae43a  
