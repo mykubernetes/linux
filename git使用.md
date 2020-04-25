@@ -10,7 +10,6 @@ https://git-scm.com/book/zh/v2
 
 
 一、新建代码库
----
 ```
 # 在当前目录新建一个Git代码库
 $ git init
@@ -37,7 +36,7 @@ $ git config [--global] user.name "[name]"
 $ git config [--global] user.email "[email address]"
 ```
 
-三、增加/删除文件
+三、增加/删除文件到暂存区
 ```
 # 添加指定文件到暂存区
 $ git add [file1] [file2] ...
