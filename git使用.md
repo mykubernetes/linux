@@ -36,7 +36,7 @@ $ git config [--global] user.name "[name]"
 $ git config [--global] user.email "[email address]"
 ```
 
-三、增加/删除文件到暂存区
+三、在暂存区增加/删除文件
 ```
 # 添加指定文件到暂存区
 $ git add [file1] [file2] ...
