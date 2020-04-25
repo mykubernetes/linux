@@ -5,7 +5,9 @@ echo | openssl s_client -servername 域名 -connect 域名:443 2>/dev/null | ope
 Not Before: Jun 16 11:31:29 2015 GMT（起）
 Not After : Jun 17 02:38:48 2018 GMT（止）
 
- 
+通过文件看
+openssl x509 -in /etc/kubernetes/ssl/kubelet-clent.pem -noout -dates
+
 
 2.通过证书获取
 
