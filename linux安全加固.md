@@ -14,10 +14,11 @@
 ```
 # cp -p /etc/login.defs /etc/login.defs_bak
 # vim /etc/login.defs
-PASS_MAX_DAYS为90
-PASS_MIN_LEN为8
-PASS_MIN_DAYS为1
-PASS_WARN_AGE为7
+
+PASS_MAX_DAYS  99999    #密码的最大有效期，99999：永久有效 
+PASS_MIN_DAYS  0        #是否可修改密码，0可修改，非0多少天后修改 
+PASS_MIN_LEN   8        #密码最小长度，使用pam_cracklib module,该参数不再有效 
+PASS_WARN_AGE  7        #密码失效前多少天通知用户修改密码
 ```  
 
 4、检查文件与目录缺省权限  
