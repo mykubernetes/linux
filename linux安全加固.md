@@ -20,6 +20,16 @@ PASS_MIN_DAYS  0        #是否可修改密码，0可修改，非0多少天后�
 PASS_MIN_LEN   8        #密码最小长度，使用pam_cracklib module,该参数不再有效 
 PASS_WARN_AGE  7        #密码失效前多少天通知用户修改密码
 ```  
+其他策略解释
+```
+retry=N:重试多少次后返回修改密码 
+difok=N:新密码必须与旧密码不同的位数 
+dcredit=N: N>0密码中最多有多少位数字：N<0密码中最少有多少个数字 lcredit=N:小写字母的个数 
+ucredit=N:大写字母的个数 
+credit=N:特殊字母的个数 
+minclass=N:密码组成（大/小字母，数字，特殊字符）
+```
+
 
 4、检查文件与目录缺省权限  
 ```
@@ -148,3 +158,39 @@ root
 # vim /etc/vsftd.conf文件，修改下列行为：  
 anonymous_enable=NO
 ```  
+
+18、确保错误登录3次，锁定此账户5分钟
+```
+# vim /etc/pam.d/system-auth 
+auth        required      pam_tally2.so   deny=2  lock_time=300
+```
+
+解除用户锁定
+```
+# pam_tally2 -r -u test1 
+Login           Failures Latest failure     From 
+test1               1    04/21/20 22:37:54  pts/4
+```
+
+19、禁止su非法提权，只允许root和wheel组用户su到root
+```
+# vim /et/pam.d/su auth
+required        pam_wheel.so group=wheel  #新加一行 
+或 
+auth            required        pam_wheel.so use_uid     #取消注释
+```
+
+20、不响应ICMP请求
+```
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+```
+
+21、设置shell登陆超时时间为10分钟
+```
+exportTMOUT=600
+```
+
+22、结束非法登录用户
+```
+pkill -9 -t pts/0
+```
