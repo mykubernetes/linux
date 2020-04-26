@@ -180,6 +180,11 @@ required        pam_wheel.so group=wheel  #新加一行
 auth            required        pam_wheel.so use_uid     #取消注释
 ```
 
+```
+# vim /etc/group
+wheel:x:10:root,user1,user2
+```
+
 19、不响应ICMP请求
 ```
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
