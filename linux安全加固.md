@@ -175,7 +175,7 @@ anonymous_enable=NO
 18、禁止su非法提权，只允许root和wheel组用户su到root
 ```
 # vim /etc/pam.d/su
-required        pam_wheel.so group=wheel  #新加一行 
+auth            required        pam_wheel.so    group=wheel  #新加一行 
 或 
 auth            required        pam_wheel.so use_uid     #取消注释
 ```
