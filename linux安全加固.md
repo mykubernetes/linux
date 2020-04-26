@@ -187,10 +187,25 @@ echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 
 21、设置shell登陆超时时间为10分钟
 ```
+# vim /etc/profile
 exportTMOUT=600
+
+source /etc/profile
 ```
 
 22、结束非法登录用户
 ```
-pkill -9 -t pts/0
+# who
+root     tty1         2020-04-23 17:33
+root     pts/0        2020-04-23 17:35 (10.10.10.1)
+
+
+# pkill -9 -t pts/0
+```
+
+23、配置firewalld防火墙仅开启
+```
+firewall-cmd —zone=public —add-port=22/tcp —permanent 
+firewall-cmd —zone=public —add-port=443/tcp —permanent firewall-cmd —zone=public —add-port=80/tcp —permanent 
+firewall-cmd —reload
 ```
