@@ -128,6 +128,18 @@ auth required pam_wheel.so group=wheel
 
 13、检查登录尝试失败后锁定用户帐户  
 ```
+vim /etc/pam.d/system-auth 
+auth        required      pam_tally2.so   deny=2  lock_time=300
+```
+解除用户锁定
+```
+# pam_tally2 -r -u test1 
+Login           Failures Latest failure     From 
+test1               1    04/21/20 22:37:54  pts/4
+```
+
+上面只是限制了用户从tty登录，而没有限制远程登录，修改sshd文件将实现对远程登陆的限制
+```
 # vi /etc/pam.d/sshd 增加：
 auth required pam_tally2.so deny=6 unlock_time=300 even_deny_root root_unlock_time=30（添加在第一行）
 ```  
@@ -159,20 +171,8 @@ root
 anonymous_enable=NO
 ```  
 
-18、确保错误登录3次，锁定此账户5分钟
-```
-# vim /etc/pam.d/system-auth 
-auth        required      pam_tally2.so   deny=2  lock_time=300
-```
 
-解除用户锁定
-```
-# pam_tally2 -r -u test1 
-Login           Failures Latest failure     From 
-test1               1    04/21/20 22:37:54  pts/4
-```
-
-19、禁止su非法提权，只允许root和wheel组用户su到root
+18、禁止su非法提权，只允许root和wheel组用户su到root
 ```
 # vim /et/pam.d/su auth
 required        pam_wheel.so group=wheel  #新加一行 
@@ -180,12 +180,12 @@ required        pam_wheel.so group=wheel  #新加一行
 auth            required        pam_wheel.so use_uid     #取消注释
 ```
 
-20、不响应ICMP请求
+19、不响应ICMP请求
 ```
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 ```
 
-21、设置shell登陆超时时间为10分钟
+20、设置shell登陆超时时间为10分钟
 ```
 # vim /etc/profile
 exportTMOUT=600
@@ -193,7 +193,7 @@ exportTMOUT=600
 source /etc/profile
 ```
 
-22、结束非法登录用户
+21、结束非法登录用户
 ```
 # who
 root     tty1         2020-04-23 17:33
@@ -203,7 +203,7 @@ root     pts/0        2020-04-23 17:35 (10.10.10.1)
 # pkill -9 -t pts/0
 ```
 
-23、配置firewalld防火墙仅开启
+22、配置firewalld防火墙仅开启
 ```
 firewall-cmd —zone=public —add-port=22/tcp —permanent 
 firewall-cmd —zone=public —add-port=443/tcp —permanent firewall-cmd —zone=public —add-port=80/tcp —permanent 
