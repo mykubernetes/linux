@@ -39,6 +39,7 @@ mklabel gpt                  # 设置分区类型为gpt
 unit mb                      # 设置单位mb
 mkpart primary 0% 100% 或者  mkpart primary 0 -1  //整块磁盘分为一个区
 mkpart primary 0 10240       # 建立从0M开始的10g的分区
+mkpart primary 0 200M        # 建立从0M开始的200M的分区,指定单位的
 mkpart primary 10240 -1      # 建立从10g开始，剩下所有的空间都建立分区
 print
 quit
