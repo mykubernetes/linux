@@ -25,3 +25,14 @@ ps -eo pid,lstart,etime |grep `ps -ef |grep java_process |grep -v grep|awk '{pri
 ```
 set paste 
 ```
+
+5、通过curl 调用接口
+```
+curl -X POST http://192.168.0.9:30080/api/v1/apps -d '{
+	"types":["admin"],
+    "page_size":100,
+    "marker":null,
+    "period":{"start":"2020-08-04T17:42:22+08:00",
+    "end":"2020-08-11T17:42:22+08:00"},
+}' | jq
+```
