@@ -44,6 +44,7 @@ commonName_default          = Ted CA Test
 
 准备配置文件，得到server.conf，内容如下：
 ```
+# vim server.conf
 [ req ]
 default_bits       = 2048
 distinguished_name = req_distinguished_name
