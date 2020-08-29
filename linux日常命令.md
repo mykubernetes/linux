@@ -36,3 +36,12 @@ curl -X POST http://192.168.0.9:30080/api/v1/apps -d '{
     "end":"2020-08-11T17:42:22+08:00"},
 }' | jq
 ```
+
+6、Linux nohup命令不再默认输出日志文件
+```
+1、只记录异常日志
+# nohup python -u Job.py >/dev/null 2>error.log  2>&1 &
+
+2、不记录任何日志
+# nohup python -u Job.py >/dev/null  2>&1 &
+```
