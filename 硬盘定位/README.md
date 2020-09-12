@@ -1,5 +1,5 @@
-                                           服务器硬盘定位方法
-
+服务器硬盘定位方法
+---
 
 1、前提条件  
 目前支持 LSI SAS2308 和 LSI SAS3008服务器。（Avago的卡）(Avago 收购了Broadcom, LSI  后来Avago又更名为Broadcom)  
@@ -56,7 +56,8 @@ Serial No          : Z840Z1M1
 ```
 
 
-MegaCli 安装及常用命令  
+MegaCli 安装及常用命令
+---
 1.安装
 ```
 #rpm -ivh MegaCli-8.05.06-1.noarch.rpm  安装在/opt下
