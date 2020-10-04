@@ -206,9 +206,23 @@ expression
 
 - proto: ether,ip,arp,tcp,udp,wlan
 
+
 监听网卡eth0目标主机ctp协议端口号80的
+---
 ```
 tcpdump -i eth0 dst ctp port 80 -nn
+```
+
+监听指定主机和端口
+---
+```
+tcpdump -i eth0 -nnA 'port 80 and src host 192.168.1.2'
+```
+
+抓取特定目标ip和端口的包
+---
+```
+tcpdump host 192.168.1.2 and tcp port 8000
 ```
 
 监听指定的主机
@@ -241,4 +255,26 @@ tcpdump -i eth0 -nn host 172.16.100.6 and 172.16.200.73
 抓取172.16.100.6和172.16.200.73 或者172.16.100.6和 172.16.100.77的通信
 ```
 tcpdump -i eth0 -nn host 172.16.100.6 and \(172.16.200.73 or 172.16.100.77\)
+```
+
+监听指定端口
+---
+```
+tcpdump -i eth0 -nn port 80
+
+取反
+tcpdump -i eth0 -nnA '!port 22'
+```
+
+捕获的数据太多，不断刷屏，可能需要将数据内容记录到文件里，需要使用-w参数：
+---
+```
+tcpdump -X -s 0 -w A.cap host 192.168.1.2 and tcp port 8000
+```
+
+
+```
+# yum install wireshark
+# yum install wireshark-gnome
+# wireshark
 ```
