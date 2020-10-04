@@ -1,4 +1,4 @@
-常用参数
+
 ```
 -A  以ASCII码方式显示每一个数据包(不会显示数据包中链路层头部信息). 在抓取包含
     网页数据的数据包时, 可方便查看数据(nt: 即Handy for capturing web pages).
@@ -187,6 +187,7 @@
 
       此选项也可在编译的时候被设置为默认打开.(nt: 此时user 的取值未知, 需补充)
 ```
+常用参数
 - -i interface 指定抓包网卡名称
 - -w file 指定抓包数据写入文件，否则输出到屏幕
 - -r file 读取文件并进行解码
@@ -199,13 +200,13 @@
 - -vvv 非常详细信息
 - -nn 不反响解析
 
+表达式  
 expression
 - type: host,net,port,portrange
 
 - direction: src,dst,src or dst,src and dst
 
-- proto: ether,ip,arp,tcp,udp,wlan
-
+- proto: ether,ip,arp,tcp,udp,wlan ether是mac
 
 监听网卡eth0目标主机ctp协议端口号80的
 ---
