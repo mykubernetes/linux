@@ -10,7 +10,7 @@
 ```
 #!/bin/bash
 
-for i in {101..139}
+for i in {1..254}
 do
   ping -c1 -i 1 -w 1 192.168.1.$i >/dev/null 2>&1
   if [ $? = 0 ];then
@@ -24,10 +24,10 @@ done
 ```
 #!/bin/bash
 . /etc/init.d/functions
-for var in {101..139};
+for var in {1..254};
 do
   ip=192.168.1.$var
-  ping -c2 $ip >/dev/null 2>&1
+  ping -c2 -i 0.5 -w 1 $ip >/dev/null 2>&1
     if [ $? = 0 ];then
       action "$ip" /bin/true
     else
