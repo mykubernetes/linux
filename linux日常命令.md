@@ -37,6 +37,10 @@ curl -X POST http://192.168.0.9:30080/api/v1/apps -d '{
 }' | jq
 ```
 
+```
+curl -H "Content-Type: application/json" -XPOST http://master:9200/test/user/ -d '{"name" : "john"}'
+```
+
 6、Linux nohup命令不再默认输出日志文件
 ```
 1、只记录异常日志
