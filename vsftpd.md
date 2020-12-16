@@ -1,3 +1,66 @@
+
+部署vsftpd
+---
+```
+1、安装vsftpd
+yum install ‐y vsftpd ftp
+
+2、设置开机启动
+systemctl enable vsftpd
+
+3、启动服务
+systemctl start vsftpd
+
+4、查看监听了 21 端口
+netstat ‐nltp | grep 21
+
+5、配置权限
+vim /etc/vsftpd/vsftpd.conf
+修改内容如下：
+anonymous_enable=NO             # 禁用匿名用户
+chroot_local_user=YES           # 禁止切换根目录
+local_root=/data/ftp            # 设置FTP主目录 （该目录等会需要新建）
+pasv_min_port=30000             # 配置FTP被动模式的端口
+pasv_max_port=30500
+
+6、创建ftp用户并分配权限
+  1)创建用户
+  useradd admin
+  
+  2)修改密码
+  passwd admin
+
+  3)限制该用户仅能通过 FTP 访问
+  usermod -s /sbin/nologin admin
+  
+  4)为用户分配主目录
+     # 创建目录:
+     mkdir ‐p /data/ftp/home   # 对应配置文件目录
+
+     # 设置访问权限：
+     chmod a‐w /data/ftp && chmod 777 ‐R /data/ftp/home
+
+     # 设置为用户的主目录： 即用户通过 FTP 登录后看到的根目录
+     usermod ‐d /data/ftp admin
+```
+
+配置防火墙
+```
+# 查询所有已开启端口
+firewall‐cmd ‐‐list‐ports
+
+# 开放ftp所需端口
+firewall‐cmd ‐‐add‐port=21/tcp ‐‐permanent
+firewall‐cmd ‐‐add‐port=20/tcp ‐‐permanent
+firewall‐cmd ‐‐add‐port=30000‐30500/tcp ‐‐permanent
+
+重新载入防火墙规则
+firewall‐cmd ‐‐reload
+```
+
+
+
+
 vsftp 服务连接报530 login incorrect
 ---
 
@@ -49,7 +112,7 @@ systemctl vsftpd.service restart
 ```
 ftp 192.168.101.66
 输入： user
-p输入： password
+输入： password
 ```
 
 
