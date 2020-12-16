@@ -165,3 +165,5 @@ curl –u name:passwd ftp://w192.168.101.66/img/[1-10].gif –O       # O字母�
 ```
 curl –u name:passwd ftp://192.168.101.66/img/[one,two,three].jpg –O      # O字母大写
 ```
+
+https://blog.csdn.net/justry_deng/article/details/87969795
