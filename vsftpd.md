@@ -44,6 +44,20 @@ pasv_max_port=30500
      usermod ‐d /data/ftp admin
 ```
 
+
+配置SELinux
+```
+1、查看SELinux中有关FTP的设置状态
+getsebool ‐a | grep ftp
+ftpd_full_access --> off       # 改为on
+
+
+2、设置ftpd_full_access为开启状态
+setsebool ‐P ftpd_full_access=on
+```
+
+
+
 配置防火墙
 ```
 # 查询所有已开启端口
