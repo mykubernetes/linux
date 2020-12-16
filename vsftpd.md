@@ -54,7 +54,7 @@ firewall‐cmd ‐‐add‐port=21/tcp ‐‐permanent
 firewall‐cmd ‐‐add‐port=20/tcp ‐‐permanent
 firewall‐cmd ‐‐add‐port=30000‐30500/tcp ‐‐permanent
 
-重新载入防火墙规则
+# 重新载入防火墙规则
 firewall‐cmd ‐‐reload
 ```
 
