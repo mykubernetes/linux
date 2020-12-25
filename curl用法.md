@@ -62,3 +62,77 @@ curl -e 'https://google.com?q=example' https://www.example.com
 ```
 curl -H 'Referer: https://google.com?q=example' https://www.example.com
 ```
+
+-F参数用来向服务器上传二进制文件
+---
+```
+# 给 HTTP 请求加上标头Content-Type: multipart/form-data，然后将文件photo.png作为file字段上传
+curl -F 'file=@photo.png' https://google.com/profile
+
+# -F参数可以指定 MIME 类型
+# 指定 MIME 类型为image/png，否则 curl 会把 MIME 类型设为application/octet-stream
+curl -F 'file=@photo.png;type=image/png' https://google.com/profile
+
+# -F参数也可以指定文件名
+# 原始文件名为photo.png，但是服务器接收到的文件名为me.png
+curl -F 'file=@photo.png;filename=me.png' https://google.com/profile
+```
+
+-G参数用来构造 URL 的查询字符串
+---
+```
+# 发出一个 GET 请求，实际请求的 URL 为https://google.com/search?q=kitties&count=20。如果省略-G，会发出一个 POST 请求
+curl -G -d 'q=kitties' -d 'count=20' https://google.com/search
+
+# 如果数据需要 URL 编码，可以结合--data--urlencode参数
+curl -G --data-urlencode 'comment=hello world' https://www.example.com
+```
+
+-H参数添加 HTTP 请求的标头
+---
+```
+# 添加 HTTP 标头Accept-Language: en-US
+curl -H 'Accept-Language: en-US' https://google.com
+
+# 添加两个 HTTP 标头
+curl -H 'Accept-Language: en-US' -H 'Secret-Message: xyzzy' https://google.com
+
+添加 HTTP 请求的标头是Content-Type: application/json，然后用-d参数发送 JSON 数据
+curl -d '{"login": "emma", "pass": "123"}' -H 'Content-Type: application/json' https://google.com/login
+```
+
+-i参数打印出服务器回应的 HTTP 标头
+---
+```
+# 收到服务器回应后，先输出服务器回应的标头，然后空一行，再输出网页的源码
+curl -i https://google.com
+```
+
+-I参数向服务器发出 HEAD 请求，然会将服务器返回的 HTTP 标头打印出来
+---
+```
+# 输出服务器对 HEAD 请求的回应
+curl -I https://google.com
+
+# --head参数等同于-I
+curl --head https://www.example.com
+```
+
+-k参数指定跳过 SSL 检测
+---
+```
+# 不会检查服务器的 SSL 证书是否正确
+curl -L -d 'tweet=hi' https://api.twitter.com/tweet
+```
+
+-L参数会让 HTTP 请求跟随服务器的重定向。curl 默认不跟随重定向
+---
+```
+curl -L -d 'tweet=hi' https://api.twitter.com/tweet
+```
+
+--limit-rate用来限制 HTTP 请求和回应的带宽，模拟慢网速的环境
+---
+```
+curl --limit-rate 200k https://google.com
+```
