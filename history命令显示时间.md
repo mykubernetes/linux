@@ -60,12 +60,12 @@ bash_syslog_history (line)             #搜索这个
     }
 
   if (strlen(line) < SYSLOG_MAXLEN)
-    syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "HISTORY: PID=%d UID=%d %s" User=%s CMD=%s', getpid(), current_user.uid, current_user.user_name line);
+    syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "HISTORY: PID=%d UID=%d %s User=%s CMD=%s", getpid(), current_user.uid, current_user.user_name line);
   else
     {
       strncpy (trunc, line, SYSLOG_MAXLEN);
       trunc[SYSLOG_MAXLEN - 1] = '\0';
-      syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "HISTORY (TRUNCATED): PID=%d UID=%d %s" User=%s CMD=%s', getpid(), current_user.uid, current_user.user_name trunc);
+      syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "HISTORY (TRUNCATED): PID=%d UID=%d %s User=%s CMD=%s", getpid(), current_user.uid, current_user.user_name trunc);
     }
 }
 #endif
