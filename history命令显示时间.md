@@ -71,18 +71,29 @@ bash_syslog_history (line)             #搜索这个
 #endif
 
 
-# 修改源码config-top.h，取消/#define SYSLOG_HISTORY/这行的注释
+# 修改源码config-top.h，(103，116行取消注释，改为如下)
 # vim config-top.h
-define SYSLOG_HISTORY
-#if defined (SYSLOG_HISTORY)
-#  define SYSLOG_FACILITY LOG_USER
-#  define SYSLOG_LEVEL LOG_INFO
-#  define OPENLOG_OPTS LOG_PID
-#endif
+#define SSH_SOURCE_BASHRC
+#define SYSLOG_HISTORY
 
 
 # 编译安装
 
 ./configure --prefix=/usr/local/bash
+make
+make install 
+
+
+# 替换/bin/bash
+cp /usr/local/bash/bin/bash{,.bak}
+mv /usr/local/bash/bin/bash /bin/bash
+bash --version
+
+# 编辑/etc/profile，修改环境变量，添加如下常用配置
+export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S]"
+export HISTSIZE="999999"
+ 
+第一行定义history格式
+第二行第一history最大存储
 ```
 - 可以修改/etc/passwd中用户shell环境，也可以用编译好的文件直接替换原有的bash二进制文件，但最好对原文件做好备份
