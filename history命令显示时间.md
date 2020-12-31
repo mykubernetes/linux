@@ -94,6 +94,6 @@ export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S]"
 export HISTSIZE="999999"
  
 第一行定义history格式
-第二行第一history最大存储
+第二行第一histsize最大存储
 ```
 - 可以修改/etc/passwd中用户shell环境，也可以用编译好的文件直接替换原有的bash二进制文件，但最好对原文件做好备份
