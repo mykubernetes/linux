@@ -85,8 +85,8 @@ make install
 
 
 # 替换/bin/bash
-cp /usr/local/bash/bin/bash{,.bak}
-mv /usr/local/bash/bin/bash /bin/bash
+mv /bin/bash{,.bak}
+cp /usr/local/bash/bin/bash /bin/bash
 bash --version
 
 # 编辑/etc/profile，修改环境变量，添加如下常用配置
