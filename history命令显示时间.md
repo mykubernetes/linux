@@ -84,3 +84,4 @@ endif
 
 ./configure --prefix=/usr/local/bash
 ```
+- 可以修改/etc/passwd中用户shell环境，也可以用编译好的文件直接替换原有的bash二进制文件，但最好对原文件做好备份
