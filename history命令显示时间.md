@@ -73,11 +73,12 @@ bash_syslog_history (line)             #搜索这个
 
 # 修改源码config-top.h，取消/#define SYSLOG_HISTORY/这行的注释
 # vim config-top.h
-if defined (SYSLOG_HISTORY)
-  define SYSLOG_FACILITY LOG_USER
-  define SYSLOG_LEVEL LOG_INFO
-  define OPENLOG_OPTS LOG_PID
-endif
+define SYSLOG_HISTORY
+#if defined (SYSLOG_HISTORY)
+#  define SYSLOG_FACILITY LOG_USER
+#  define SYSLOG_LEVEL LOG_INFO
+#  define OPENLOG_OPTS LOG_PID
+#endif
 
 
 # 编译安装
