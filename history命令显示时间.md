@@ -22,7 +22,7 @@ export HISTTIMEFORMAT='%F %T '
 2、可以细化，实现登陆过系统的用户、IP地址、操作命令以及操作时间一一对应
 ```
 # vim /etc/profile
-export HISTTIMEFORMAT="\%F \%T`who \-u am i 2>/dev/null| awk '{print $NF}'|sed \-e 's/[()]//g'``whoami`"
+export HISTTIMEFORMAT="%F %T`who -u am i 2>/dev/null| awk '{print $NF}'|sed -e 's/[()]//g'``whoami`"
 
 # source /etc/profile
 ```
