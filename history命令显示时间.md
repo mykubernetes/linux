@@ -43,7 +43,7 @@ https://github.com/samuelcolvin/bash
 ```
 # wget https://github.com/samuelcolvin/bash/archive/bash-4.4.tar.gz
 # tar xvf bash-4.4.tar.gz
-# cd bash-4.4
+# cd bash-bash-4.4
 
 # 修改源码：bashhist.c
 # vim bashhist.c
