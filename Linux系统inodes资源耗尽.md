@@ -60,7 +60,7 @@ ls | xargs -n 1000 rm -rf           # 需要使用xargs命令，不然会删除�
 ```
 （3）定时清理文件
 ```
-find 目录 -type f -mtime +30 | xargs -n 1000 rm -f**
+find 目录 -type f -mtime +30 | xargs -n 1000 rm -f *
 ```
 （4）监控inodes的使用
 
