@@ -38,6 +38,7 @@ inodes占满解决步骤：
 （1）查看文件最多的目录
 ```
 for i in /*; do echo $i; find $i | wc -l; done
+for i in /*; do num=`find $i | wc -l`; echo "$i $num"; done
 ```
 如果确定目录范围，把/*写的具体点
 
