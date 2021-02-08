@@ -92,13 +92,17 @@ lspci -k
 可以看到使用硬件类型为 LSI Logic / Symbios Logic MegaRAID SAS-3 3108, 系统使用的内核驱动为 megaraid_sas
 
 2、下载安装包
-从 https://www.broadcom.com 官网下载对应工具即可,
+官网https://www.broadcom.com
+
 联想官网https://download.lenovo.com/pccbbs/thinkservers/ul_avago_storcli_1.18.11_anyos.zip
 
-
 ```
-shell>./storcli64 /c0 show                               ##可查看Virtual Drives与Physical Drives
+shell>./storcli64 /c0 show                                  ##可查看Virtual Drives与Physical Drives
 shell>./storcli64 /c0/v0 show
 shell>./storcli64 /c0/e252 show
-shell>./storcli64 /c0/eall/sall show all | grep Error    ##查看物理盘是否有异常
+shell>./storcli64 /c0/eall/sall show all | grep Error       ##查看物理盘是否有异常
+```
+
+```
+/opt/MegaRAID/storcli/storcli64  /c0/v0 start cc            #raid的校验
 ```
