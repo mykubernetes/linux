@@ -79,6 +79,9 @@ MegaCli 安装及常用命令
 
 LSI StorCLI64 工具安装和使用教程
 ---
+
+https://www.cnblogs.com/chong93/p/10470032.html
+
 1、确认硬件类型
 
 确认当前Raid卡是否可以通过 StorCLI64 来管理,先使用 lspci 查看当前设备的描述信息
