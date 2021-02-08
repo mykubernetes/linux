@@ -76,3 +76,29 @@ MegaCli 安装及常用命令
 # ./MegaCli64 -PDList -aAll    【显示所有的物理信息】
 # ./MegaCli64 -cfgdsply -aALL  【显示Raid卡型号，Raid设置，Disk相关信息】
 ```
+
+LSI StorCLI64 工具安装和使用教程
+---
+1、确认硬件类型
+
+确认当前Raid卡是否可以通过 StorCLI64 来管理,先使用 lspci 查看当前设备的描述信息
+```
+lspci -k
+01:00.0 RAID bus controller: LSI Logic / Symbios Logic MegaRAID SAS-3 3108 [Invader] (rev 02)
+        Subsystem: Super Micro Computer Inc Device 0809
+        Kernel driver in use: megaraid_sas
+        Kernel modules: megaraid_sas
+```
+可以看到使用硬件类型为 LSI Logic / Symbios Logic MegaRAID SAS-3 3108, 系统使用的内核驱动为 megaraid_sas
+
+2、下载安装包
+从 https://www.broadcom.com 官网下载对应工具即可,
+联想官网https://download.lenovo.com/pccbbs/thinkservers/ul_avago_storcli_1.18.11_anyos.zip
+
+
+```
+shell>./storcli64 /c0 show                               ##可查看Virtual Drives与Physical Drives
+shell>./storcli64 /c0/v0 show
+shell>./storcli64 /c0/e252 show
+shell>./storcli64 /c0/eall/sall show all | grep Error    ##查看物理盘是否有异常
+```
