@@ -102,12 +102,21 @@ lspci -k
 联想官网https://download.lenovo.com/pccbbs/thinkservers/ul_avago_storcli_1.18.11_anyos.zip
 
 ```
-./storcli64 /c0 show                                  ##可查看Virtual Drives与Physical Drives
-./storcli64 /c0/v0 show
-./storcli64 /call/vall show
-./storcli64 /c0/e252 show
-./storcli64 /c0/eall/sall show all | grep Error       ##查看物理盘是否有异常
-./opt/MegaRAID/storcli/storcli64  /c0/v0 start cc            #raid的校验
+./storcli64 /c0 show                                  #可查看Virtual Drives与Physical Drives
+./storcli64 /c0/v0 show                               #获取信息
+./storcli64 /c0/e58 show　                  　        #获取单个enclosure信息
+./storcli64 /c0/e58 show all 　　                     #获取单个enclosure详细信息
+./storcli64 /c0/e58 show status　　                   #获取enclosure下磁盘风扇等设备的状态
+./storcli64 /call/vall show                           #所有获取信息
+./storcli64 /cx/eall/sall show　　                    #显示物理磁盘信息
+./storcli64 /c0/eall/sall show all | grep Error       #查看物理盘是否有异常
+./opt/MegaRAID/storcli/storcli64  /c0/v0 start cc     #raid的校验
+./storcli64 /c0 show cc                               #consistency check
+./storcli64 /c0 show freespace                        #剩余空间
+
+./storcli64 /c0 show rebuildrate                  　　#获取rebuild速率
+./storcli64 /c0 set rebuildrate=30　　                #设置rebuild速率
+./storcli64 /c0 flushcache　　                        #清除raid卡、物理磁盘cache
 ```
 - /c 控制器号 输出结果中的Controller 值
 - /v  RAID号
