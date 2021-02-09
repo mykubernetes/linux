@@ -74,6 +74,14 @@ ipmitool sel elist                             #查看SEL日志详情
 ipmitool sdr                                   #查看硬件信息
 ipmitool sensor list                           #可以获得传感器ID号
 ipmitool sensor get "CPU PVCCIO"               #其中"CPUPVCCIO"是ID号，即传感器的名称
+
+ipmitool sensor                                #所有传感器状态详细信息
+ipmitool sdr info                              #传感器SDR summary信息
+ipmitool sdr list                              #传感器SDR 列表信息
+ipmitool sdr list fru                          #FRU传感器SDR 列表信息
+ipmitool sdr dump sdr.raw                      #下载RAW SDR信息到文件
+ipmitool fru                                   #查看服务器的FRU信息
+ipmitool fru print                             #查看服务器的FRU信息
 ```
 
 6、mc(管理单元BMC)状态和控制
