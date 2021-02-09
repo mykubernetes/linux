@@ -51,7 +51,7 @@ ipmitool lan set 1 defgw ipaddr 10.1.0.1       # 设置 ipmi 的默认网关
 ---
 1、打印ipmi基本信息
 ```
-ipmitool -I lan -H 10.1.0.10 -U ADMIN -P ADMIN lan print 1 # 打印
+ipmitool -I lan -H 10.1.0.10 -U ADMIN -P ADMIN lan print 1                     # 打印
 ```
 
 2、设置bios的引导模式
