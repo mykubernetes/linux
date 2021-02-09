@@ -125,10 +125,10 @@ cd /opt/MegaRAID/storcli/
 
 ```
 # 磁盘状态设置
-./storcli64 /c0/e36/s1 set good              #设置控制器 0 背板36 槽位号1的磁盘状态为good
-./storcli64 /c0/e36/s1 set offline           #设置控制器 0 背板36 槽位号1的磁盘状态为offline
-./storcli64 /c0/e36/s1 set online            #设置控制器 0 背板36 槽位号1的磁盘状态为online
-./storcli64 /c0/e36/s1 set missing　　　　    #设置控制器 0 背板36 槽位号1的磁盘状态为掉线
+./storcli64 /c0/e36/s1 set good               #设置控制器 0 背板36 槽位号1的磁盘状态为good
+./storcli64 /c0/e36/s1 set offline            #设置控制器 0 背板36 槽位号1的磁盘状态为offline
+./storcli64 /c0/e36/s1 set online             #设置控制器 0 背板36 槽位号1的磁盘状态为online
+./storcli64 /c0/e36/s1 set missing　　　　     #设置控制器 0 背板36 槽位号1的磁盘状态为掉线
 
 
 #磁盘初始化
@@ -138,9 +138,9 @@ cd /opt/MegaRAID/storcli/
 ./storcli64 /cx/ex/sx stop initialization      #停止磁盘的初始化
 
 #RAID一致性校验
-storcli64 /cx/vx show cc               #查看初始化
-storcli64 /cx/vx start cc              #开启初始化
-storcli64 /cx/vx stop cc               #停止初始化
+storcli64 /cx/vx show cc                       #查看初始化
+storcli64 /cx/vx start cc                      #开启初始化
+storcli64 /cx/vx stop cc                       #停止初始化
 
 # 磁盘点灯
 ./storcli64 /cx/ex/sx start locate
@@ -148,7 +148,7 @@ storcli64 /cx/vx stop cc               #停止初始化
 
 
 # 磁盘热备
-./storcli64 /cx/ex/sx add hotsparedrive dgs=x　　设置模块磁盘为diskgroup x 的热备盘
+./storcli64 /cx/ex/sx add hotsparedrive dgs=x　      设置模块磁盘为diskgroup x 的热备盘
 storcli64 /cx/ex/sx delete hotsparedrive
  
 # 磁盘rebuild
@@ -174,5 +174,5 @@ storcli64 /cx/ex/sx delete hotsparedrive
 ./storcli64 /cx show events file=<absolute path>       #将日志信息保存到指定文件 
 ./storcli64 /cx show eventloginfo                      #查看产生日志文件的历史信息  
 ./storcli64 /cx show termlog type=config|contents      #查看term log 日志配置或者日志信息 
-
 ```
+   
