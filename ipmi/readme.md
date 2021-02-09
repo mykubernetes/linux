@@ -68,3 +68,25 @@ ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          #
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 开启服务器
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源
 ```
+
+SEL日志查看
+---
+```
+ipmitool sel list                              #查看SEL日志
+ipmitool sel elist                             #查看SEL日志详情
+```
+
+
+SDR，Sensor信息查看
+---
+```
+ipmitool sdr                                   #查看硬件信息
+ipmitool sensor list                           #可以获得传感器ID号
+ipmitool sensor get "CPU PVCCIO"               #其中"CPUPVCCIO"是ID号，即传感器的名称
+```
+
+mc(管理单元BMC)状态和控制
+---
+```
+ipmitool mc info                               #查看BMC硬件信息
+```
