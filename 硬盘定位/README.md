@@ -82,6 +82,8 @@ LSI StorCLI64 工具安装和使用教程
 
 https://www.cnblogs.com/chong93/p/10470032.html
 
+https://www.cnblogs.com/luxiaodai/p/9878747.html
+
 1、确认硬件类型
 
 确认当前Raid卡是否可以通过 StorCLI64 来管理,先使用 lspci 查看当前设备的描述信息
@@ -100,12 +102,15 @@ lspci -k
 联想官网https://download.lenovo.com/pccbbs/thinkservers/ul_avago_storcli_1.18.11_anyos.zip
 
 ```
-shell>./storcli64 /c0 show                                  ##可查看Virtual Drives与Physical Drives
-shell>./storcli64 /c0/v0 show
-shell>./storcli64 /c0/e252 show
-shell>./storcli64 /c0/eall/sall show all | grep Error       ##查看物理盘是否有异常
+./storcli64 /c0 show                                  ##可查看Virtual Drives与Physical Drives
+./storcli64 /c0/v0 show
+./storcli64 /call/vall show
+./storcli64 /c0/e252 show
+./storcli64 /c0/eall/sall show all | grep Error       ##查看物理盘是否有异常
+./opt/MegaRAID/storcli/storcli64  /c0/v0 start cc            #raid的校验
 ```
-
-```
-/opt/MegaRAID/storcli/storcli64  /c0/v0 start cc            #raid的校验
-```
+- /c 控制器号 输出结果中的Controller 值
+- /v  RAID号
+- /e 背板号  输出结果EID值
+- /f 外部配置
+- /s 槽位号 输出结果的Slt值
