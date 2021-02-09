@@ -89,4 +89,5 @@ mc(管理单元BMC)状态和控制
 ---
 ```
 ipmitool mc info                               #查看BMC硬件信息
+ipmitool mc reset <warm|cold>                  #使BMC重新启动,warm表示软重启；cold表示硬重启
 ```
