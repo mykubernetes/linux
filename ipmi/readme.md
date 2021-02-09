@@ -10,6 +10,7 @@ ipmitool 工具使用教程
 - 修改bios设置
 
 1、安装 ipmitool
+
 ```
 yum -y install ipmitool
 ```
@@ -23,6 +24,7 @@ modprobe ipmi_si
 
 带内操作
 ---
+
 1、查看 ipmi 的用户名和密码
 ```
 # ipmitool user list 1
@@ -33,7 +35,7 @@ ID  Name             Callin  Link Auth  IPMI Msg   Channel Priv Limit
 2、重置 ipmi 管理员密码
 ```
 ipmitool user set password 2 {admin_password}
-``
+```
 
 3、设置 ipmi 的 ip
 ```
@@ -54,15 +56,15 @@ ipmitool -I lan -H 10.1.0.10 -U ADMIN -P ADMIN lan print 1 # 打印
 
 2、设置bios的引导模式
 ```
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev pxe # pxe启动, 一般用于远程自动装机
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev disk # 设置硬盘启动
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev cdrom # 设置光驱启动
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev pxe          # pxe启动, 一般用于远程自动装机
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev disk         # 设置硬盘启动
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev cdrom        # 设置光驱启动
 ```
 
 3、设置服务器的电源
 ```
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power off # 关闭服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset # 重启服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on # 开启服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status # 查看服务器电源
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power off            # 关闭服务器
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          # 重启服务器
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 开启服务器
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源
 ```
