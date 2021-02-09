@@ -109,10 +109,9 @@ cd /opt/MegaRAID/storcli/
 ./storcli64 /c0/e58 show all 　　                     #获取单个enclosure详细信息
 ./storcli64 /c0/e58 show status　　                   #获取enclosure下磁盘风扇等设备的状态
 ./storcli64 /call/vall show                           #所有获取信息
+./storcli64 /call/eall/sall show all                  #查看所有控制器、所有背板、背板上的所有磁盘的详细信息
 ./storcli64 /cx/eall/sall show　　                    #显示物理磁盘信息
 ./storcli64 /c0/eall/sall show all | grep Error       #查看物理盘是否有异常
-./storcli64  /c0/v0 start cc     #raid的校验
-./storcli64 /c0 show cc                               #consistency check
 ./storcli64 /c0 show freespace                        #剩余空间
 ./storcli64 /c0 show rebuildrate                  　　#获取rebuild速率
 ./storcli64 /c0 set rebuildrate=30　　                #设置rebuild速率
@@ -126,33 +125,41 @@ cd /opt/MegaRAID/storcli/
 
 ```
 # 磁盘状态设置
-storcli64 /cx/ex/sx set good/offline/online/missing　　设置某块磁盘的状态
-good　　　　　 　　空闲
-online/offline　　 成员盘上下线
-missing　　　　    掉线？
+./storcli64 /c0/e36/s1 set good              #设置控制器 0 背板36 槽位号1的磁盘状态为good
+./storcli64 /c0/e36/s1 set offline           #设置控制器 0 背板36 槽位号1的磁盘状态为offline
+./storcli64 /c0/e36/s1 set online            #设置控制器 0 背板36 槽位号1的磁盘状态为online
+./storcli64 /c0/e36/s1 set missing　　　　    #设置控制器 0 背板36 槽位号1的磁盘状态为掉线
 
- 
+
+#磁盘初始化
+#磁盘在其他系统中使用过磁盘不干净的情况下需对磁盘进行初始化，初始化会清理掉磁盘上的所有数据
+./storcli64 /cx/ex/sx show initialization      #查看正在初始化的磁盘
+./storcli64 /cx/ex/sx start initialization     #磁盘开始初始化
+./storcli64 /cx/ex/sx stop initialization      #停止磁盘的初始化
+
+# 磁盘点灯
+./storcli64 /cx/ex/sx start locate
+./storcli64 /cx/ex/sx stop locate
+
+
 # 磁盘热备
-storcli64 /cx/ex/sx add hotsparedrive dgs=x　　设置模块磁盘为diskgroup x 的热备盘
+./storcli64 /cx/ex/sx add hotsparedrive dgs=x　　设置模块磁盘为diskgroup x 的热备盘
 storcli64 /cx/ex/sx delete hotsparedrive
  
 # 磁盘rebuild
-storcli64 /cx/ex/sx show rebuild　　查看rebild
-storcli64 /cx/ex/sx start rebuild
-storcli64 /cx/ex/sx stop rebuild
- 
-# 磁盘点灯
-storcli64 /cx/ex/sx start locate
-storcli64 /cx/ex/sx stop locate
+./storcli64 /cx/ex/sx show rebuild　　查看rebild
+./storcli64 /cx/ex/sx start rebuild
+./storcli64 /cx/ex/sx stop rebuild
+
 
 ##磁盘擦除
 # 快速擦除：
-storcli64 /cx/ex/sx set good
-storcli64 /cx/fall del|delete [securityKey = xxx]
+./storcli64 /cx/ex/sx set good
+./storcli64 /cx/fall del|delete [securityKey = xxx]
 
 # 完全擦除：
-storcli /cx[/ex]/sx secureerase [force]
-storcli /cx[/ex]/sx start erase [simple| normal| thorough | standard| threepass | crypto]
-storcli /cx[/ex]/sx stop erase
-storcli /cx[/ex]/sx show erase
+./storcli /cx[/ex]/sx secureerase [force]
+./storcli /cx[/ex]/sx start erase [simple| normal| thorough | standard| threepass | crypto]
+./storcli /cx[/ex]/sx stop erase
+./storcli /cx[/ex]/sx show erase
 ```
