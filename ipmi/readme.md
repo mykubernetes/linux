@@ -65,8 +65,12 @@ ipmitool lan set 1 defgw ipaddr 10.1.0.1       # 设置 ipmi 的默认网关
 
 4、SEL日志查看
 ```
-ipmitool sel list                              #查看SEL日志
-ipmitool sel elist                             #查看SEL日志详情
+ipmitool sel list                              #查看日志
+Ipmitool sel elist　　　                       #显示所有系统事件日志
+Ipmitool sel clear　　　                       #删除所有系统时间日志
+Ipmitool sel delete ID                        #删除第ID条SEL
+Ipmitool sel time get 　                      #显示当前BMC的时间
+Ipmitool sel time set XXX                     #设置当前BMC的时间
 ```
 
 5、SDR，Sensor信息查看
@@ -101,6 +105,7 @@ ipmitool -I lan -H 10.1.0.10 -U ADMIN -P ADMIN lan print 1                     #
 2、设置bios的引导模式
 ```
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev pxe          # pxe启动, 一般用于远程自动装机
+Ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev bios         # 重启后停在BIOS 菜单
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev disk         # 设置硬盘启动
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev cdrom        # 设置光驱启动
 ```
