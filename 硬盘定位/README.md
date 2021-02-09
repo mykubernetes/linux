@@ -137,6 +137,11 @@ cd /opt/MegaRAID/storcli/
 ./storcli64 /cx/ex/sx start initialization     #磁盘开始初始化
 ./storcli64 /cx/ex/sx stop initialization      #停止磁盘的初始化
 
+#RAID一致性校验
+storcli64 /cx/vx show cc               #查看初始化
+storcli64 /cx/vx start cc              #开启初始化
+storcli64 /cx/vx stop cc               #停止初始化
+
 # 磁盘点灯
 ./storcli64 /cx/ex/sx start locate
 ./storcli64 /cx/ex/sx stop locate
@@ -162,4 +167,12 @@ storcli64 /cx/ex/sx delete hotsparedrive
 ./storcli /cx[/ex]/sx start erase [simple| normal| thorough | standard| threepass | crypto]
 ./storcli /cx[/ex]/sx stop erase
 ./storcli /cx[/ex]/sx show erase
+
+# 日志
+./storcli64 /cx clear events                           #清除所有日志事件
+./storcli64 /cx delete termlog                         #删除TTY（用于故障定位的固件输出信息） 日志 
+./storcli64 /cx show events file=<absolute path>       #将日志信息保存到指定文件 
+./storcli64 /cx show eventloginfo                      #查看产生日志文件的历史信息  
+./storcli64 /cx show termlog type=config|contents      #查看term log 日志配置或者日志信息 
+
 ```
