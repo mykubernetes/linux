@@ -22,6 +22,61 @@ modprobe ipmi_devintf
 modprobe ipmi_si
 ```
 
+```
+# ipmitool help
+Commands:
+	raw           Send a RAW IPMI request and print response
+	i2c           Send an I2C Master Write-Read command and print response
+	spd           Print SPD info from remote I2C device
+	lan           Configure LAN Channels
+	chassis       Get chassis status and set power state
+	power         Shortcut to chassis power commands
+	event         Send pre-defined events to MC
+	mc            Management Controller status and global enables
+	sdr           Print Sensor Data Repository entries and readings
+	sensor        Print detailed sensor information
+	fru           Print built-in FRU and scan SDR for FRU locators
+	gendev        Read/Write Device associated with Generic Device locators sdr
+	sel           Print System Event Log (SEL)
+	pef           Configure Platform Event Filtering (PEF)
+	sol           Configure and connect IPMIv2.0 Serial-over-LAN
+	tsol          Configure and connect with Tyan IPMIv1.5 Serial-over-LAN
+	isol          Configure IPMIv1.5 Serial-over-LAN
+	user          Configure Management Controller users
+	channel       Configure Management Controller channels
+	session       Print session information
+	dcmi          Data Center Management Interface
+	nm            Node Manager Interface
+	sunoem        OEM Commands for Sun servers
+	kontronoem    OEM Commands for Kontron devices
+	picmg         Run a PICMG/ATCA extended cmd
+	fwum          Update IPMC using Kontron OEM Firmware Update Manager
+	firewall      Configure Firmware Firewall
+	delloem       OEM Commands for Dell systems
+	shell         Launch interactive IPMI shell
+	exec          Run list of commands from file
+	set           Set runtime variable for shell and exec
+	hpm           Update HPM components using PICMG HPM.1 file
+	ekanalyzer    run FRU-Ekeying analyzer using FRU files
+	ime           Update Intel Manageability Engine Firmware
+	vita          Run a VITA 46.11 extended cmd
+	lan6          Configure IPv6 LAN Channels
+
+a) raw：发送一个原始的IPMI请求，并且打印回复信息。
+b) Lan：配置网络（lan）信道(channel)
+c) chassis ：查看底盘的状态和设置电源
+d) event：向BMC发送一个已经定义的事件（event），可用于测试配置的SNMP是否成功
+e) mc： 查看MC（Management Contollor）状态和各种允许的项
+f) sdr：打印传感器仓库中的所有监控项和从传感器读取到的值。
+g) Sensor：打印详细的传感器信息。
+h) Fru：打印内建的Field Replaceable Unit (FRU)信息
+i) Sel： 打印 System Event Log (SEL)
+j) Pef： 设置 Platform Event Filtering (PEF)，事件过滤平台用于在监控系统发现有event时候，用PEF中的策略进行事件过滤，然后看是否需要报警。
+k) Sol/isol：用于配置通过串口的Lan进行监控
+l) User：设置BMC中用户的信息 。
+m) Channel：设置Management Controller信道。
+```
+
 带内操作
 ---
 
@@ -86,6 +141,7 @@ ipmitool sdr list fru                          #FRU传感器SDR 列表信息
 ipmitool sdr dump sdr.raw                      #下载RAW SDR信息到文件
 ipmitool fru                                   #查看服务器的FRU信息
 ipmitool fru print                             #查看服务器的FRU信息
+Ipmitool pef list 　　                         #显示系统平台时间过滤的列表
 ```
 
 6、mc(管理单元BMC)状态和控制
@@ -117,4 +173,19 @@ ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power soft           #
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          # 硬重启，重启服务器
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 硬开机，启动服务器
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源状态
+```
+
+
+
+BMC 防火墙策略配置全部拒绝导致无法访问
+---
+```
+登录该服务器系统后执行：
+# ipmitool raw 0x32 0x66                        #恢复默认值
+# ipmitool lan set 1 ipsrc static               #设置ipmi ip非DHCP
+# ipmitool lan set 1 ipaddr 192.168.0.1         #设置IPMI  地址）
+# ipmitool lan set 1 netmask 255.255.255.0      #设置ipmi 子网掩码
+# ipmitool lan set 1 defgw ipaddr 192.168.0.1   #设置ipmi 网关
+# ipmitool user set password 1 abcdefg          #改ipmi 用户名1的密码,#root 修改后默认密码abcdefg
+# ipmitool user set password 2 abcdefg          #修改ipmi 用户名2的密码,#admin 修改后默认密码abcdefg
 ```
