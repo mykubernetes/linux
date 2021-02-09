@@ -99,8 +99,9 @@ ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis bootdev cdrom        #
 
 3、设置服务器的电源
 ```
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power off            # 关闭服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          # 重启服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 开启服务器
-ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power off            # 硬关机，直接切断电源
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power soft           # 软关机，轻按一下开机扭
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          # 硬重启，重启服务器
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 硬开机，启动服务器
+ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源状态
 ```
