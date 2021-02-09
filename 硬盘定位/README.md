@@ -102,6 +102,7 @@ lspci -k
 联想官网https://download.lenovo.com/pccbbs/thinkservers/ul_avago_storcli_1.18.11_anyos.zip
 
 ```
+cd /opt/MegaRAID/storcli/
 ./storcli64 /c0 show                                  #可查看Virtual Drives与Physical Drives
 ./storcli64 /c0/v0 show                               #获取信息
 ./storcli64 /c0/e58 show　                  　        #获取单个enclosure信息
@@ -110,10 +111,9 @@ lspci -k
 ./storcli64 /call/vall show                           #所有获取信息
 ./storcli64 /cx/eall/sall show　　                    #显示物理磁盘信息
 ./storcli64 /c0/eall/sall show all | grep Error       #查看物理盘是否有异常
-./opt/MegaRAID/storcli/storcli64  /c0/v0 start cc     #raid的校验
+./storcli64  /c0/v0 start cc     #raid的校验
 ./storcli64 /c0 show cc                               #consistency check
 ./storcli64 /c0 show freespace                        #剩余空间
-
 ./storcli64 /c0 show rebuildrate                  　　#获取rebuild速率
 ./storcli64 /c0 set rebuildrate=30　　                #设置rebuild速率
 ./storcli64 /c0 flushcache　　                        #清除raid卡、物理磁盘cache
@@ -123,3 +123,36 @@ lspci -k
 - /e 背板号  输出结果EID值
 - /f 外部配置
 - /s 槽位号 输出结果的Slt值
+
+```
+# 磁盘状态设置
+storcli64 /cx/ex/sx set good/offline/online/missing　　设置某块磁盘的状态
+good　　　　　 　　空闲
+online/offline　　 成员盘上下线
+missing　　　　    掉线？
+
+ 
+# 磁盘热备
+storcli64 /cx/ex/sx add hotsparedrive dgs=x　　设置模块磁盘为diskgroup x 的热备盘
+storcli64 /cx/ex/sx delete hotsparedrive
+ 
+# 磁盘rebuild
+storcli64 /cx/ex/sx show rebuild　　查看rebild
+storcli64 /cx/ex/sx start rebuild
+storcli64 /cx/ex/sx stop rebuild
+ 
+# 磁盘点灯
+storcli64 /cx/ex/sx start locate
+storcli64 /cx/ex/sx stop locate
+
+##磁盘擦除
+# 快速擦除：
+storcli64 /cx/ex/sx set good
+storcli64 /cx/fall del|delete [securityKey = xxx]
+
+# 完全擦除：
+storcli /cx[/ex]/sx secureerase [force]
+storcli /cx[/ex]/sx start erase [simple| normal| thorough | standard| threepass | crypto]
+storcli /cx[/ex]/sx stop erase
+storcli /cx[/ex]/sx show erase
+```
