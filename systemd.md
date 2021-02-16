@@ -1,3 +1,4 @@
+https://linuxops.org/blog/linux/system_service_config.html
 
 在/usr/lib/systemd/system目录下包含了各种unit文件，有service后缀的服务unit，有target后缀的开机级别unit等。服务又分为系统服务（system）和用户服务（user）。
 
