@@ -9,6 +9,19 @@ https://mirrors.tuna.tsinghua.edu.cn/
 date +%F -d -1day  
 ```  
 
+https://packagecloud.io/app/prometheus-rpm/release/search
+```
+[prometheus]
+name=prometheus
+baseurl=https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://packagecloud.io/prometheus-rpm/release/gpgkey
+https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+gpgcheck=1
+metadata_expire=300
+```
+
 安装epel源  
 ```
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
