@@ -32,3 +32,10 @@
 - del	删除路由
 - via	网关出口IP地址
 - dev	网关出口物理设备名
+
+
+
+Linux 添加永久静态路由的方法
+```
+https://www.jb51.net/article/105749.htm
+```
