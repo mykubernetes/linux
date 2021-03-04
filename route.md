@@ -47,8 +47,9 @@ Destination   Gateway     Genmask     Flags Metric Ref  Use Iface
 172.86.40.0   0.0.0.0     255.255.255.0  U   100  0    0 eth1
 192.168.122.0  0.0.0.0     255.255.255.0  U   0   0    0 virbr0
 
-2、如果机器中存在多块网卡，我们可以为不同网卡指定不同的静态路由
+2、如果机器中存在多块网卡，可以为不同网卡指定不同的静态路由
 比如还有eth0，eht2，每块网卡创建一个对应的路由配置文件。route-eth0;route-eth1;route-eth2
+
 # ls
 ifcfg-eth0     ifcfg-eth1:enodeb2 ifcfg-eth1:mme2 ifdown    ifdown-ib  ifdown-isdn ifdown-routes ifdown-TeamPort ifup-aliases ifup-ib  ifup-isdn  ifup-post  ifup-sit    ifup-tunnel    network-functions
 ifcfg-eth1     ifcfg-eth1:gx    ifcfg-eth1:sgi  ifdown-bnep ifdown-ippp ifdown-post ifdown-sit   ifdown-tunnel  ifup-bnep   ifup-ippp ifup-plip  ifup-ppp   ifup-Team   ifup-wireless   network-functions-ipv6
