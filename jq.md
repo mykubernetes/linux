@@ -1,20 +1,6 @@
 官网https://stedolan.github.io/jq/manual/
 
 
-demo.jsonl，jsonl 即每行都是一个 json，常用在日志格式中
-```
-{"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}}
-{"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
-```
-
-由于在后端 API 中会是以 json 的格式返回，再次创建一个样例 demo.json
-```
-[
-  {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}},
-  {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
-]
-```
-
 option
 - -s: 把读取的 jsonl 视作数组来处理 (如 group, sort 只能以数组作为输入)
 - -c: 不对输出的 json 做格式化，一行输出
@@ -29,6 +15,20 @@ filter 各种转换操作就很多了，如 get，map，filter，map，pick，un
 - map_values: 相当于 _.map，不过 jq 无法单独操作 key
 - sort
 - group_by
+
+demo.jsonl，jsonl 即每行都是一个 json，常用在日志格式中
+```
+{"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}}
+{"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+```
+
+由于在后端 API 中会是以 json 的格式返回，再次创建一个样例 demo.json
+```
+[
+  {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}},
+  {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+]
+```
 
 json格式转jsonl格式
 ```
@@ -71,14 +71,103 @@ $ cat demo.jsonl | jq -s '.'
 ]
 ```
 
-. (_.get)
+原始数据
+---
+```
+{
+"firstName": "John",
+"lastName": "Smith",
+"age": 25,
+"address": {
+"streetAddress": "21 2nd Street",
+"city": "New York",
+"state": "NY",
+"postalCode": "10021"
+},
+"phoneNumber": [
+{
+"type": "home",
+"number": "212 555-1234"
+},
+{
+"type": "fax",
+"number": "646 555-4567"
+}
+],
+"gender": {
+"type": "male"
+}
+}
+```
+
+1、格式化输出
+```
+# cat 1.txt | jq .
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25,
+  "address": {
+    "streetAddress": "21 2nd Street",
+    "city": "New York",
+    "state": "NY",
+    "postalCode": "10021"
+  },
+  "phoneNumber": [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "fax",
+      "number": "646 555-4567"
+    }
+  ],
+  "gender": {
+    "type": "male"
+  }
+```
+
+
+2、. (_.get)
 ```
 $ cat demo.jsonl | jq '.name'
 "shanyue"
 "shuifeng"
+
+
+# cat 1.txt | jq .address
+{
+  "streetAddress": "21 2nd Street",
+  "city": "New York",
+  "state": "NY",
+  "postalCode": "10021"
+}
 ```
 
-{} (_.pick)
+解析数组中的元素
+
+获取电话信息
+```
+# cat 1.txt | jq  .phoneNumber[]
+{
+  "type": "home",
+  "number": "212 555-1234"
+}
+{
+  "type": "fax",
+  "number": "646 555-4567"
+}
+
+获取第一个电话号码
+# cat 1.txt | jq  .phoneNumber[0]
+{
+  "type": "home",
+  "number": "212 55
+```
+
+
+3、{} (_.pick)
 ```
 $ cat demo.jsonl| jq '{name, friendname: .friend.name}'
 {
