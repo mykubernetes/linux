@@ -145,10 +145,9 @@ $ cat demo.jsonl | jq '.name'
 }
 ```
 
-解析数组中的元素
-
-获取电话信息
+3、解析数组中的元素
 ```
+获取电话信息
 # cat 1.txt | jq  .phoneNumber[]
 {
   "type": "home",
@@ -182,6 +181,9 @@ $ cat demo.jsonl| jq '{name, friendname: .friend.name}'
 
 select (_.filter)
 ```
+# cat 1.txt | jq  '.phoneNumber[] | select(.type == "home") | .number'
+"212 555-1234"
+
 $ cat demo.jsonl| jq 'select(.age > 24) | {name}'
 {
   "name": "shuifeng"
