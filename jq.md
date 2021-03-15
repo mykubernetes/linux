@@ -140,3 +140,63 @@ $ cat demo.jsonl | jq -s '. | sort_by(.age) | .[] | {name, age}'
   "age": 25
 }
 ```
+
+
+
+
+
+将CSV数据转换为json
+
+csv数据
+```
+cat  >> 1.csv  << EOF
+1478,john,38
+1529,lucy,25
+1673,iris,22
+EOF
+```
+
+转换格式
+```
+# jq -R -c 'split(",")|{"uid":.[0],"name":.[1],"age":.[2]|tonumber}' 1.csv
+{"uid":"1478","name":"john","age":38}
+{"uid":"1529","name":"lucy","age":25}
+{"uid":"1673","name":"iris","age":22}
+```
+
+
+
+
+
+
+
+6、将json转csv
+
+测试数据
+```
+cat >> jsonData.json << EOF
+{"productId":"2723","click":60,"view":300,"deal":2,"day":"20130919"}
+{"productId":"2728","click":130,"view":800,"deal":10,"day":"20130919"}
+{"productId":"3609","click":50,"view":400,"deal":3,"day":"20130919"}
+{"productId":"3783","click":375,"view":1200,"deal":50,"day":"20130919"}
+{"productId":"3522","click":87,"view":573,"deal":15,"day":"20130919"}
+EOF
+```
+
+转换格式
+```
+# jq -r '[.productId+"_"+.day,(.click|tostring),(.view|tostring),(.deal|tostring)]|join(",")' jsonData.json
+2723_20130919,60,300,2
+2728_20130919,130,800,10
+3609_20130919,50,400,3
+3783_20130919,375,1200,50
+3522_20130919,87,573,15
+
+
+jq -r '[.productId+"_"+.day,(.click|tostring),(.view|tostring),(.deal|tostring)]|@csv' jsonData.json
+"2723_20130919","60","300","2"
+"2728_20130919","130","800","10"
+"3609_20130919","50","400","3"
+"3783_20130919","375","1200","50"
+"3522_20130919","87","573","15"
+```
