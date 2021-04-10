@@ -35,6 +35,7 @@ test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-hehe-v1.0.0.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-gpu-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-g-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
+
 [root@harbor_reg 1.5.4.1-Debug]# ls -alh test-1.5.4.1_patch-1.5.2.1_2020-05-15/
 total 18G
 drwxr-xr-x 2 root root  284 May 18 10:05 .
