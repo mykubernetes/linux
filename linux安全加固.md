@@ -20,15 +20,21 @@ PASS_MIN_DAYS  0        #是否可修改密码，0可修改，非0多少天后�
 PASS_MIN_LEN   8        #密码最小长度，使用pam_cracklib module,该参数不再有效 
 PASS_WARN_AGE  7        #密码失效前多少天通知用户修改密码
 ```  
-其他策略解释
+
+对用户密码强度的设定
 ```
-retry=N:重试多少次后返回修改密码 
-difok=N:新密码必须与旧密码不同的位数 
-dcredit=N: N>0密码中最多有多少位数字：N<0密码中最少有多少个数字 lcredit=N:小写字母的个数 
-ucredit=N:大写字母的个数 
-credit=N:特殊字母的个数 
-minclass=N:密码组成（大/小字母，数字，特殊字符）
+# /etc/pam.d/sysetm-auth
+password  requisite pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=  difok=1 minlen=8 ucredit=-1 lcredit=-1 dcredit=-1
 ```
+- retry=N:重试多少次后返回修改密码 
+- difok=N:新密码必须与旧密码不同的位数
+- minlen=：此选项用来设置新密码的最小长度 
+- dcredit=N: N>0密码中最多有多少位数字：N<0密码中最少有多少个数字 
+- lcredit=N:小写字母的个数 
+- ucredit=N:大写字母的个数,-1 至少一个
+- credit=N:特殊字母的个数 
+- minclass=N:密码组成（大/小字母，数字，特殊字符）
+
 
 
 4、检查文件与目录缺省权限  
@@ -100,6 +106,9 @@ authpriv.*                              /var/log/secure
 services xinetd restart
 telnet就可以关闭掉了
 3、安装ssh软件包，通过#/etc/init.d/sshd start来启动SSH。
+
+4、注释23号端口
+vim /etc/services
 ```  
 
 11、限制具备root权限的用户远程ssh登录  
@@ -190,12 +199,13 @@ wheel:x:10:root,user1,user2
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 ```
 
-20、设置shell登陆超时时间为10分钟
+20、设置shell登陆超时时间为10分钟，历史命令保存条数
 ```
 # vim /etc/profile
-exportTMOUT=600
+HISTSIZE=100             # 保存历史命令条数
+TMOUT=600                # shell登录超时时间
 
-source /etc/profile
+# source /etc/profile
 ```
 
 21、结束非法登录用户
@@ -213,4 +223,26 @@ root     pts/0        2020-04-23 17:35 (10.10.10.1)
 firewall-cmd —zone=public —add-port=22/tcp —permanent 
 firewall-cmd —zone=public —add-port=443/tcp —permanent firewall-cmd —zone=public —add-port=80/tcp —permanent 
 firewall-cmd —reload
+```
+
+
+23、SSH&SSL弱加密算法漏洞修复
+
+SSH的配置文件中加密算法没有指定，默认支持所有加密算法，包括arcfour,arcfour128,arcfour256等弱加密算法。
+
+修改SSH配置文件，添加加密算法：
+```
+
+vi /etc/ssh/sshd_config 
+最后面添加以下内容（去掉arcfour,arcfour128,arcfour256等弱加密算法）
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
+
+ssh_config和sshd_config都是ssh服务器的配置文件，二者区别在于，前者是针对客户端的配置文件，后者则是针对服务端的配置文件。
+
+保存文件后重启SSH服务：
+service sshd restart or service ssh restart
+
+验证 
+ssh -vv -oCiphers=aes128-cbc,3des-cbc,blowfish-cbc
+<server> ssh -vv -oMACs=hmac-md5 <server>
 ```
