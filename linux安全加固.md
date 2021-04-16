@@ -1,16 +1,16 @@
 
 
-1、检查是否存在空密码的帐户  
+# 1、检查是否存在空密码的帐户  
 ``` # awk -F: '( $2 == "" ) { print $1 }' /etc/shadow ```  
 为帐户设置满足密码复杂度的密码  
 ``` # passwd username ```  
 
-2、检查除root之外的UID为0的用户  
+# 2、检查除root之外的UID为0的用户  
 ``` # awk -F: '($3 == 0) { print $1 }' /etc/passwd ```  
 删除除root外的UID为0的用户  
 ``` # userdel username ```  
 
-3、设置口令策略满足复杂度要求  
+# 3、设置口令策略满足复杂度要求  
 ```
 # cp -p /etc/login.defs /etc/login.defs_bak
 # vim /etc/login.defs
@@ -37,26 +37,26 @@ password  requisite pam_pwquality.so try_first_pass local_users_only retry=3 aut
 
 
 
-4、检查文件与目录缺省权限  
+# 4、检查文件与目录缺省权限  
 ```
 # vim /etc/profile
 将umask值修改为027
 ```  
 
-5、检查用户最小授权  
+# 5、检查用户最小授权  
 ```
 chmod 400 /etc/shadow
 chmod 644 /etc/group
 chmod 644 /etc/passwd
 ```  
 
-6、检查root目录权限是否为700  
+# 6、检查root目录权限是否为700  
 ```
 #chown root:root /root 
 #chmod 700 /root
 ```  
 
-7、查看字符交互界面超时退出  
+# 7、查看字符交互界面超时退出  
 ```
 1 执行备份：
 # cp -p /etc/profile /etc/profile_bak
@@ -67,7 +67,7 @@ export TMOUT
 改变这项设置后，重新登录才能有效
 ```  
 
-8、配置SYSLOG  
+# 8、配置SYSLOG  
 日志功能设置，记录系统日志及应用日志  
 ```
 1、修改配置：
@@ -82,7 +82,7 @@ authpriv.*                              /var/log/secure
 # /etc/init.d/rsyslog start
 ```  
 
-9、设置日志服务器
+# 9、设置日志服务器
 设备配置远程日志功能，将需要重点关注的日志内容传输到日志服务器  
 ```
 1、修改配置：
@@ -95,7 +95,7 @@ authpriv.*                              /var/log/secure
 # /etc/init.d/rsyslog start
 ```  
 
-10、远程登录取消telnet采用ssh  
+# 10、远程登录取消telnet采用ssh  
 ```
 关闭telent开启ssh：
 1、备份
@@ -111,7 +111,7 @@ telnet就可以关闭掉了
 vim /etc/services
 ```  
 
-11、限制具备root权限的用户远程ssh登录  
+# 11、限制具备root权限的用户远程ssh登录  
 ```
 # vim /etc/passwd
 帐号信息的 shell 为/sbin/nologin 的为禁止远程登录
@@ -124,7 +124,7 @@ PermitRootLogin yes改为PermitRootLogin no
 # systemctl restart sshd
 ```  
 
-12、禁止任何人su到root，添加wheel组用户  
+# 12、禁止任何人su到root，添加wheel组用户  
 ```
 1、编辑su文件
 # vim /etc/pam.d/su   在开头添加下面行：
@@ -135,7 +135,7 @@ auth required pam_wheel.so group=wheel
 #usermod –G wheel username
 ```  
 
-13、检查登录尝试失败后锁定用户帐户  
+# 13、检查登录尝试失败后锁定用户帐户  
 ```
 vim /etc/pam.d/system-auth 
 auth        required      pam_tally2.so   deny=2  lock_time=300
@@ -153,14 +153,14 @@ test1               1    04/21/20 22:37:54  pts/4
 auth required pam_tally2.so deny=6 unlock_time=300 even_deny_root root_unlock_time=30（添加在第一行）
 ```  
 
-14、检查ssh端口  
+# 14、检查ssh端口  
 ```
 # vim /etc/ssh/sshd_config   
 Port 22                #修改成其他端口
 # systemctl restart sshd
 ```  
 
-15、删除潜在危险文件  
+# 15、删除潜在危险文件  
 检查帐户目录中是否存在.netrc/.rhosts文件，该文件通常会被系统或进程自动加载并执行，对系统带来安全隐患
 ```
 删除
@@ -168,20 +168,20 @@ Port 22                #修改成其他端口
 # rm -f filename
 ```  
 
-16、禁止root登录FTP  
+# 16、禁止root登录FTP  
 ```
 在ftpaccess文件中加入下列行  
 root
 ```  
 
-17、禁止匿名FTP  
+# 17、禁止匿名FTP  
 ```
 # vim /etc/vsftd.conf文件，修改下列行为：  
 anonymous_enable=NO
 ```  
 
 
-18、禁止su非法提权，只允许root和wheel组用户su到root
+# 18、禁止su非法提权，只允许root和wheel组用户su到root
 ```
 # vim /etc/pam.d/su
 auth            required        pam_wheel.so    group=wheel  #新加一行 
@@ -194,12 +194,12 @@ auth            required        pam_wheel.so use_uid     #取消注释
 wheel:x:10:root,user1,user2
 ```
 
-19、不响应ICMP请求
+# 19、不响应ICMP请求
 ```
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 ```
 
-20、设置shell登陆超时时间为10分钟，历史命令保存条数
+# 20、设置shell登陆超时时间为10分钟，历史命令保存条数
 ```
 # vim /etc/profile
 HISTSIZE=100             # 保存历史命令条数
@@ -208,7 +208,7 @@ TMOUT=600                # shell登录超时时间
 # source /etc/profile
 ```
 
-21、结束非法登录用户
+# 21、结束非法登录用户
 ```
 # who
 root     tty1         2020-04-23 17:33
@@ -218,7 +218,7 @@ root     pts/0        2020-04-23 17:35 (10.10.10.1)
 # pkill -9 -t pts/0
 ```
 
-22、配置firewalld防火墙仅开启
+# 22、配置firewalld防火墙仅开启
 ```
 firewall-cmd —zone=public —add-port=22/tcp —permanent 
 firewall-cmd —zone=public —add-port=443/tcp —permanent firewall-cmd —zone=public —add-port=80/tcp —permanent 
@@ -226,7 +226,7 @@ firewall-cmd —reload
 ```
 
 
-23、SSH&SSL弱加密算法漏洞修复
+# 23、SSH&SSL弱加密算法漏洞修复
 
 SSH的配置文件中加密算法没有指定，默认支持所有加密算法，包括arcfour,arcfour128,arcfour256等弱加密算法。
 
