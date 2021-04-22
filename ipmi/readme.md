@@ -15,7 +15,12 @@ ipmitool 工具使用教程
 yum -y install ipmitool
 ```
 
-2、加载内核模块,安装完ipmitool之后,对应的ipmi的驱动已经编译到内核模块目录.加载对应目录后, 便可以对IPMI进行各种设置.
+2、查看硬件信息
+```
+ipmitool  sdr
+```
+
+3、加载内核模块,安装完ipmitool之后,对应的ipmi的驱动已经编译到内核模块目录.加载对应目录后, 便可以对IPMI进行各种设置.
 ```
 modprobe ipmi_msghandler
 modprobe ipmi_devintf
@@ -105,9 +110,6 @@ ID  Name             Callin  Link Auth  IPMI Msg   Channel Priv Limit
 ipmitool disable user 3
 ```
 
-
-
-
 3、设置 ipmi 的 ip
 ```
 ipmitool lan set 1 ipsrc dhcp                  # 设置 ipmi 通过dhcp获取IP
@@ -150,7 +152,6 @@ ipmitool mc info                               #查看BMC硬件信息
 ipmitool mc reset <warm|cold>                  #使BMC重新启动,warm表示软重启；cold表示硬重启
 ```
 
-
 带外远程操作
 ---
 1、打印ipmi基本信息
@@ -174,8 +175,6 @@ ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power reset          #
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power on             # 硬开机，启动服务器
 ipmitool -I lan -H 10.1.199.212 -U ADMIN -P ADMIN chassis power status         # 查看服务器电源状态
 ```
-
-
 
 BMC 防火墙策略配置全部拒绝导致无法访问
 ---
