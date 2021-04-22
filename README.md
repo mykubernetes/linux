@@ -1,9 +1,6 @@
 # linux
 https://www.runoob.com/
 
-
-ipmitool  sdr
-
 oracle jdk 中文  
 https://www.oracle.com/cn/java/technologies/javase-jdk8-downloads.html
 
