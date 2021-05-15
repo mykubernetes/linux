@@ -1,3 +1,4 @@
+http://www.zhangblog.com/2019/07/18/curl02/
 
 -A参数指定客户端的用户代理标头
 ---
