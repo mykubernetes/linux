@@ -542,3 +542,5 @@ curl -x james:cats@myproxy.com:8080 https://www.example.com
 # 对https://www.example.com发出 POST 请求
 curl -X POST https://www.example.com
 ```
+
+http://www.zhangblog.com/2019/07/20/curl03/
