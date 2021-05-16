@@ -290,6 +290,13 @@ curl: (28) Connection timed out after 10001 milliseconds
 curl: (22) The requested URL returned error: 404 Not Found
 ```
 
+16、网页文件下载
+```
+# 以进度条展示，而不是进度表展示
+# curl -# -o tmp.data2 http://www.zhangblog.com/uploads/tmp/tmp.data
+######################################################################## 100.0%
+```
+
 -A参数指定客户端的用户代理标头
 ---
 ```
