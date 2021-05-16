@@ -316,8 +316,24 @@ tcpdump -i eth0 -nn host 172.16.100.6 and 172.16.200.73
 tcpdump -i eth0 -nn host 172.16.100.6 and \(172.16.200.73 or 172.16.100.77\)
 ```
 
+针对多个主机抓包
 ```
 # tcpdump -i any -n -nn host www.baidu.com or www.360.com
+```
+
+抓取source为192.168.*.*的包
+```
+# tcpdump -i any -n -nn src host 192.168  # 等价于 tcpdump -i any -n -nn src 192.168
+```
+
+抓取192.168的包(不管是source还是destination )
+```
+# tcpdump -i any -n -nn host 192.168
+```
+
+抓取destination为www.baidu.com的包
+```
+# tcpdump -i any dst www.baidu.com      # 然后ping www.baidu.com ,以及 curl www.baidu.com
 ```
 
 监听指定端口
@@ -342,6 +358,11 @@ tcpdump -i eth0 -nnA '!port 22'
 抓取端口是20-80的包，不考虑源或目标
 ```
 # tcpdump -i any -n portrange 20-80
+```
+
+抓取destination为192.168.1.[0-255]的包
+```
+# tcpdump -i any -n -nn dst 192.168.1   # 可以指定范围  ★★★★★ 注意用法  不是一个完整的IP地址
 ```
 
 捕获的数据太多，不断刷屏，可能需要将数据内容记录到文件里，需要使用-w参数：
