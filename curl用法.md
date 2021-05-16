@@ -297,6 +297,52 @@ curl: (22) The requested URL returned error: 404 Not Found
 ######################################################################## 100.0%
 ```
 
+17、分段下载
+
+有时文件比较大，或者难以迅速传输，而利用分段传输，可以实现稳定、高效并且有保障的传输，更具有实用性，同时容易对差错文件进行更正。
+
+- `-r, --range <range>`
+
+如下示例使用了同一张图片，大小为 18196 字节。
+
+17.1分段下载
+```
+# curl -I http://www.zhangblog.com/uploads/hexo/00.jpg   # 查看文件大小
+HTTP/1.1 200 OK
+Server: nginx/1.14.2
+Date: Mon, 15 Jul 2019 03:23:44 GMT
+Content-Type: image/jpeg
+Content-Length: 18196                        # 文件大小
+Last-Modified: Fri, 05 Jul 2019 08:04:58 GMT
+Connection: keep-alive
+ETag: "5d1f04aa-4714"
+Accept-Ranges: bytes
+
+### 分段下载一个文件
+# curl -r 0-499   -o 00-jpg.part1 http://www.zhangblog.com/uploads/hexo/00.jpg
+# curl -r 500-999 -o 00-jpg.part2 http://www.zhangblog.com/uploads/hexo/00.jpg
+# curl -r 1000-   -o 00-jpg.part3 http://www.zhangblog.com/uploads/hexo/00.jpg
+```
+
+17.2查看下载文件
+```
+# ll
+total 36
+-rw-r--r-- 1 root root   500 Jul 15 11:25 00-jpg.part1
+-rw-r--r-- 1 root root   500 Jul 15 11:25 00-jpg.part2
+-rw-r--r-- 1 root root 17196 Jul 15 11:26 00-jpg.part3
+```
+
+17.3文件合并
+```
+# cat 00-jpg.part1 00-jpg.part2 00-jpg.part3 > 00.jpg
+
+# ll 00.jpg
+total 56
+-rw-r--r-- 1 root root 18196 Jul 15 11:29 00.jpg
+```
+
+
 -A参数指定客户端的用户代理标头
 ---
 ```
