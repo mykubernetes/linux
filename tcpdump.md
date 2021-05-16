@@ -200,18 +200,76 @@
 - -vvv 非常详细信息
 - -nn 不反响解析
 
-表达式  
+tcpdump 条件表达式
+---
 expression
 - type: host,net,port,portrange
-
 - direction: src,dst,src or dst,src and dst
-
 - proto: ether,ip,arp,tcp,udp,wlan ether是mac
+```
+type   修饰符指定id 所代表的对象类型, id可以是名字也可以是数字. 
+    可选的对象类型有: host, net, port 以及portrange(nt: host 表明id是主机, net 表明id是网络, port 表明id是端口，而portrange 表明id 是一个端口范围).  
+    如, 'host foo', 'net 128.3', 'port 20', 'portrange 6000-6008'(nt: 分别表示主机 foo,网络 128.3, 端口 20, 端口范围 6000-6008). 
+    如果不指定type 修饰符, id默认的修饰符为host. ★★
+```
+```
+dir   修饰符描述id 所对应的传输方向, 即发往id 还是从id 接收（nt: 而id 到底指什么需要看其前面的type 修饰符）。
+    可取的方向为: src, dst, src or dst, src and dst.(nt:分别表示, id是传输源, id是传输目的, id是传输源或者传输目的, id是传输源并且是传输目的). 
+    例如, 'src foo','dst net 128.3', 'src or dst port ftp-data'.(nt: 分别表示符合条件的数据包中, 源主机是foo, 目的网络是128.3, 源或目的端口为 ftp-data).
+    如果不指定dir修饰符, id 默认的修饰符为src or dst。★★
+```
+```
+proto   修饰符描述id 所属的协议. 可选的协议有: ether, fddi, tr, wlan, ip, ip6, arp, rarp, decnet, tcp以及 upd.
+    (nt | rt: ether, fddi, tr, 具体含义未知, 需补充. 可理解为物理以太网传输协议, 光纤分布数据网传输协议,以及用于路由跟踪的协议.  
+    wlan, 无线局域网协议; ip,ip6 即通常的TCP/IP协议栈中所使用的ipv4以及ipv6网络层协议;
+    arp, rarp 即地址解析协议,反向地址解析协议; 
+    decnet, Digital Equipment Corporation开发的, 最早用于PDP-11 机器互联的网络协议; 
+    tcp and udp, 即通常TCP/IP协议栈中的两个传输层协议).
+``` 
+
+
+查看当前机器有哪些网络接口
+---
+```
+# tcpdump -D
+1.eth0
+2.nflog (Linux netfilter log (NFLOG) interface)
+3.nfqueue (Linux netfilter queue (NFQUEUE) interface)
+4.eth1
+5.usbmon1 (USB bus number 1)
+6.any (Pseudo-device that captures on all interfaces)
+7.lo [Loopback]
+```
 
 监听网卡eth0目标主机ctp协议端口号80的
 ---
 ```
 tcpdump -i eth0 dst ctp port 80 -nn
+```
+
+抓取包长度小于800的包
+```
+# tcpdump -i any -n -nn less 800
+```
+
+抓取包长度大于800的包
+```
+# tcpdump -i any -n -nn greater 800
+```
+
+只抓取tcp包
+```
+# tcpdump -i any -n tcp
+```
+
+只抓取udp包
+```
+# tcpdump -i any -n udp
+```
+
+只抓取icmp的包，internet控制包
+```
+# tcpdump -i any -n icmp
 ```
 
 监听指定主机和端口
@@ -258,6 +316,10 @@ tcpdump -i eth0 -nn host 172.16.100.6 and 172.16.200.73
 tcpdump -i eth0 -nn host 172.16.100.6 and \(172.16.200.73 or 172.16.100.77\)
 ```
 
+```
+# tcpdump -i any -n -nn host www.baidu.com or www.360.com
+```
+
 监听指定端口
 ---
 ```
@@ -267,12 +329,41 @@ tcpdump -i eth0 -nn port 80
 tcpdump -i eth0 -nnA '!port 22'
 ```
 
+针对多个端口抓包
+```
+# tcpdump -i any -n -nn port 111 or port 443
+```
+
+抓取源的端口是20-80的包
+```
+# tcpdump -i any -n src portrange 20-80
+```
+
+抓取端口是20-80的包，不考虑源或目标
+```
+# tcpdump -i any -n portrange 20-80
+```
+
 捕获的数据太多，不断刷屏，可能需要将数据内容记录到文件里，需要使用-w参数：
 ---
 ```
 tcpdump -X -s 0 -w A.cap host 192.168.1.2 and tcp port 8000
 ```
 
+针对指定主机抓包
+```
+# tcpdump -i any -n -nn host 192.168.1.10 -w ./$(date +%Y%m%d%H%M%S).pcap
+```
+
+针对指定端口抓包
+```
+# tcpdump -i any -n -nn port 80 -w ./$(date +%Y%m%d%H%M%S).pcap
+```
+
+针对主机和端口抓包，两者关系 and
+```
+# tcpdump -i any -n -nn host 192.168.1.10 and port 80 -w ./$(date +%Y%m%d%H%M%S).pcap
+```
 
 ```
 # yum install wireshark
