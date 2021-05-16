@@ -180,4 +180,100 @@ curl –u name:passwd ftp://w192.168.101.66/img/[1-10].gif –O       # O字母�
 curl –u name:passwd ftp://192.168.101.66/img/[one,two,three].jpg –O      # O字母大写
 ```
 
+
+FTP文件下载
+---
+- 说明1：其中 ftp1 用户是ftp服务端的账号，具体家目录是：/mnt/ftp1
+- 说明2：当我们使用 curl 通过 FTP 进行下载时，后面跟的路径都是：当前使用的 ftp 账号家目录为基础的相对路径，然后找到的目标文件。
+
+示例1
+```
+# 其中 tmp.data 的绝对路径是：/mnt/ftp1/tmpdata/tmp.data ；ftp1 账号的家目录是：/mnt/ftp1
+# 说明：/tmpdata/tmp.data 这个路径是针对 ftp1 账号的家目录而言的
+$ curl -O ftp://ftp1:123456@172.16.1.195:21/tmpdata/tmp.data  
+
+# 或者
+$ curl -O -u ftp1:123456 ftp://172.16.1.195:21/tmpdata/tmp.data
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2048M  100 2048M    0     0  39.5M      0  0:00:51  0:00:51 --:--:--  143M
+```
+
+示例2
+```
+# 其中 nginx-1.14.2.tar.gz 的绝对路径是：/tmp/nginx-1.14.2.tar.gz ；ftp1 账号的家目录是：/mnt/ftp1
+# 说明：/../../tmp/nginx-1.14.2.tar.gz 这个路径是针对 ftp1 账号的家目录而言的
+$ curl -O ftp://ftp1:123456@172.16.1.195:21/../../tmp/nginx-1.14.2.tar.gz  
+
+# 或者
+$ curl -O -u ftp1:123456 ftp://172.16.1.195:21/../../tmp/nginx-1.14.2.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  991k  100  991k    0     0  5910k      0 --:--:-- --:--:-- --:--:-- 5937k
+```
+
+FTP文件上传
+---
+可以通过 -T, --upload-file <file> 选项实现。
+
+说明1：其中 ftp1 用户是ftp服务端的账号，具体家目录是：/mnt/ftp1
+```
+# 其中 tmp_client.data 是客户端本地文件； 
+# /tmpdata/ 这个路径是针对 ftp1 账号的家目录而言的，且上传时该目录必须是存在的，否则上传失败。
+# 因此上传后文件在ftp服务端的绝对路径是：/mnt/ftp1/tmpdata/tmp_client.data
+$ curl -T tmp_client.data ftp://ftp1:123456@172.16.1.195:21/tmpdata/
+
+# 或者
+$ curl -T tmp_client.data -u ftp1:123456 ftp://172.16.1.195:21/tmpdata/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2048M    0     0  100 2048M      0  95.4M  0:00:21  0:00:21 --:--:-- 49.3M
+```
+
+断点续传
+---
+使用`-C, --continue-at <offset>`选项实现。其中使用 "-C -"「注意有空格和无空格的情况」，告诉curl自动找出在哪里/如何恢复传输。
+```
+# 网页端断点续传下载
+curl -C - -o tmp.data http://www.zhangblog.com/uploads/tmp/tmp.data   # 下载一个 2G 的文件
+```
+  
+FTP断点续传下载
+---
+```
+curl -C - -o tmp.data1 ftp://ftp1:123456@172.16.1.195:21/tmpdata/tmp.data       # 下载一个 2G 的文件
+
+# 或者
+curl -C - -o tmp.data1 -u ftp1:123456 ftp://172.16.1.195:21/tmpdata/tmp.data    # 下载一个 2G 的文件
+```
+
+
+
+FTP分段下载
+---
+
+分段下载
+```
+curl -r 0-499   -o 00-jpg.part1 ftp://ftp1:123456@172.16.1.195:21/tmpdata/00.jpg
+curl -r 500-999 -o 00-jpg.part2 ftp://ftp1:123456@172.16.1.195:21/tmpdata/00.jpg
+curl -r 1000-   -o 00-jpg.part3 ftp://ftp1:123456@172.16.1.195:21/tmpdata/00.jpg
+```
+
+查看下载文件
+```
+ll 00-jpg.part*
+-rw-rw-r-- 1 yun yun   500 Jul 15 17:59 00-jpg.part1
+-rw-rw-r-- 1 yun yun   500 Jul 15 18:00 00-jpg.part2
+-rw-rw-r-- 1 yun yun 17196 Jul 15 18:00 00-jpg.part3
+```
+
+文件合并
+```
+cat 00-jpg.part1 00-jpg.part2 00-jpg.part3 > 00.jpg
+
+ll 00.jpg 
+-rw-rw-r-- 1 yun yun 18196 Jul 15 18:02 00.jpg
+```
+
+
 https://blog.csdn.net/justry_deng/article/details/87969795
