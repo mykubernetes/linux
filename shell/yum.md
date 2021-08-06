@@ -13,12 +13,17 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+
+
+cp -f yum-repo.service /usr/lib/systemd/system/
 ```
 
 2、启动
 ```
 systemctl daemon-reload
 systemctl enable yum-repo
+systemctl start yum-repo
+systemctl status yum-repo
 ```
 
 3、配重仓库
