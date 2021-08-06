@@ -21,6 +21,9 @@ sshPort=`sed '/^sshPort=/!d;s/.*=//' $1 |sed 's/\r//g'`
 web=`sed '/^web=/!d;s/.*=//' $1 | sed 's/\r//g'`
 db=`sed '/^db=/!d;s/.*=//' $1 | sed 's/\r//g'`
 
+# 用逗号进行分隔
+# dbList=${db// /,}
+
 
 for host_name in web db;
 do
