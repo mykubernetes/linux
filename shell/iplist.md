@@ -33,8 +33,19 @@ iplist=`eval echo '$'"$host_name"`
 for host in $iplist;
 do
 echo ssh ${user}@${host} -p ${sshPort} yum install ${yum}
+./install_all.sh $user $host $sshPort $yum
 done
 done
+```
+
+```
+cat install_all.sh
+user=$1
+host=$2
+sshPort=$3
+yum=$4
+
+脚本文件
 ```
 
 3、执行脚本
