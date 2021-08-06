@@ -26,7 +26,7 @@ systemctl start yum-repo
 systemctl status yum-repo
 ```
 
-3、配重仓库
+3、配置仓库
 ```
 [web]
 name=web
