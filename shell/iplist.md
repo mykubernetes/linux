@@ -1,3 +1,4 @@
+1、编辑iplist文件
 ```
 cat config
 # Host Login Info
@@ -10,6 +11,7 @@ web=172.16.0.224 172.16.0.168
 db=172.16.0.224 172.16.0.169 172.16.0.168
 ```
 
+2、获取iplist信息
 ```
 cat install.sh
 #!/bin/sh
@@ -30,6 +32,7 @@ done
 done
 ```
 
+3、执行脚本
 ```
 ./install.sh config.txt
 ```
