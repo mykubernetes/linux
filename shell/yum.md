@@ -6,7 +6,7 @@ Description=TSF Yum Repo
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/tsf-yum-repo
+WorkingDirectory=/opt/yum-repo                        #工作目录
 ExecStart=/usr/bin/python2 -m SimpleHTTPServer 8081
 KillMode=process
 Restart=on-failure
