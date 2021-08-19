@@ -5,6 +5,6 @@
 | windows系统下载地址 | https://msdn.itellyou.cn/ |
 | apache | http://archive.apache.org/dist/ |
 | centos_download | http://man.linuxde.net/download/CentOS |
-
+| 博客 | https://www.cnblogs.com/my-show-time/default.html?page=1 |
 
 wget -O - -q http://nginx/
