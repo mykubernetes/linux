@@ -243,7 +243,7 @@ rpmlib(PayloadIsXz) <= 5.2-1
 
  
 
-5、查看某个文件属于哪个rpm包
+6、查看某个文件属于哪个rpm包
 ---
 语法： rpm -qf file
 ```
