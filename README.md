@@ -8,3 +8,5 @@
 | 博客 | https://www.cnblogs.com/my-show-time/default.html?page=1 |
 
 wget -O - -q http://nginx/
+
+:smile: :rage: :sweat: :point_down:
