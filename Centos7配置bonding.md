@@ -18,8 +18,8 @@ rhel6 bonding
 
 1、关闭和停止NetworkManager服务  
 ```
-# systemctl stop NetworkManager.service     # 停止NetworkManager服务
-# systemctl disable NetworkManager.service  # 禁止开机启动NetworkManager服务
+# service  NetworkManager stop    # 停止NetworkManager服务
+# chkconfig NetworkManager off    # 禁止开机启动NetworkManager服务
 ```  
 
 2、加载bonding模块  
@@ -217,20 +217,20 @@ systemctl restart network
 [root@ReHat7.6 network-scripts]# cat /proc/net/bonding/bond0
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
-Bonding Mode: fault-tolerance (active-backup)		// 绑定模式: 主备模式(mode 1)
+Bonding Mode: fault-tolerance (active-backup)           # 绑定模式: 主备模式(mode 1)
 Primary Slave: None
-Currently Active Slave: eno4			// 当前活动接口
-MII Status: up							// 接口状态: up(MII是Media Independent Interface简称, 接口的意思)
-MII Polling Interval (ms): 200		 	// 接口轮询的时间隔(这里是200ms)
+Currently Active Slave: eno4                            # 当前活动接口
+MII Status: up                                          # 接口状态: up(MII是Media Independent Interface简称, 接口的意思)
+MII Polling Interval (ms): 200                          # 接口轮询的时间隔(这里是200ms)
 Up Delay (ms): 0
 Down Delay (ms): 0
 
-Slave Interface: eno3					// Slave 接口，也就是受bond管控的接口
-MII Status: up							// 接口状态: up(MII是Media Independent Interface简称, 接口的意思)
-Speed: 1000 Mbps                         // 端口的速率是1000 Mpbs
-Duplex: full							// 全双工
-Link Failure Count: 0					// 链接失败次数: 0
-Permanent HW addr: 74:46:a0:f4:9f:c2     // 永久的MAC地址
+Slave Interface: eno3                                   # Slave 接口，也就是受bond管控的接口
+MII Status: up                                          # 接口状态: up(MII是Media Independent Interface简称, 接口的意思)
+Speed: 1000 Mbps                                        # 端口的速率是1000 Mpbs
+Duplex: full                                            # 全双工
+Link Failure Count: 0                                   # 链接失败次数: 0
+Permanent HW addr: 74:46:a0:f4:9f:c2                    # 永久的MAC地址
 Slave queue ID: 0
 
 Slave Interface: eno4
@@ -263,11 +263,7 @@ ifconfig bond0 192.168.0.1 netmask 255.255.0.0    // 配置IP
 ifenslave -c bond0 eth1      // 切换活动网卡到eth1
 ifenslave -d bond0 eth1     // 从bond0中移除eth1
 ```
- 高可用测试中（插拔网线）发现：在mode=6模式下丢包1个, 恢复网络时( 网络插回去 ) 丢包在5-6个左右，说明高可用功能正常但恢复的时候丢包会比较多
-
-测试mode=1模式下丢包1个，恢复网络时( 网线插回去 ) 基本上没有丢包，说明高可用功能和恢复的时候都正常
-
-mode6这种负载模式除了故障恢复的时候有丢包之外其它都挺好的，如果能够忽略这点的话可以这种模式；而mode1故障的切换和恢复都很快，基本没丢包和延时。但端口利用率比较低，因为这种主备的模式只有一张网卡在工作。
+ 高可用测试中（插拔网线）发现：在mode=6模式下丢包1个, 恢复网络时( 网络插回去 ) 丢包在5-6个左右，说明高可用功能正常但恢复的时候丢包会比较多测试mode=1模式下丢包1个，恢复网络时( 网线插回去 ) 基本上没有丢包，说明高可用功能和恢复的时候都正常mode6这种负载模式除了故障恢复的时候有丢包之外其它都挺好的，如果能够忽略这点的话可以这种模式；而mode1故障的切换和恢复都很快，基本没丢包和延时。但端口利用率比较低，因为这种主备的模式只有一张网卡在工作。
 
 参考：
 - http://blog.chinaunix.net/uid-31410005-id-5818605.html
