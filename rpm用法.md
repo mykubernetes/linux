@@ -5,6 +5,32 @@ rpm简介
 ---
 rpm（英文全拼：redhat package manager） 原本是 Red Hat Linux 发行版专门用来管理 Linux 各项套件的程序，由于它遵循 GPL 规则且功能强大方便，因而广受欢迎。逐渐受到其他发行版的采用。RPM 套件管理方式的出现，让 Linux 易于安装，升级，间接提升了 Linux 的适用度。
 
+1、rpm包安装操作 
+```
+##安装example.rpm包
+# rpm -i example.rpm 
+
+##安装 example.rpm 包并在安装过程中显示正在安装的文件信息
+# rpm -iv example.rpm 
+
+##安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度
+# rpm -ivh example.rpm 
+```
+2、rpm包查询操作 
+```
+##查看tomcat是否被安装
+# rpm -qa | grep tomcat
+
+##查看 example.rpm 安装包的信息
+# rpm -qip example.rpm
+
+##查看/bin/df文件所在安装包的信息
+# rpm -qif /bin/df
+
+##查看/bin/df 文件所在安装包中的各个文件分别被安装到哪个目录下
+# rpm -qlf /bin/df
+```
+
 语法 参数
 ---
 下面是rpm的基本的语法和选项
