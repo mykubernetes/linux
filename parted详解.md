@@ -33,6 +33,7 @@ select 设备                                     #选择要编辑的设备
 set MINOR 标志 状态                             #改变编号为 MINOR 的分区的标志
 ```
 
+交互式
 ```
 parted /dev/sdb              # select /dev/sdb
 mklabel gpt                  # 设置分区类型为gpt
@@ -45,6 +46,17 @@ print
 quit
 mkfs.xfs -f /dev/sdb1
 ```
+
+非交互
+```
+# parted -s /dev/sdb mklabel gpt
+# parted -s /dev/sdb mkpart primary 0% 20%
+# parted -s /dev/sdb mkpart primary 21% 40%
+# parted -s /dev/sdb mkpart primary 41% 60%
+# parted -s /dev/sdb mkpart primary 61% 80%
+# parted -s /dev/sdb mkpart primary 81% 100%
+```
+
 
 操作实例  
 1、选择分区硬盘
