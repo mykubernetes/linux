@@ -1,5 +1,25 @@
 # MegaCli常用命令
 
+使用megacli命令查看磁盘
+```
+# megacli -PDList -aALL 
+此命令可以查看所有物理磁盘的信息。
+若Media Error Count和Other Error Count的值大于0，则表示磁盘可能坏掉了。
+megalci命令的参数后接其值，中间没有空格。-a参数表示使用的adapter编号。
+
+# megacli -LDInfo -LALL -aAll 
+此命令查看所有逻辑磁盘的信息。
+
+# megacli -LdPdInfo -a1
+此命令列出第2个阵列卡上各逻辑磁盘及其所属的物理磁盘信息。
+
+# megaclin -AdpAllInfo -aALL
+查看阵列卡信息
+
+# megacli -AdpBbuCmd -aAll
+查看阵列卡电池信息
+```
+
 1，查看磁盘缓存策略
 ```
 # /opt/MegaRAID/MegaCli/MegaCli64 -LDGetProp -Cache -LAll -aAll
