@@ -147,22 +147,22 @@ MegaCli64 -PDRbld -ShowProg -PhysDrv [32:5] -a0
 
 10、命令汇总
 ```
-查看Cache 策略设置    # MegaCli64 -cfgdsply -aALL |grep Policy
-查询Raid阵列数    # MegaCli64 -cfgdsply -aALL |grep "Number of DISK GROUPS:"
-显示Raid卡型号，Raid设置，Disk相关信息      # MegaCli64 -cfgdsply -aALL
-显示所有适配器信息    # MegaCli64 -AdpAllInfo -aAll
-显示所有物理信息    # MegaCli64 -PDList -aALL
-显示所有逻辑磁盘组信息    # MegaCli64 -LDInfo -LALL -aAll
-查看物理磁盘重建进度(重要)    # MegaCli64 -PDRbld -ShowProg -PhysDrv [32:5] -a0
-查看适配器个数    # MegaCli64 -adpCount
-查看适配器时间    # MegaCli64 -AdpGetTime -aALL
-查看raid卡日志    # MegaCli64 -FwTermLog -Dsply -aALL
+# MegaCli64 -cfgdsply -aALL |grep Policy                      # 查看Cache 策略设置
+# MegaCli64 -cfgdsply -aALL |grep "Number of DISK GROUPS:"    # 查询Raid阵列数
+# MegaCli64 -cfgdsply -aALL                                   # 显示Raid卡型号，Raid设置，Disk相关信息
+# MegaCli64 -AdpAllInfo -aAll                                 # 查看所有raid卡详细信息
+# MegaCli64 -PDList -aALL                                     # 显示所有物理信息
+# MegaCli64 -LDInfo -LALL -aAll                               # 显示所有逻辑磁盘组信息
+# MegaCli64 -PDRbld -ShowProg -PhysDrv [32:5] -a0             # 查看物理磁盘重建进度(重要)
+# MegaCli64 -adpCount                                         # 查看RAID控制器的数量
+# MegaCli64 -AdpGetTime -aALL                                 # 查看适配器时间
+# MegaCli64 -FwTermLog -Dsply -aALL                           # 查看raid卡日志
 
-显示BBU状态信息    # MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL
-显示BBU容量信息    # MegaCli64 -AdpBbuCmd -GetBbuCapacityInfo -aALL
-显示BBU设计参数    # MegaCli64 -AdpBbuCmd -GetBbuDesignInfo -aALL
-显示当前BBU属性    # MegaCli64 -AdpBbuCmd -GetBbuProperties -aALL
-查看充电进度百分比    # MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL |grep "Relative State of Charge"
+# MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL                    # 显示BBU状态信息
+# MegaCli64 -AdpBbuCmd -GetBbuCapacityInfo -aALL              # 显示BBU容量信息
+# MegaCli64 -AdpBbuCmd -GetBbuDesignInfo -aALL                # 显示BBU设计参数
+# MegaCli64 -AdpBbuCmd -GetBbuProperties -aALL                # 显示当前BBU属性
+# MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL |grep "Relative State of Charge"   # 查看充电进度百分比
 ```
 
 JBOD
