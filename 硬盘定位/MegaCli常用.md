@@ -42,12 +42,12 @@ Adapter 0: Deleted Virtual Drive-11(target id-11)
 
 4，创建RAID5
 ```
-[root@backupServer ~]# /opt/MegaRAID/MegaCli/MegaCli64 -cfgldadd -r5 [0:4,0:5,0:6] -a0
+# /opt/MegaRAID/MegaCli/MegaCli64 -cfgldadd -r5 [0:4,0:5,0:6] -a0
 Adapter 0: Created VD 4
 Adapter 0: Configured the Adapter!!
 
-#给刚才创建的RAID5加一块磁盘
-root@backupServer ~]# /opt/MegaRAID/MegaCli/MegaCli64 -ldrecon -start -r5 -add -physdrv[0:7] -l4 -a0
+# 给刚才创建的RAID5加一块磁盘
+# /opt/MegaRAID/MegaCli/MegaCli64 -ldrecon -start -r5 -add -physdrv[0:7] -l4 -a0
 Start Reconstruction of Virtual Drive Success.
 
 # 创建RAID5，并指定0:11盘为热备盘
