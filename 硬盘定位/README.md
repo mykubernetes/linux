@@ -60,6 +60,9 @@ Serial No          : Z840Z1M1
 
 MegaCli 安装及常用命令
 ---
+
+https://www.cnblogs.com/luxiaodai/p/9871612.html#_label1
+
 1.安装
 ```
 #rpm -ivh MegaCli-8.05.06-1.noarch.rpm  安装在/opt下
