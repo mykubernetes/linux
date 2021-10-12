@@ -102,22 +102,22 @@ hpacucli ctrl slot=0 array B modify led=on
 hpacucli ctrl slot=0 pd 1I:1:3 modify led=on
 ```
 
-查看cache信息：
+## 查看cache信息
 ```
 hpacucli ctrl all show config detail | grep -i cache
 ```
 
-查看阵列号及SSDSmartPath：
+## 查看阵列号及SSDSmartPath
 ```
 hpssacli ctrl all show config detail| egrep -i 'Array:|HP SSD Smart Path'
 ```
 
-SSD需要注意：（打开逻辑缓存需要关闭SSD Smart Path功能）
+## SSD需要注意 （打开逻辑缓存需要关闭SSD Smart Path功能）
 ```
 hpssacli ctrl slot=0 array A modify ssdsmartpath=disable
 ```
 
-遇到的问题
+## 遇到的问题
 
 SSD 做成raid0后，开启逻辑磁盘缓存时报错，如下
 ```
@@ -125,12 +125,13 @@ ctrl slot=0 logicaldrive 8 modify caching=enable forced
 Error: Invalid drive specified: 8
 ```
 
-观察状态：ctrl slot=0 logicaldrive 6 show  注意最后一项为
+## 观察状态 
 ```
+ctrl slot=0 logicaldrive 6 show  注意最后一项为
 LD Acceleration Method: HP SSD Smart Path （这种状态不能给逻辑磁盘做缓存）
 ```
 
-使用命令
+## 使用命令
 ```
 ctrl slot=0 array F modify ssdsmartpath=disable
 切换成   LD Acceleration Method: Controller Cache
