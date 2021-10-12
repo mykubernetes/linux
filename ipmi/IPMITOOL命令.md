@@ -21,7 +21,7 @@
 | ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>` channel authcap `<channel number>` `<max privilege>` | 获取通道认证鉴权能力 |
 | ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>` channel getaccess `<channel number>` `[user id]` | 获取用户权限信息 |
 | ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>` channel setaccess `<channel number>` `<user id>` `[privilege=level]` | 设置用户权限信息 |
-| ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>` channel getciphers <ipmi|sol> `<channel>` | 获取通道的加密法套件 |
+| ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>` channel getciphers <ipmi or sol> `<channel>` | 获取通道的加密法套件 |
 
 
 ## Lan
