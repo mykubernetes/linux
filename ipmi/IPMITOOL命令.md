@@ -161,9 +161,9 @@
 | ipmitool -H `<IP地址>` -I lanplus -U `<用户名>` -P `<密码>`  shell |  |
 
 
-  
+# IPMITOOL常用操作指令V1.0
+
 ```
-IPMITOOL常用操作指令V1.0
 一、开关机，重启
 
 1. 查看开关机状态：
