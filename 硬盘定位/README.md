@@ -1,3 +1,5 @@
+https://www.cnblogs.com/zhangxinglong/default.html?page=1
+
 服务器硬盘定位方法
 ---
 
