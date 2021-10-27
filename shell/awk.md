@@ -598,19 +598,273 @@ BEGIN{
 }
 ```
 
+# 1.Awk数组概述
+
+- 1.什么是awk数组 数组其实也算是变量, 传统的变量只能存储一个值，但数组可以存储多个值。
+- 2.awk数组应用场景 通常用来统计、比如：统计网站访问TOP10、网站Url访问TOP10等等等
+- 3.awk数组统计技巧 1.在awk中，使用数组时，不仅可以使用1 2 3 ..n作为数组索引，也可以使用字符串作为数组索引。 2.要统计某个字段的值，就将该字段作为数组的索引，然后对索引进行遍历。
+- 4.awk数组的语法 array_name[index]=value
+- 5.awk数组示例 1.统计/etc/passwd中各种类型shell的数量。
+
+```
+[root@web01 shell-awk]# cat passwd_count.awk
+BEGIN{
+    FS=":"
+}
+
+#赋值操作（因为awk是一行一行读入的，相当是循环了整个文件中的内容）
+{
+    hosts[$NF]++
+}
 
 
+#赋值完成后，需要通过循环的方式将其索引的次数遍历出来
+END {
+    for (item in hosts) {
+        print item,
+        hosts[item]
+    }
+}
+```
 
+2.统计主机上所有的tcp链接状态数，按照每个tcp状态分类。
+```
+[root@Shell ~]# netstat -an | grep tcp | awk '{arr[$6]++}END{for (i in arr) print i,arr[i]}'
+```
 
+3.统计当前系统80端口连接状态信息。<当前时实状态ss>
+```
+[root@Shell ~]# ss -an|awk '/:80/{tcp[$2]++} END {for(i in tcp){print i,tcp[i]}}'
+```
 
+4.统计当前访问的每个IP的数量<当前时实状态 netstat,ss>
+```
+[root@Shell ~]# ss -an|awk -F ':' '/:80/{ips[$(NF-1)]++} END {for(i in ips){print i,ips[i]}}'
+```
 
+# 2.Awk数组示例
 
+- Nginx日志分析，日志格式如下：
+```
+log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
 
+52.55.21.59 - - [25/Jan/2018:14:55:36 +0800] "GET /feed/ HTTP/1.1" 404 162 "https://www.google.com/" "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; de) Presto/2.9.168 Version/11.52" "-"
+```
 
+1.统计一天内访问最多的10个IP
+```
+[root@oldxu ~]# cat ngx_top_10
+{
+    cip[$1]++
+}
 
+END{
+    for ( item in cip ) {
+        print item,cip[item]
+    }
+}
+```
 
+2.统计访问大于1000次的IP
+```
+[root@oldxu ~]# cat ngx_top_10_2
+{
+    cip[$1]++
+}
 
+END{
+    for ( item in cip ) {
+        if (cip[item] > 10000) {
+            print item,cip[item]
+        }
+    }
+}
+```
 
+3.统计访问最多的10个页面($request top 10)
+```
+[root@oldxu ~]# cat ngx_request_top_10
+{
+    request[$7]++
+}
+
+END{
+    for ( item in request ) {
+        print item,request[item]
+    }
+}
+```
+
+4.统计每个URL访问内容总大小($body_bytes_sent)
+```
+[root@web01 awk_nginx]# cat ngx_request_size
+{
+    #相同的url会自动累加其大小
+    url[$7]+=$10
+}
+
+END{
+    for ( item in url ){
+            print item,  url[item]/1024/1024"Mb"
+    }
+}
+```
+
+5.统计2018年01月25日，每个IP访问状态码数量($status)
+```
+[root@web01 awk_nginx]# cat ngx_ip_code_top
+{
+    ip_code[$1" "$9]++
+}
+
+END{
+    for ( item in ip_code ) {
+        print item,ip_code[item]
+    }
+}
+```
+
+6.统计访问状态码为404及出现的次数($status)
+```
+[root@oldxu ~]# cat ngx_status_top_404
+{
+    status[$9]++
+}
+
+END{
+    for ( item in status) {
+        if (item == 404 ) {
+            print item,status[item]
+        }
+    }
+}
+```
+
+7.统计2018年01月25日,各种状态码数量
+```
+#统计状态码出现的次数
+[root@Shell ~]# awk '{code[$9]++} END {for(i in code){print i,code[i]}}' log.bjstack.log
+
+[root@Shell ~]# awk '{if($9>=100 && $9<200) {i++}
+else if ($9>=200 && $9<300) {j++}
+else if ($9>=300 && $9<400) {k++}
+else if ($9>=400 && $9<500) {n++}
+else if($9>=500) {p++}}
+END{print i,j,k,n,p,i+j+k+n+p}' log.bjstack.log
+```
+
+# 3.Awk数组案例
+
+1.模拟生产环境数据脚本，需要跑大约30~60s(等待一段时间ctrl+c结束即可)
+```
+[root@localhost shell]# cat insert.sh 
+#!/bin/bash
+function create_random()
+{
+    min=$1
+    max=$(($2-$min+1))
+    num=$(date +%s%N)
+    echo $(($num%$max+$min))
+}
+
+INDEX=1
+while true
+do
+    for user in oldxu oldguo oldqiang oldboy oldli
+    do
+        COUNT=$RANDOM
+        NUM1=`create_random 1 $COUNT`
+        NUM2=`expr $COUNT - $NUM1`
+        echo "`date '+%Y-%m-%d %H:%M:%S'` $INDEX user: $user insert $COUNT records into datebase:product table:detail, insert $NUM1 records successfully,failed $NUM2 records" >> ./db.log.`date +%Y%m%d`
+        INDEX=`expr $INDEX + 1`
+    done
+done
+```
+
+数据格式如下：
+```
+2019-11-06 18:25:53 1 user: oldxu insert 8302 records into datebase:product table:detail, insert 1166 records successfully,failed 7136 records
+2019-11-06 18:25:53 2 user: oldguo insert 16106 records into datebase:product table:detail, insert 15215 records successfully,failed 891 records
+2019-11-06 18:25:53 3 user: oldqiang insert 1133 records into datebase:product table:detail, insert 995 records successfully,failed 138 records
+2019-11-06 18:25:53 4 user: oldgao insert 8894 records into datebase:product table:detail, insert 7375 records successfully,failed 1519 records
+2019-11-06 18:25:53 5 user: oldboy insert 8248 records into datebase:product table:detail, insert 3554 records successfully,failed 4694 records
+```
+
+需求1：统计每个人分别插入了多少条records进数据库
+```
+[root@lb01 ~]# awk '
+BEGIN {
+    printf "%-20s%-20s\n","User","Total records"
+} 
+{
+    success[$5]+=$7
+    #success[$5]=success[$5]+$7
+} 
+END { 
+    for (u in success)
+    printf "%-20s%20d\n",u,success[u]
+}' db.log.20191106
+```
+
+需求2：统计每个人分别插入成功了多少record，失败了多少record
+```
+[root@lb01 ~]# awk '
+BEGIN {
+    printf "%-20s%-20s%-20s\n","User","Success","Failed"
+} 
+{
+    success[$5]+=$13
+    failed[$5]+=$16
+} 
+END { 
+    for (u in success) 
+    printf "%-20s%-20d%-20d\n",u,success[u],failed[u]
+}' db.log.20191106
+```
+
+需求3：将需求1和需求2结合起来，一起输出，输出每个人分别插入多少条数据，多少成功，多少失败，并且要格式化输出，加上标题
+```
+[root@lb01 ~]# awk '
+BEGIN {
+    printf "%-20s%-20s%-20s%-20s\n","User","Total","Success","Failed"
+} 
+{
+    success[$5]+=$13
+    failed[$5]+=$16
+} 
+
+END { 
+    for (u in success) 
+    printf "%-20s%-20s%-20d%-20d\n",u,success[u]+failed[u],success[u],failed[u]
+}' db.log.20191106
+```
+
+需求4：在例子3的基础上，加上结尾，统计全部插入记录数，成功记录数，失败记录数。
+```
+[root@lb01 ~]# awk '
+BEGIN {
+    printf "%-20s%-20s%-20s%-20s\n","User","Total","Success","Failed"
+} 
+{
+    total[$5]+=$7
+    success[$5]+=$13
+    failed[$5]+=$16
+
+    #在原始数据进行统计累计
+    total_sum+=$7
+    success_sum+=$13
+    failed_sum+=$16  
+} 
+
+END { 
+    for (u in success) {
+    printf "%-20s%-20s%-20d%-20d\n",u,total[u],success[u],failed[u]
+    }
+    printf "%-20s%-20s%-20d%-20d\n","total",total_sum,success_sum,failed_sum
+}' db.log.20191106
+```
 
 
 
