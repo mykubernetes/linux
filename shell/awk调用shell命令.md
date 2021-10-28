@@ -1,8 +1,6 @@
 awk调用shell命令的两种方法：system与print
 
-from：http://www.oklinux.cn/html/developer/shell/20070626/31550.html
-
-awk中使用的shell命令，有2种方法：
+- awk中使用的shell命令，有2种方法：
 
 # 一。使用所以system（）
 
