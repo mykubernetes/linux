@@ -99,7 +99,7 @@ filter 各种转换操作就很多了，如 get，map，filter，map，pick，un
 # cat json_err.txt
 {"name":"Google","location":{"street":"1600 Amphitheatre Parkway","city":"Mountain View","state":"California","country":"US"},"employees":[{"name":"Michael","division":"Engineering"}{"name":"Laura","division":"HR"},{"name":"Elise","division":"Marketing"}]
 
-# 上面JSON中加粗和斜体部分，遗漏了一个逗号，所以这个JSON是错误的，jq轻松的可以轻松的检查出来：
+# 所以这个JSON是错误的，jq轻松的可以轻松的检查出来：
 # cat json_err.txt |jq .
 parse error: Expected separator between values at line 1, column 183
 ```
