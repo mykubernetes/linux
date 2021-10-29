@@ -1,5 +1,52 @@
 官网https://stedolan.github.io/jq/manual/
 
+# 查看`jq`帮助信息
+```
+# jq --help
+#jq-命令行JSON处理器[1.6版]
+jq - commandline JSON processor [version 1.6]
+
+Usage:  jq [options] <jq filter> [file...]
+        jq [options] --args <jq filter> [strings...]
+        jq [options] --jsonargs <jq filter> [JSON_TEXTS...]
+
+#jq是用于处理JSON输入的工具，将给定的过滤器应用于
+#其JSON文本输入，并以JSON形式生成过滤器的结果
+#标准输出。
+#最简单的过滤器是。，它将jq的输入复制到其输出
+#未经修改（除格式外，但请注意使用的是IEEE754
+#内部的数字表示，以及所有暗示的内容）。
+
+例子:
+
+        $ echo '{"foo": 0}' | jq .
+        {
+                "foo": 0
+        }
+
+一些选项包括：
+  -c	紧凑而不是漂亮的输出；
+  -n	使用“ null”作为单个输入值；
+  -e	根据输出设置退出状态代码；
+  -s	将所有输入读取（吸取）到数组中；对它应用过滤器；
+  -r	输出原始字符串，而不是JSON文本；
+  -R	读取原始字符串，而不是JSON文本；
+  -C	为JSON着色;
+  -M	单色（不要为JSON着色）；
+  -S	对输出对象的排序键；
+  --tab	使用制表符进行缩进；
+  --arg v	将变量$ a设置为值<v>;
+  --argjson v	将变量$ a设置为JSON值<v>;
+  --slurpfile	将f变量$ a设置为从<f>读取的JSON文本数组；
+  --rawfile	将f变量$ a设置为包含<f>内容的字符串；
+  --args	其余参数是字符串参数，而不是文件；
+  --jsonargs	其余参数是JSON参数，而不是文件；
+  --        终止参数处理;
+
+有关更多选项，请参见手册页。
+```
+
+
 
 option
 - -s: 把读取的 jsonl 视作数组来处理 (如 group, sort 只能以数组作为输入)
