@@ -225,6 +225,51 @@ null
 "Laura"
 ```
 
+# 数据重组成数组
+```
+# echo '{"a":1,"b":2,"c":3,"d":4}' | jq '[.a,.b]'
+[
+  1,
+  2
+]
+
+```
+
+# 数据重组成对象
+```
+# echo '{"a":1,"b":2,"c":3,"d":4}' | jq '{"tmp":.b}'
+{
+  "tmp": 2
+}
+
+# echo '{"a":1,"b":2,"c":3,"d":4}' | jq '{a,b}'
+{
+  "a": 1,
+  "b": 2
+}
+
+# cat json_raw.txt | jq '.location | {street,city}'
+{
+  "street": "1600 Amphitheatre Parkway",
+  "city": "Mountain View"
+}
+```
+
+# 管道使用
+```
+echo '[{"a":1,"b":2},{"a":3,"d":4}]' | jq '.[] | .a'
+1
+3
+```
+
+
+
+
+
+
+
+
+
 # 使用`keys`函数，获取JSON中的 key 元素
 ```
 # 1、json文件
@@ -401,11 +446,6 @@ fsafd
 [root@linux-man src]# jq -r '.[0]|.name' test.json 
 广州市
 ```
-
-
-
-
-
 
 原始数据
 ---
