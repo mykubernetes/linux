@@ -290,8 +290,305 @@ jq支持和json一致的数据集，包括数字、字符串、布尔值、数�
 
 - 和json一样，{}用于构造对象，如果对象的key是大小写敏感的，则双引号可以省略，值可以是任意的jq表达式(如果是复杂的表达式，还需要使用括号括起来)，可以使用这个符号从输入中选取指定的字段。如果某个表达式生成多个结果，则对象也可能生成多个。如果key被括号括起来，则key也会被当做一个表达式。
 ```
+[root@localhost ~]# jq '{foo:.bar}'
+{"bar":42,"baz":43}
+{
+  "foo": 42
+}
+```
 
 ```
+[root@localhost ~]# jq '{user: .user, title: .titles}'
+{"user":"stedolan","titles":["JQ Primer", "More JQ"]}
+{
+  "user": "stedolan",
+  "title": [
+    "JQ Primer",
+    "More JQ"
+  ]
+}
+```
+
+```
+[root@localhost ~]# jq '{user: .user, title: .titles[]}'
+{"user":"stedolan","titles":["JQ Primer", "More JQ"]}
+{
+  "user": "stedolan",
+  "title": "JQ Primer"
+}
+{
+  "user": "stedolan",
+  "title": "More JQ"
+}
+^C
+[root@localhost ~]# 
+[root@localhost ~]# jq '{(.user): .titles}'
+{"user":"stedolan","titles":["JQ Primer", "More JQ"]}
+{
+  "stedolan": [
+    "JQ Primer",
+    "More JQ"
+  ]
+}
+```
+
+# 5. Builtin Operators And Functions(内置运算符和函数)
+
+一些jq操作符(例如+)，对根据参数的不同执行不同的操作(比如数组、数字、字符串等)。但是jq不会执行任何隐式的类型转换，如果两个参数类型不一致，会直接报错。
+
+## 加号 +
+
+加号需要两个filter，输入会分别被过滤器执行，输出结果会根据过滤器结果类型相加起来。
+
+- 如果是数字，则按照算数相加。
+```
+[root@localhost ~]# echo 10 |jq .
+10
+[root@localhost ~]# 
+[root@localhost ~]# echo 10 |jq '. + 100' 
+110
+[root@localhost ~]#
+```
+
+- 如果是数组，则会拼接成一个大数组，
+```
+[root@localhost ~]# echo [1,2,3] |jq .
+[
+  1,
+  2,
+  3
+]
+[root@localhost ~]# 
+[root@localhost ~]# echo [1,2,3] |jq '. + [4,5,6]'
+[
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+]
+[root@localhost ~]# 
+```
+
+- 如果是字符串，则会拼接起来。
+```
+[root@localhost ~]# echo "Hello" |jq -R
+"Hello"
+[root@localhost ~]# echo "Hello" |jq -R '. + "World"'
+"HelloWorld"
+[root@localhost ~]#
+```
+
+- 如果是对象，则对象会被合并，如果有相同的key，则以右侧的过滤器中的key为最终结果。
+```
+[root@localhost ~]# jq '.[0], .[1]' threeCountry.json 
+{
+  "name": "Yemen",
+  "dial_code": "+967",
+  "code": "YE",
+  "language": "EN"
+}
+{
+  "name": "Zambia",
+  "dial_code": "+260",
+  "code": "YM"
+}
+[root@localhost ~]# jq '.[0]+.[1]' threeCountry.json 
+{
+  "name": "Zambia",
+  "dial_code": "+260",
+  "code": "YM",
+  "language": "EN"
+}
+```
+
+- 如果有一个结果是null，则返回另一个结果。
+```
+[root@localhost ~]# jq '.[0]+ null' threeCountry.json 
+{
+  "name": "Yemen",
+  "dial_code": "+967",
+  "code": "YE",
+  "language": "EN"
+}
+[root@localhost ~]# 
+```
+
+## 减号 - 
+
+- 和算术减法类似，减号也可以用在数组上，用于将数组1中所有在数组2中出现的元素删除。
+```
+[root@localhost ~]# echo 10 | jq '. + 100'
+110
+[root@localhost ~]# echo 10 | jq '. - 100'
+-90
+[root@localhost ~]#
+```
+
+```
+[root@localhost ~]# echo [1,2,3,4,5,6] | jq '. + [4,5,6]'
+[
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  4,
+  5,
+  6
+]
+[root@localhost ~]# 
+[root@localhost ~]# echo [1,2,3,4,5,6] | jq '. - [4,5,6]'
+[
+  1,
+  2,
+  3
+]
+[root@localhost ~]# 
+```
+
+## 乘法*、除法 /、取余%
+
+- 这些操作符只作用于数字。
+```
+[root@localhost ~]# echo 10  | jq '. * 100'
+1000
+[root@localhost ~]# echo 10  | jq '. / 100'
+0.1
+[root@localhost ~]# echo 10  | jq '. % 100'
+10
+[root@localhost ~]# 
+```
+
+## length
+
+该函数获取不同类型值的长度。
+
+- 如果是字符串，则输出unicode代码点数量。也可以使用utf8bytelength 输出字符数量
+
+
+    如果是数组，则输出数组元素个数
+
+
+    如果是对象，则输出key-value 组的个数
+
+
+    如果是null，则为0
+
+ 
+
+keys
+    如果输入是个对象，则输出一个包含该对象所有key的数组。
+
+
+    如果输入是个数组，则输出该数组合法的索引。
+
+
+
+has
+    has函数返回一个对象是否有指定的key，或者一个数组在指定的索引上是否含有元素。
+
+
+
+
+
+to_entries, from_entries, with_entries
+    这些函数在对象和包含key-value的数组中转换，如果to_entries接受一个对象，则对于对象中每一个k:v，则输出的数组中将包含{"key": k, "value": v}.
+
+
+
+from_entries 正好做相反的事情，with_entries 等价于 to_entries|map(foo)|from_entries
+
+
+
+select
+    select(filter)，如果filter返回true,则结果与输入一致，否则不输出。
+
+
+
+empty
+    empty不返回任何结果，包括null也不返回。
+
+
+
+map(filter)
+    map是个遍历操作，对输出数组的每个元素执行filter，并将输出放到一个数组里。等价于 '.[]|filter'
+
+
+
+ add
+    add函数将输入当做一个数组，根据数组的元素类型执行相应的操作，包括累加、字符串拼接、合并等。
+
+
+
+ range
+    range函数用于生成一组连续的数字，range(4;10)产生6个数字，从4开始，直到10(10本身不包括在内)。生成的数组将作为独立的输出。
+
+
+
+ tonumber
+    这是个类型转换函数，该函数将输入当做数字，如果输入不是标准的数字形式会报错。
+
+
+
+tostring
+    同上，也是个类型转换函数，将输入当做字符串。
+
+type
+    该函数将输入的类型当做字符串输出，可能是null，boolean、number、string、array、object的一种。
+
+
+
+ sort、sort_by
+    这是个排序函数，输入必须是数组类型。sort_by用于根据某一个字段来排序或者基于filter,sort_by(filter)会根据filter结果来进行排序。
+
+
+
+
+
+group_by(.attr)
+    分组，类似于mysql,将输入当做一个数组，指定一个属性，具有相同值的会被分到同一个数组中。
+
+
+    
+min, max, min_by, max_by
+    前两个就是取最大值和最小值，后两个可以根据指定属性取。
+
+
+
+unique
+    该函数输入是一个数组，输出一个不含重复元素的数组
+
+
+
+reverse
+    函数用于将数组翻转
+
+
+
+contains(v)
+    如果输入包含v，则该函数返回true。
+
+
+
+
+
+
+
+
+
+
+recurse
+    该函数主要用于搜索递归类型结构数据。
+
+
+
+
+
+字符串替换 \(x)
+    在一个字符串中，可以加入一个反斜杠开头的表达式：'\express'，则这个表达式的结果将会插入到字符串中。
 
 
 
