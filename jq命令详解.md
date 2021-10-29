@@ -238,7 +238,62 @@ null
 
 - 管道符用于连接两个过滤器，功能上类似与Unix shell 管道，左侧过滤器执行结果会被当做右侧过滤器的输入，如果左侧过滤器产生多个结果，则右侧过滤器会分别执行。
 ```
+[root@localhost ~]# cat threeCountry.json | jq '.[0] | .name'
+"Yemen"
+[root@localhost ~]# 
+[root@localhost ~]# cat threeCountry.json | jq '.[] | .name'
+"Yemen"
+"Zambia"
+"Zimbabwe"
+[root@localhost ~]# 
+```
+
+# 4. Types And Values(数据类型和值)
+
+jq支持和json一致的数据集，包括数字、字符串、布尔值、数组、对象和null
+
+## 数组 []
+
+- 和json一样，[]也用于构造一个数组，数组的元素可以是任意的jq表达式，表达式的结果将会组成一个数组，可以使用[]构造任何数组。
+```
+[root@localhost ~]# cat file |jq --raw-input
+"one"
+"two"
+"three"
+[root@localhost ~]# 
+[root@localhost ~]# cat file |jq --raw-input '[.]'
+[
+  "one"
+]
+[
+  "two"
+]
+[
+  "three"
+]
+[root@localhost ~]# 
+```
 
 ```
+[root@localhost ~]# echo [1,2,3] | jq '.[0]'
+1
+[root@localhost ~]# 
+[root@localhost ~]# echo [1,2,3] | jq '[.[0]]'
+[
+  1
+]
+[root@localhost ~]# 
+```
+
+
+## 对象·{}
+
+- 和json一样，{}用于构造对象，如果对象的key是大小写敏感的，则双引号可以省略，值可以是任意的jq表达式(如果是复杂的表达式，还需要使用括号括起来)，可以使用这个符号从输入中选取指定的字段。如果某个表达式生成多个结果，则对象也可能生成多个。如果key被括号括起来，则key也会被当做一个表达式。
+```
+
+```
+
+
+
 
 
