@@ -104,6 +104,89 @@ filter 各种转换操作就很多了，如 get，map，filter，map，pick，un
 parse error: Expected separator between values at line 1, column 183
 ```
 
+解析不存在的元素，会返回null
+```
+# echo '{"foo": 42, "bar": "less interesting data"}' | jq .nofoo
+null
+```
+
+# JSON 嵌套解析
+```
+# cat json_raw.txt | jq '.location.state'
+"California"
+```
+
+# JSON 数组解析
+```
+# cat json_raw.txt | jq '.employees'
+[
+  {
+    "name": "Michael",
+    "division": "Engineering"
+  },
+  {
+    "name": "Laura",
+    "division": "HR"
+  },
+  {
+    "name": "Elise",
+    "division": "Marketing"
+  }
+]
+
+# cat json_raw.txt | jq '.employees[1]'
+{
+  "name": "Laura",
+  "division": "HR"
+}
+
+# cat json_raw.txt | jq '.employees[1].name'
+"Laura"
+```
+
+# 使用`keys`函数，获取JSON中的 key 元素
+```
+# cat json_raw.txt | jq .
+{
+  "name": "Google",
+  "location": {
+    "street": "1600 Amphitheatre Parkway",
+    "city": "Mountain View",
+    "state": "California",
+    "country": "US"
+  },
+  "employees": [
+    {
+      "name": "Michael",
+      "division": "Engineering"
+    },
+    {
+      "name": "Laura",
+      "division": "HR"
+    },
+    {
+      "name": "Elise",
+      "division": "Marketing"
+    }
+  ]
+}
+
+# cat json_raw.txt | jq 'keys'
+[
+  "employees",
+  "location",
+  "name"
+]
+```
+
+# has函数，判断是否存在某个key
+```
+# cat json_raw.txt | jq 'has("name")'
+true
+# cat json_raw.txt | jq 'has("noexisted")'
+false
+```
+
 # 示例
 
 紧凑输出json数据
