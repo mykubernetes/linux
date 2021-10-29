@@ -63,60 +63,139 @@ filter 各种转换操作就很多了，如 get，map，filter，map，pick，un
 - sort
 - group_by
 
-demo.jsonl，jsonl 即每行都是一个 json，常用在日志格式中
+# 示例
+
+紧凑输出json数据
 ```
-{"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}}
-{"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+[root@linux-man src]# jq -c . test.json
+[{"lon":113.30765,"name":"广州市","code":"4401","lat":23.422825},{"lon":113.59446,"name":"韶关市","code":"4402","lat":24.80296}]
 ```
 
-由于在后端 API 中会是以 json 的格式返回，再次创建一个样例 demo.json
+根据输出结果设置命令退出状态码
 ```
+[root@linux-man src]# jq -c -e  '.[0]|{names}|.names' test.json
+null
+[root@linux-man src]# echo $?
+1
+```
+
+读取所有输出到一个数组(也就是所在json数据最外层套一个数组)
+```
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq -r .
+{
+  "safd": "fsafd"
+}
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq -s .
 [
-  {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}},
-  {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+  {
+    "safd": "fsafd"
+  }
 ]
 ```
 
-json格式转jsonl格式
+输出原始字符串，而不是一个JSON格式
 ```
-$ cat demo.json | jq '.[]'
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq  .[]
+"fsafd"
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq -r .[]
+fsafd
+```
+
+单色显示
+```
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq  .
 {
-  "name": "shanyue",
-  "age": 24,
-  "friend": {
-    "name": "shuifeng"
-  }
+  "safd": "fsafd"
 }
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq  -M .
 {
-  "name": "shuifeng",
-  "age": 25,
-  "friend": {
-    "name": "shanyue"
-  }
+  "safd": "fsafd"
 }
 ```
 
-jsonl格式转json格式
+排序对象
 ```
-# -s: 代表把 jsonl 组成数组处理
-$ cat demo.jsonl | jq -s '.'
+[root@linux-man src]# jq . test.json 
 [
   {
-    "name": "shanyue",
-    "age": 24,
-    "friend": {
-      "name": "shuifeng"
-    }
+    "lon": 113.30765,
+    "name": "广州市",
+    "code": "4401",
+    "lat": 23.422825
   },
   {
-    "name": "shuifeng",
-    "age": 25,
-    "friend": {
-      "name": "shanyue"
-    }
+    "lon": 113.59446,
+    "name": "韶关市",
+    "code": "4402",
+    "lat": 24.80296
+  }
+]
+[root@linux-man src]# jq -S . test.json 
+[
+  {
+    "code": "4401",
+    "lat": 23.422825,
+    "lon": 113.30765,
+    "name": "广州市"
+  },
+  {
+    "code": "4402",
+    "lat": 24.80296,
+    "lon": 113.59446,
+    "name": "韶关市"
   }
 ]
 ```
+
+以table缩进
+```
+[root@linux-man src]# echo '{"safd":"fsafd"}' | jq  --tab .
+{
+    "safd": "fsafd"
+}
+```
+
+获取上面地理json数据里的name值
+```
+[root@linux-man src]# jq '.[]|{name}' test.json 
+{
+  "name": "广州市"
+}
+{
+  "name": "韶关市"
+}
+```
+
+获取第一个name值
+```
+[root@linux-man src]# jq '.[0]|{name}' test.json 
+{
+  "name": "广州市"
+}
+```
+
+只打印出第一个map的值：
+```
+[root@linux-man src]# jq '.[0]|.[]' test.json 
+113.30765
+"广州市"
+"4401"
+23.422825
+```
+
+打印出一个map的name值
+```
+[root@linux-man src]# jq '.[0]|.name' test.json 
+"广州市"
+```
+
+打印出一个map的name值并已普通字符串显示
+```
+[root@linux-man src]# jq -r '.[0]|.name' test.json 
+广州市
+```
+
+
 
 原始数据
 ---
