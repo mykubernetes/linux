@@ -320,6 +320,20 @@ true
 false
 ```
 
+# 返回元素的长度length
+```
+# echo '{"a":1,"b":2,"c":3,"d":4}' | jq 'length'
+4
+
+# echo '[{"a":1,"c":2}, "string", {"a":2}, null]' | jq '.[] | length'
+2                # {"a":1,"c":2}的个数
+6                # string的个数
+1                #  {"a":2}的个数
+0                # null的个数
+
+```
+
+
 # 示例
 
 紧凑输出json数据
