@@ -976,6 +976,127 @@ false
 "The input was 42, which is one less than 43"
 ```
 
+# 6. Conditionals And Comparisons(条件和比较)
+
+## == , !=
+
+- 表达式==只有在两个参数完全相等时才返回true,其他情况返回FALSE，表达式!=与之相反。
+```
+[root@localhost ~]# jq '.[] ==1'
+[1, 1.0, "1", "banana"]
+true
+true
+false
+false
+```
+
+## if-then-else
+
+- 表达式必须明确返回true或者FALSE，如果表达式返回false或者null会被当做false，如果返回0也是false.
+```
+[root@localhost ~]# jq 'if . == 0 then "zero" elif . == 1 then "one" else "many" end'
+2
+"many"
+1
+"one"
+0
+"zero"
+```
+
+## >、>=、<=、<
+
+- 这几个比较运算符和算术比较运算符逻辑类似，结果返回true或者false
+```
+[root@localhost ~]# jq '. < 5'
+4
+true
+10
+false
+```
+
+## and/or/not
+
+- 布尔运算符，这里值得注意的地方是如果有一个操作数生成了多个结果，则运算符会针对每个结果运算一遍。
+```
+[root@localhost ~]# jq '42 and "a string"' --null-input
+true
+[root@localhost ~]# 
+[root@localhost ~]# jq '(true, false) or false' --null-input
+true
+false
+[root@localhost ~]# 
+[root@localhost ~]# jq '(true, true) and (true, false)' --null-input
+true
+false
+true
+false
+[root@localhost ~]# 
+[root@localhost ~]# jq '[true, false | not ]' --null-input
+[
+  false,
+  true
+]
+[root@localhost ~]# 
+```
+
+## 替代运算符
+
+- 如果一个过滤器表达式以 a//b的形式出现，如果a的结果不是false和null，则该过滤器结果为a的结果，否则为b表达式的结果。这个表达式对于提供默认值非常有用。
+```
+[root@localhost ~]# jq '.foo // 42'
+{"foo": 19}
+19
+
+^C
+[root@localhost ~]# jq '.foo // 42'
+{}
+42
+```
 
 
+# 7. Advanced Features(高级特性)
 
+在其它编程语言中，变量是不可或缺的一部分。在JQ中，变量属于一种高级特性。在大部分语言里，变量是传递临时数据的唯一方式，如果你要计算一个值，并且之后在其它地方还要用到，你需要使用变量来存储它。为了给程序的其它函数传递值，你需要定义一个变量(作为函数参数等)。在jq中变量很少使用，但是也是可以定义的，主要用于定义一些标准库(很多jq函数就是这么实现的，比如map和find)。
+
+jq还有一个reduce操作，很强大但是使用起来需要一点技巧。这个操作主要用于jq内部操作。
+
+在jq中，我们可以使用表达式 exp as $x | .... 的方式来定义变量。对于exp生成的每一个值，都会单独执行后续的操作，这里的as就像一个遍历操作。
+
+除了定义变量外，还可以使用def 语法定义函数。
+
+reduce语法主要用于累积表达式生成的所有结果。
+
+```
+[root@localhost ~]# jq '.bar as $x | .foo | . + $x'
+{"foo":10, "bar":200}
+210
+
+^C
+[root@localhost ~]# jq 'def addvalue(f): . + [f]; map(addvalue(.[0]))'
+[[1,2],[10,20]]
+[
+  [
+    1,
+    2,
+    1
+  ],
+  [
+    10,
+    20,
+    10
+  ]
+]
+```
+
+```
+[root@localhost ~]# jq 'reduce .[] as $item (0; . + $item)'
+[10,2,5,3]
+20
+```
+
+
+# 8. 参考文档：
+
+- 1. 官方文档  https://stedolan.github.io/jq/manual/
+- 2. https://linuxcommandlibrary.com/man/jq#assignment
+- 3. https://blog.51cto.com/u_15352922/3742179
