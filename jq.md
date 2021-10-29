@@ -46,20 +46,22 @@ Usage:  jq [options] <jq filter> [file...]
 有关更多选项，请参见手册页。
 ```
 
-option
-- -s: 把读取的 jsonl 视作数组来处理 (如 group, sort 只能以数组作为输入)
-- -c: 不对输出的 json 做格式化，一行输出
+# filter
+- filter 各种转换操作有很多，如 get，map，filter，map，pick，uniq，group 等操作
 
-
-filter
-
-filter 各种转换操作就很多了，如 get，map，filter，map，pick，uniq，group 等操作
-- .: 代表自身
-- .a.b: 相当于 _.get(input, 'a.b')
-- select(bool): 相当于 _.filter(boolFn)
-- map_values: 相当于 _.map，不过 jq 无法单独操作 key
-- sort
-- group_by
+```
+.              默认输出
+.foo           输出指定属性，foo代表属性。
+.[foo]         输出指定数组元素。foo代表数组下标。
+.[]            输出指定数组中全部元素
+，             指定多个属性作为过滤条件时，用逗号分隔
+|              将指定的数组元素中的某个属性作为过滤条件
+.a.b           相当于 _.get(input, 'a.b')
+select(bool)   相当于 _.filter(boolFn)
+map_values     相当于 _.map，不过 jq 无法单独操作 key
+sort
+group_by
+```
 
 # 正确的json格式可以解析出结果
 ```
