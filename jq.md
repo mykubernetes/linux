@@ -1,5 +1,7 @@
 官网https://stedolan.github.io/jq/manual/
 
+https://www.linuxidc.com/Linux/2017-10/148037.htm
+
 # 查看`jq`帮助信息
 ```
 # jq --help
@@ -269,13 +271,14 @@ echo '[{"a":1,"b":2},{"a":3,"d":4}]' | jq '.[] | .a'
 3
 ```
 
-
-
-
-
-
-
-
+# 自定义变量
+```
+#  cat json_raw.txt |jq --arg name Laura '.employees[] | select(.name == $name)'
+{
+  "name": "Laura",
+  "division": "HR"
+}
+```
 
 # 使用`keys`函数，获取JSON中的 key 元素
 ```
@@ -332,7 +335,6 @@ false
 6                # string的个数
 1                #  {"a":2}的个数
 0                # null的个数
-
 ```
 
 
@@ -497,36 +499,8 @@ fsafd
 }
 ```
 
-1、格式化输出
-```
-# cat 1.txt | jq .
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25,
-  "address": {
-    "streetAddress": "21 2nd Street",
-    "city": "New York",
-    "state": "NY",
-    "postalCode": "10021"
-  },
-  "phoneNumber": [
-    {
-      "type": "home",
-      "number": "212 555-1234"
-    },
-    {
-      "type": "fax",
-      "number": "646 555-4567"
-    }
-  ],
-  "gender": {
-    "type": "male"
-  }
-```
 
-
-2、. (_.get)
+1、. (_.get)
 ```
 $ cat demo.jsonl | jq '.name'
 "shanyue"
@@ -542,7 +516,7 @@ $ cat demo.jsonl | jq '.name'
 }
 ```
 
-3、解析数组中的元素
+2、解析数组中的元素
 ```
 获取电话信息
 # cat 1.txt | jq  .phoneNumber[]
@@ -561,7 +535,6 @@ $ cat demo.jsonl | jq '.name'
   "type": "home",
   "number": "212 55
 ```
-
 
 3、{} (_.pick)
 ```
