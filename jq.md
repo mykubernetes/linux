@@ -108,13 +108,93 @@ parse error: Expected separator between values at line 1, column 183
 null
 ```
 
-# JSON 嵌套解析
+# 从json内容提取
+
+1、获取指定字段的值
 ```
-# cat json_raw.txt | jq '.location.state'
-"California"
+# cat json_raw.txt |jq .name
+"Google"
+```
+
+2、使用逗号分隔，取多个字段的值；返回值以换行分隔
+```
+# cat json_raw.txt |jq ".name,.location"
+"Google"
+{
+  "street": "1600 Amphitheatre Parkway",
+  "city": "Mountain View",
+  "state": "California",
+  "country": "US"
+}
+```
+
+3、提取employees数组的全部元素
+```
+# cat json_raw.txt |jq ".employees[]"
+{
+  "name": "Michael",
+  "division": "Engineering"
+}
+{
+  "name": "Laura",
+  "division": "HR"
+}
+{
+  "name": "Elise",
+  "division": "Marketing"
+}
+```
+
+4、提取employees数组的多个元素
+```
+# cat json_raw.txt |jq ".employees[0,2]"
+{
+  "name": "Michael",
+  "division": "Engineering"
+}
+{
+  "name": "Elise",
+  "division": "Marketing"
+}
 ```
 
 # JSON 数组解析
+
+1、从数组中提取单个数据
+```
+[root@localhost ~]# echo '[{"a":1,"b":2},{"c":3,"d":4}]' | jq .[0]
+{
+  "a": 1,
+  "b": 2
+}
+```
+
+2、从数组中提取所有数据
+```
+[root@localhost ~]# echo '[{"a":1,"b":2},{"c":3,"d":4}]' | jq .[]
+{
+  "a": 1,
+  "b": 2
+}
+{
+  "c": 3,
+  "d": 4
+}
+```
+
+3、过滤多个值
+```
+[root@localhost ~]# echo '[{"a":1,"b":2},{"c":3,"d":4}]' | jq .[0,1]
+{
+  "a": 1,
+  "b": 2
+}
+{
+  "c": 3,
+  "d": 4
+}
+```
+
 ```
 # 1、解析到数组的数据
 # cat json_raw.txt | jq '.employees'
