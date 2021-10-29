@@ -467,27 +467,76 @@ jq支持和json一致的数据集，包括数字、字符串、布尔值、数�
 该函数获取不同类型值的长度。
 
 - 如果是字符串，则输出unicode代码点数量。也可以使用utf8bytelength 输出字符数量
-
+```
+[root@localhost ~]# jq '.[1].name' threeCountry.json 
+"中国"
+[root@localhost ~]# jq '.[1].name | length' threeCountry.json 
+2
+[root@localhost ~]# jq '.[1].name | utf8bytelength' threeCountry.json 
+6
+[root@localhost ~]#
+```
 
 - 如果是数组，则输出数组元素个数
-
+```
+[root@localhost ~]# echo [1,3,5,7,9] | jq length
+5
+[root@localhost ~]#
+```
 
 - 如果是对象，则输出key-value 组的个数
-
+```
+[root@localhost ~]# jq '.[0]' threeCountry.json 
+{
+  "name": "Yemen",
+  "dial_code": "+967",
+  "code": "YE"
+}
+[root@localhost ~]# 
+[root@localhost ~]# jq '.[0] | length' threeCountry.json 
+3
+[root@localhost ~]# 
+```
 
 - 如果是null，则为0
-
+```
+[root@localhost ~]# jq --null-input length
+0
+[root@localhost ~]# 
+```
  
 
 ## keys
 
 - 如果输入是个对象，则输出一个包含该对象所有key的数组。
-
-
+```
+[root@localhost ~]# jq '.[0]' threeCountry.json 
+{
+  "name": "Afghanistan",
+  "dial_code": "+93",
+  "code": "AF"
+}
+[root@localhost ~]# jq '.[0] | keys' threeCountry.json 
+[
+  "code",
+  "dial_code",
+  "name"
+]
+[root@localhost ~]# 
+```
 
 - 如果输入是个数组，则输出该数组合法的索引。
-
-
+```
+[root@localhost ~]# echo [1,3,5,7,9] | jq keys
+[
+  0,
+  1,
+  2,
+  3,
+  4
+]
+[root@localhost ~]#
+```
 
 ## has
 
