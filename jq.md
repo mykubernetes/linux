@@ -63,6 +63,47 @@ filter 各种转换操作就很多了，如 get，map，filter，map，pick，un
 - sort
 - group_by
 
+# 正确的json格式可以解析出结果
+```
+# cat json_raw.txt 
+{"name":"Google","location":{"street":"1600 Amphitheatre Parkway","city":"Mountain View","state":"California","country":"US"},"employees":[{"name":"Michael","division":"Engineering"},{"name":"Laura","division":"HR"},{"name":"Elise","division":"Marketing"}]}
+
+# cat json_raw.txt |jq .
+{
+  "name": "Google",
+  "location": {
+    "street": "1600 Amphitheatre Parkway",
+    "city": "Mountain View",
+    "state": "California",
+    "country": "US"
+  },
+  "employees": [
+    {
+      "name": "Michael",
+      "division": "Engineering"
+    },
+    {
+      "name": "Laura",
+      "division": "HR"
+    },
+    {
+      "name": "Elise",
+      "division": "Marketing"
+    }
+  ]
+}
+```
+
+# 不正确的json格式，使用jq时会报错
+```
+# cat json_err.txt
+{"name":"Google","location":{"street":"1600 Amphitheatre Parkway","city":"Mountain View","state":"California","country":"US"},"employees":[{"name":"Michael","division":"Engineering"}{"name":"Laura","division":"HR"},{"name":"Elise","division":"Marketing"}]
+
+# 上面JSON中加粗和斜体部分，遗漏了一个逗号，所以这个JSON是错误的，jq轻松的可以轻松的检查出来：
+# cat json_err.txt |jq .
+parse error: Expected separator between values at line 1, column 183
+```
+
 # 示例
 
 紧凑输出json数据
@@ -194,6 +235,9 @@ fsafd
 [root@linux-man src]# jq -r '.[0]|.name' test.json 
 广州市
 ```
+
+
+
 
 
 
@@ -359,9 +403,6 @@ $ cat demo.jsonl | jq -s '. | sort_by(.age) | .[] | {name, age}'
 ```
 
 
-
-
-
 将CSV数据转换为json
 
 csv数据
@@ -380,10 +421,6 @@ EOF
 {"uid":"1529","name":"lucy","age":25}
 {"uid":"1673","name":"iris","age":22}
 ```
-
-
-
-
 
 
 
