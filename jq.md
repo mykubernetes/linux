@@ -46,8 +46,6 @@ Usage:  jq [options] <jq filter> [file...]
 有关更多选项，请参见手册页。
 ```
 
-
-
 option
 - -s: 把读取的 jsonl 视作数组来处理 (如 group, sort 只能以数组作为输入)
 - -c: 不对输出的 json 做格式化，一行输出
@@ -118,6 +116,7 @@ null
 
 # JSON 数组解析
 ```
+# 1、解析到数组的数据
 # cat json_raw.txt | jq '.employees'
 [
   {
@@ -134,18 +133,21 @@ null
   }
 ]
 
+# 2、从数组中通过索引找到需要的数据
 # cat json_raw.txt | jq '.employees[1]'
 {
   "name": "Laura",
   "division": "HR"
 }
 
+# 3、通过索引找到对应的值
 # cat json_raw.txt | jq '.employees[1].name'
 "Laura"
 ```
 
 # 使用`keys`函数，获取JSON中的 key 元素
 ```
+# 1、json文件
 # cat json_raw.txt | jq .
 {
   "name": "Google",
@@ -171,6 +173,7 @@ null
   ]
 }
 
+# 2、通过json文件解析出key
 # cat json_raw.txt | jq 'keys'
 [
   "employees",
