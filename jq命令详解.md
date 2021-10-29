@@ -847,38 +847,134 @@ jq: 1 compile error
 [root@localhost ~]#
 ```
 
-
 ## reverse
 
 - 函数用于将数组翻转
-
-
+```
+[root@localhost ~]# echo [1,2,3,4,5] |jq .
+[
+  1,
+  2,
+  3,
+  4,
+  5
+]
+[root@localhost ~]# echo [1,2,3,4,5] |jq reverse
+[
+  5,
+  4,
+  3,
+  2,
+  1
+]
+[root@localhost ~]#
+```
 
 ## contains(v)
 
 - 如果输入包含v，则该函数返回true。
+```
+[root@localhost ~]# jq 'contains("bar")'
+"foobar"    
+true
+```
 
+```
+[root@localhost ~]# jq 'contains(["baz","bar"])'
+["foobar","foobaz","blarp"]                      
+true
+```
 
+```
+[root@localhost ~]# jq 'contains(["bazzzzzz","bar"])'
+["foobar", "foobaz","blarp"]
+false
+```
 
+```
+[root@localhost ~]# jq 'contains({foo: 12, bar: [{barp: 12}]})'
+{"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]}
+true
+```
 
-
-
-
-
-
+```
+[root@localhost ~]# jq 'contains({foo: 12, bar: [{barp: 15}]})'
+{"foo": 12, "bar":[1,2,{"barp":12, "blip":13}]}
+false
+```
 
 ## recurse
 
 - 该函数主要用于搜索递归类型结构数据。
+```
+[root@localhost ~]# jq .
+{"name": "/", "children": [
+{"name": "/bin", "children": [
+{"name": "/bin/ls", "children": []},
+{"name": "/bin/sh", "children": []}]},
+{"name": "/home", "children": [
+{"name": "/home/stephen", "children": [
+{"name": "/home/stephen/jq", "children": []}]}]}]}
+{
+  "name": "/",
+  "children": [
+    {
+      "name": "/bin",
+      "children": [
+        {
+          "name": "/bin/ls",
+          "children": []
+        },
+        {
+          "name": "/bin/sh",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "/home",
+      "children": [
+        {
+          "name": "/home/stephen",
+          "children": [
+            {
+              "name": "/home/stephen/jq",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
 
-
-
-
+```
+[root@localhost ~]# jq 'recurse(.children[]) | .name'
+{"name": "/", "children": [
+{"name": "/bin", "children": [
+{"name": "/bin/ls", "children": []},
+{"name": "/bin/sh", "children": []}]},
+{"name": "/home", "children": [
+{"name": "/home/stephen", "children": [
+{"name": "/home/stephen/jq", "children": []}]}]}]}
+"/"
+"/bin"
+"/bin/ls"
+"/bin/sh"
+"/home"
+"/home/stephen"
+"/home/stephen/jq"
+```
 
 ## 字符串替换 \(x)
 
 - 在一个字符串中，可以加入一个反斜杠开头的表达式：'\express'，则这个表达式的结果将会插入到字符串中。
-
+```
+[root@localhost ~]# jq '"The input was \(.), which is one less than \(.+1)"'
+42
+"The input was 42, which is one less than 43"
+```
 
 
 
