@@ -2,8 +2,6 @@
 
 https://github.com/stedolan/jq/blob/master/docs/content/manual/manual.yml
 
-https://www.linuxidc.com/Linux/2017-10/148037.htm
-
 # 查看`jq`帮助信息
 ```
 # jq --help
