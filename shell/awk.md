@@ -1,7 +1,22 @@
 # 1.Awk基础介绍
 
-## 1.什么是awk
-- awk不仅仅是一个文本处理工具，通常用于处理数据并生成结果报告。当然awk也是一门编程语言，是linux上功能最强大的数据处理工具之一。
+
+
+
+## 1.命令选项
+- -F fs or --field-separator fs ：指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F:。
+- -v var=value or --asign var=value ：赋值一个用户定义变量。
+- -f scripfile or --file scriptfile ：从脚本文件中读取awk命令。
+- -mf nnn and -mr nnn ：对nnn值设置内在限制，-mf选项限制分配给nnn的最大块数目；-mr选项限制记录的最大数目。这两个功能是Bell实验室版awk的扩展功能，在标准awk中不适用。
+- -W compact or --compat, -W traditional or --traditional ：在兼容模式下运行awk。所以gawk的行为和标准的awk完全一样，所有的awk扩展都被忽略。
+- -W copyleft or --copyleft, -W copyright or --copyright ：打印简短的版权信息。
+- -W help or --help, -W usage or --usage ：打印全部awk选项和每个选项的简短说明。
+- -W lint or --lint ：打印不能向传统unix平台移植的结构的警告。
+- -W lint-old or --lint-old ：打印关于不能向传统unix平台移植的结构的警告。
+- -W posix ：打开兼容模式。但有以下限制，不识别：/x、函数关键字、func、换码序列以及当fs是一个空格时，将新行作为一个域分隔符；操作符**和**=不能代替^和^=；fflush无效。
+- -W re-interval or --re-inerval ：允许间隔正则表达式的使用，参考(grep中的Posix字符类)，如括号表达式[[:alpha:]]。
+- -W source program-text or --source program-text ：使用program-text作为源代码，可与-f命令混用。
+- -W version or --version ：打印bug报告信息的版本。
 
 ## 2.awk语法格式
 ```
@@ -62,7 +77,7 @@ awk [options] -f awk-script-file filenames
 
 要想了解awk的一些内部变量需要先准备如下数据文件。
 ```
-[root@oldxu ~]# cat awk_file.txt
+# cat awk_file.txt
 ll 1990 50 51 61
 kk 1991 60 52 62
 hh 1992 70 53 63
@@ -88,7 +103,7 @@ mm
 
 #2.指定多个分隔符，获取第一列内容
 ```
-[root@oldxu ~]# cat awk_file.txt
+# cat awk_file.txt
 ll:1990 50 51 61
 kk:1991 60 52 62
 hh 1992 70 53 63
@@ -97,7 +112,7 @@ mm 1994 90 55 65
 
 #以冒号或空格为分隔符
 
-[root@oldxu ~]# awk -F '[: ]' '{print $2}' awk_file.txt
+# awk -F '[: ]' '{print $2}' awk_file.txt
 1990
 1991
 1992
@@ -106,7 +121,7 @@ mm 1994 90 55 65
 
 #4.指定多个分隔符
 
-[root@oldxu ~]# cat awk_file.txt
+# cat awk_file.txt
 ll::1990 50 51 61
 kk:1991 60 52 62
 hh 1992 70 53 63
@@ -114,7 +129,7 @@ jj 1993 80 54 64
 mm 1994 90 55 65
 
 #[: ]+连续的多个冒号当一个分隔符，连续的多个空格当一个分隔符，连续空格和冒号也当做一个字符来处理
-[root@oldxu ~]# awk -F '[: ]+' '{print $2}' awk_file.txt
+# awk -F '[: ]+' '{print $2}' awk_file.txt
 1990
 1991
 1992
@@ -125,7 +140,7 @@ mm 1994 90 55 65
 3.awk内置变量NF，保存每行的最后一列
 ```
 #1.通过print打印，NF和$NF，你发现了什么?
-[root@oldxu ~]# awk '{print NF,$NF}' awk_file.txt
+# awk '{print NF,$NF}' awk_file.txt
 5 61
 5 62
 5 63
@@ -133,7 +148,7 @@ mm 1994 90 55 65
 5 65
 
 #F: 如果将第五行的55置为空，那么该如何在获取最后一列的数字?
-[root@oldxu ~]# awk '{print $5}' awk_file.txt
+# awk '{print $5}' awk_file.txt
 61
 62
 63
@@ -142,7 +157,7 @@ mm 1994 90 55 65
 #最后一列为空，为什么?
 
 #Q.使用$NF为什么就能成功?(因为NF变量保存的是每一行的最后一列)
-[root@oldxu ~]# awk '{print $NF}' awk_file.txt
+# awk '{print $NF}' awk_file.txt
 61
 62
 63
@@ -150,7 +165,7 @@ mm 1994 90 55 65
 65
 
 #2.如果一个文件很长，靠数列数需要很长的时间，那如何快速打印倒数第二列?
-[root@oldxu ~]# awk '{print $(NF-1)}' awk_file.txt
+# awk '{print $(NF-1)}' awk_file.txt
 51
 52
 53
@@ -205,6 +220,75 @@ mysql:mongodb
 ```
 [root@openvpn-192 ~]# awk 'BEGIN{RS="--";FS="|";OFS=":";ORS="----"} {print $1,$3}' file.txt
 Linux:Nginx----docker:jenkins----mysql:mongodb
+```
+
+8、统计/etc/passwd:文件名，每行的行号，每行的列数，对应的完整行内容:
+```
+# awk -F ':' '{print "filename:" FILENAME ",linenumber:" NR ",columns:" NF ",linecontent:"$0}' /etc/passwd
+filename:/etc/passwd,linenumber:1,columns:7,linecontent:root:x:0:0:root:/root:/bin/bash
+filename:/etc/passwd,linenumber:2,columns:7,linecontent:daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+filename:/etc/passwd,linenumber:3,columns:7,linecontent:bin:x:2:2:bin:/bin:/bin/sh
+filename:/etc/passwd,linenumber:4,columns:7,linecontent:sys:x:3:3:sys:/dev:/bin/sh
+```
+
+9、使用printf替代print,可以让代码更加简洁，易读
+```
+# awk -F ':' '{printf("filename:%10s,linenumber:%s,columns:%s,linecontent:%s\n",FILENAME,NR,NF,$0)}' /etc/passwd
+```
+
+10、当前shell环境变量及其值的关联数组
+```
+# awk 'BEGIN{print ENVIRON["PATH"]}'
+/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/mysql/bin:/root/bin:/usr/lib64
+```
+
+
+## awk自定义变量
+
+1. 下面统计/etc/passwd的账户人数:
+```
+# awk '{count++;print $0;} END{print "user count is ", count}' /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+......
+user count is  40
+```
+count是自定义变量。之前的action{}里都是只有一个print,其实print只是一个语句，而action{}可以有多个语句，以;号隔开。
+
+2. 这里没有初始化count，虽然默认是0，但是妥当的做法还是初始化为0:
+```
+# awk 'BEGIN {count=0;print "[start]user count is ", count} {count=count+1;print $0;} END{print "[end]user count is ", count}' /etc/passwd
+[start]user count is 0 root:x:0:0:root:/root:/bin/bash
+...
+[end]user count is 40
+```
+
+3. 统计某个文件夹下的文件占用的字节数:
+```
+# ls -l |awk 'BEGIN {size=0;} {size=size+$5;} END{print "[end]size is ", size}'
+[end]size is  8657198
+```
+
+4 如果以M为单位显示:
+```
+# ls -l |awk 'BEGIN {size=0;} {size=size+$5;} END{print "[end]size is ", size/1024/1024,"M"}'
+[end]size is  8.25889 M
+```
+- 注意，统计不包括文件夹的子目录。
+
+1 在脚本中赋值变量
+
+在gawk中给变量赋值使用赋值语句进行，例如：
+```
+# awk ' BEGIN {test="hello" ;print test }'
+hello
+```
+
+2 在命令行中使用赋值变量
+
+gawk命令也可以在“脚本”外为变量赋值，并在脚本中进行引用。例如，上述的例子还可以改写为：
+```
+# awk -v test="hello" ' BEGIN {print test }'
+hello
 ```
 
 # 4.Awk格式输出
@@ -563,6 +647,28 @@ oldgao      85    95    75    90
 [root@oldxu ~]# awk 'BEGIN{printf "%-20s%-20s%-20s%-20s%-20s%-20s\n","Name","Chinese","English","Math","Physical","Average"}{sum=$2+$3+$4+$5;avg=sum/4}{if(avg>90) printf "%-20s%-20d%-20d%-20d%-20d%-0.2f\n",$1,$2,$3,$4,$5,avg}' student.txt 
 ```
 
+## 条件语句
+
+统计某个文件夹下的文件占用的字节数,过滤4096大小的文件(一般都是文件夹):
+```
+# ls -l |awk 'BEGIN {size=0;print "[start]size is ", size} {if($5!=4096){size=size+$5;}} END{print "[end]size is ", size/1024/1024,"M"}'
+[start]size is  0
+[end]size is  8.22339 M
+```
+
+## 循环语句
+
+显示/etc/passwd的账户:
+```
+# awk -F ':' 'BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i < NR; i++) print i, name[i]}' /etc/passwd
+0 root
+1 daemon
+2 bin
+3 sys
+4 sync
+5 games
+......
+```
 
 # 7.Awk循环语句
 
@@ -1056,6 +1162,178 @@ in运算符，判断数组中是否存在该键值。
 # awk '{if($9~/404/)a[$1" "$9]++}END{for(i in a)print v,a[v]}' access.log
 ```
 
+## 控制语句：
 
+if-else
+`语法：if (condition) {then-body} else {[ else-body ]}`
+```
+[root@sta ~]# awk -F: '{if ($1=="root") print $1, "Admin"; else print $1, "Common User"}' /etc/passwd |head -n 3
+root Admin
+bin Common User
+daemon Common User
+```
+
+while
+
+`语法： while (condition){statement1; statment2; …}`
+```
+awk -F: '{i=1;while (i<=3) {print $i;i++}}' /etc/passwd
+awk -F: '{i=1;while (i<=NF) { if (length($i)>=4) {print $i}; i++ }}' /etc/passwd
+```
+
+do-while
+
+`语法： do {statement1, statement2, …} while (condition)`
+```
+[root@sta ~]# awk -F : '{ i=1 ; while( i<=NF) {if(length($i)>4) {print $i}; i++ } }' /etc/passwd |head -n 3
+/root
+/bin/bash
+/sbin/nologin
+```
+
+for
+`语法： for ( variable assignment; condition; iteration process) { statement1, statement2, …}`
+```
+[root@sta ~]# awk -F : '{ for(i=1;i<=NF;i++) {if(length($i)>4) {print $i}; i++ } }' /etc/passwd |head -n 3
+/bin/bash
+/sbin/nologin
+daemon
+```
+
+for循环还可以用来遍历数组元素：
+
+`语法： for (i in array) {statement1, statement2, …}`
+```
+[root@localhost ~]# awk -F: '{shell[$NF]++} END{for (A in shell) {print A,shell[A]} }' /etc/passwd #查看用户shell
+/bin/sync 1
+/bin/bash 2
+/sbin/nologin 26
+/sbin/halt 1
+/sbin/shutdown 1
+```
+
+case
+
+`语法：switch (expression) { case VALUE or /REGEXP/: statement1, statement2,… default: statement1, …}`
+
+break 和 continue
+
+常用于循环或case语句中
+
+next
+
+提前结束对本行文本的处理，并接着处理下一行；例如，下面的命令将显示其ID号为奇数的用户：
+```
+# awk -F: '{if($3%2==0) next;print $1,$3}' /etc/passwd |head -n 3
+bin 1
+adm 3
+sync 5
+```
+
+## 常见用法
+
+Linux Web服务器网站故障分析常用的命令
+
+系统连接状态篇：
+
+1.查看TCP连接状态
+```
+netstat -nat |awk ‘{print $6}’|sort|uniq -c|sort -rn
+netstat -n | awk ‘/^tcp/ {++S[$NF]};END {for(a in S) print a, S[a]}’ 或
+netstat -n | awk ‘/^tcp/ {++state[$NF]}; END {for(key in state) print key,"\t",state[key]}’
+netstat -n | awk ‘/^tcp/ {++arr[$NF]};END {for(k in arr) print k,"t",arr[k]}’
+netstat -n |awk ‘/^tcp/ {print $NF}’|sort|uniq -c|sort -rn
+netstat -ant | awk ‘{print $NF}’ | grep -v ‘[a-z]‘ | sort | uniq -c
+```
+
+2.查找请求数请20个IP（常用于查找攻来源）：
+```
+netstat -anlp|grep 80|grep tcp|awk ‘{print $5}’|awk -F: ‘{print $1}’|sort|uniq -c|sort -nr|head -n20
+netstat -ant |awk ‘/:80/{split($5,ip,":");++A[ip[1]]}END{for(i in A) print A[i],i}’ |sort -rn|head -n20
+```
+
+3.用tcpdump嗅探80端口的访问看看谁最高
+```
+tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." ‘{print $1"."$2"."$3"."$4}’ | sort | uniq -c | sort -nr |head -20
+```
+
+4.查找较多time_wait连接
+```
+netstat -n|grep TIME_WAIT|awk ‘{print $5}’|sort|uniq -c|sort -rn|head -n20
+```
+
+5.找查较多的SYN连接
+```
+netstat -an | grep SYN | awk ‘{print $5}’ | awk -F: ‘{print $1}’ | sort | uniq -c | sort -nr | more
+```
+
+6.根据端口列进程
+```
+netstat -ntlp | grep 80 | awk ‘{print $7}’ | cut -d/ -f1
+```
+
+网站日志分析篇1（Apache）：
+
+1.获得访问前10位的ip地址
+```
+cat access.log|awk ‘{print $1}’|sort|uniq -c|sort -nr|head -10
+cat access.log|awk ‘{counts[$(11)]+=1}; END {for(url in counts) print counts[url], url}’
+```
+
+2.访问次数最多的文件或页面,取前20
+```
+cat access.log|awk ‘{print $11}’|sort|uniq -c|sort -nr|head -20
+```
+
+3.列出传输最大的几个exe文件（分析下载站的时候常用）
+```
+cat access.log |awk ‘($7~/.exe/){print $10 " " $1 " " $4 " " $7}’|sort -nr|head -20
+```
+
+4.列出输出大于200000byte(约200kb)的exe文件以及对应文件发生次数
+```
+cat access.log |awk ‘($10 > 200000 && $7~/.exe/){print $7}’|sort -n|uniq -c|sort -nr|head -100
+```
+
+5.如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面
+```
+cat access.log |awk ‘($7~/.php/){print $NF " " $1 " " $4 " " $7}’|sort -nr|head -100
+```
+
+6.列出最最耗时的页面(超过60秒的)的以及对应页面发生次数
+```
+cat access.log |awk ‘($NF > 60 && $7~/.php/){print $7}’|sort -n|uniq -c|sort -nr|head -100
+```
+
+7.列出传输时间超过 30 秒的文件
+```
+cat access.log |awk ‘($NF > 30){print $7}’|sort -n|uniq -c|sort -nr|head -20
+```
+
+8.统计网站流量（G)
+```
+cat access.log |awk ‘{sum+=$10} END {print sum/1024/1024/1024}’
+```
+
+9.统计404的连接
+```
+awk ‘($9 ~/404/)’ access.log | awk ‘{print $9,$7}’ | sort
+```
+
+10. 统计http status
+```
+cat access.log |awk ‘{counts[$(9)]+=1}; END {for(code in counts) print code, counts[code]}'
+cat access.log |awk '{print $9}'|sort|uniq -c|sort -rn
+```
+
+11.蜘蛛分析，查看是哪些蜘蛛在抓取内容。
+```
+/usr/sbin/tcpdump -i eth0 -l -s 0 -w - dst port 80 | strings | grep -i user-agent | grep -i -E 'bot|crawler|slurp|spider'
+```
+
+网站日分析2(Squid篇）按域统计流量
+```
+zcat squid_access.log.tar.gz| awk '{print $10,$7}' |awk 'BEGIN{FS="[ /]"}{trfc[$4]+=$1}END{for(domain in trfc){printf "%st%dn",domain,trfc[domain]}}'
+```
 
 https://mp.weixin.qq.com/s?__biz=MzAwNTM5Njk3Mw==&mid=2247486759&idx=1&sn=72fc2dfe7422f7e9caa6b583173f27d5&chksm=9b1c0da5ac6b84b356ac960bc12a75c8c4d8cadcec6cc40c0d9008d3783b93e4f53c6db4105a&mpshare=1&scene=23&srcid=#rd
