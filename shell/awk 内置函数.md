@@ -1,5 +1,3 @@
-https://www.runoob.com/w3cnote/awk-built-in-functions.html#b1
-
 # linux awk 内置函数实例
 
 - awk内置函数，主要分4种：算数函数、字符串函数、时间函数、一般函数
@@ -240,4 +238,6 @@ drwxr-xr-x 4 homer homer 4096 2013-01-04 11:35 ..
 -rw-r--r-- 1 homer homer   16 2013-01-04 11:15 str.txt
 ```
 
-https://www.cnblogs.com/chengmo/tag/awk/
+参考:
+- https://www.cnblogs.com/chengmo/tag/awk/
+- https://www.runoob.com/w3cnote/awk-built-in-functions.html#b1
