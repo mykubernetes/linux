@@ -256,7 +256,6 @@ json数据
 "Laura"
 ```
 
-# 数据重组成数组
 ```
 # echo '{"a":1,"b":2,"c":3,"d":4}' | jq '[.a,.b]'
 [
@@ -526,10 +525,21 @@ fsafd
 }
 ```
 
+```
+{"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}}
+{"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+```
+
+```
+[
+  {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}},
+  {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
+]
+```
 
 1、. (_.get)
 ```
-$ cat demo.jsonl | jq '.name'
+$ cat demo.json | jq '.name'
 "shanyue"
 "shuifeng"
 
@@ -563,9 +573,9 @@ $ cat demo.jsonl | jq '.name'
   "number": "212 55
 ```
 
-3、{} (_.pick)
+3、`{} (_.pick)`
 ```
-$ cat demo.jsonl| jq '{name, friendname: .friend.name}'
+$ cat demo.json| jq '{name, friendname: .friend.name}'
 {
   "name": "shanyue",
   "friendname": "shuifeng"
@@ -576,20 +586,20 @@ $ cat demo.jsonl| jq '{name, friendname: .friend.name}'
 }
 ```
 
-select (_.filter)
+`select (_.filter)`
 ```
 # cat 1.txt | jq  '.phoneNumber[] | select(.type == "home") | .number'
 "212 555-1234"
 
-$ cat demo.jsonl| jq 'select(.age > 24) | {name}'
+$ cat demo.json| jq 'select(.age > 24) | {name}'
 {
   "name": "shuifeng"
 }
 ```
 
-map_values (_.map)
+`map_values (_.map)`
 ```
-$ cat demo.jsonl| jq '{age} | map_values(.+10)'
+$ cat demo.json| jq '{age} | map_values(.+10)'
 {
   "age": 34
 }
@@ -598,16 +608,16 @@ $ cat demo.jsonl| jq '{age} | map_values(.+10)'
 }
 ```
 
-sort_by (_.sortBy)
+`sort_by (_.sortBy)`
 
-sort_by 需要先把 jsonl 转化为 json 才能进行
+sort_by 需要先把 json 转化为 json 才能进行
 ```
 # 按照 age 降序排列
 # -s: jsonl to json
 # -.age: 降序
 # .[]: json to jsonl
 # {}: pick
-$ cat demo.jsonl | jq -s '. | sort_by(-.age) | .[] | {name, age}'
+$ cat demo.json | jq -s '. | sort_by(-.age) | .[] | {name, age}'
 {
   "name": "shuifeng",
   "age": 25
@@ -618,7 +628,7 @@ $ cat demo.jsonl | jq -s '. | sort_by(-.age) | .[] | {name, age}'
 }
 
 # 按照 age 升序排列
-$ cat demo.jsonl | jq -s '. | sort_by(.age) | .[] | {name, age}'
+$ cat demo.json | jq -s '. | sort_by(.age) | .[] | {name, age}'
 {
   "name": "shanyue",
   "age": 24
