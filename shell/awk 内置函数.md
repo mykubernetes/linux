@@ -238,4 +238,4 @@ drwxr-xr-x 4 homer homer 4096 2013-01-04 11:35 ..
 -rw-r--r-- 1 homer homer   16 2013-01-04 11:15 str.txt
 ```
 
-https://blog.csdn.net/iteye_11539/article/details/82470560
+https://www.cnblogs.com/chengmo/tag/awk/
