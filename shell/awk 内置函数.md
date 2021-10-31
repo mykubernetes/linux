@@ -1,3 +1,5 @@
+https://www.runoob.com/w3cnote/awk-built-in-functions.html#b1
+
 # linux awk 内置函数实例
 
 - awk内置函数，主要分4种：算数函数、字符串函数、时间函数、一般函数
