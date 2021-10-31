@@ -13,7 +13,7 @@ eth0      Link encap:Ethernet  HWaddr b0:83:fe:da:2f:41
 
 获取MAC地址：
 ```
-ifconfig eth0 | awk '/HWaddr/ {print $5}'
+ifconfig eth0 | awk '/HWaddr/ {print $4}'
 b0:83:fe:da:2f:41
 ```
 
