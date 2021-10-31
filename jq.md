@@ -114,6 +114,33 @@ null
 
 # 从json内容提取
 
+json数据
+```
+{
+  "name": "Google",
+  "location": {
+    "street": "1600 Amphitheatre Parkway",
+    "city": "Mountain View",
+    "state": "California",
+    "country": "US"
+  },
+  "employees": [
+    {
+      "name": "Michael",
+      "division": "Engineering"
+    },
+    {
+      "name": "Laura",
+      "division": "HR"
+    },
+    {
+      "name": "Elise",
+      "division": "Marketing"
+    }
+  ]
+}
+```
+
 1、获取指定字段的值
 ```
 # cat json_raw.txt |jq .name
