@@ -499,6 +499,7 @@ fsafd
 原始数据
 ---
 ```
+# cat 1.txt
 {
 "firstName": "John",
 "lastName": "Smith",
@@ -526,15 +527,9 @@ fsafd
 ```
 
 ```
+cat demo.json
 {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}}
 {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
-```
-
-```
-[
-  {"name": "shanyue", "age": 24, "friend": {"name": "shuifeng"}},
-  {"name": "shuifeng", "age": 25, "friend": {"name": "shanyue"}}
-]
 ```
 
 1、. (_.get)
