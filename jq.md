@@ -621,7 +621,7 @@ $ cat demo.json | jq -s '. | sort_by(.age) | .[] | {name, age}'
 ```
 
 
-将CSV数据转换为json
+# 将CSV数据转换为json
 
 csv数据
 ```
@@ -642,9 +642,9 @@ EOF
 
 
 
-6、将json转csv
+# 将json转csv
 
-测试数据
+1、原始JSON数据
 ```
 cat >> jsonData.json << EOF
 {"productId":"2723","click":60,"view":300,"deal":2,"day":"20130919"}
@@ -655,6 +655,26 @@ cat >> jsonData.json << EOF
 EOF
 ```
 
+2、格式化输出
+```
+jq -r . jsonData.json
+{
+  "productId": "2723",
+  "click": 60,
+  "view": 300,
+  "deal": 2,
+  "day": "20130919"
+}
+{
+  "productId": "2728",
+  "click": 130,
+  "view": 800,
+  "deal": 10,
+  "day": "20130919"
+}
+...
+```
+
 转换格式
 ```
 # jq -r '[.productId+"_"+.day,(.click|tostring),(.view|tostring),(.deal|tostring)]|join(",")' jsonData.json
@@ -663,8 +683,13 @@ EOF
 3609_20130919,50,400,3
 3783_20130919,375,1200,50
 3522_20130919,87,573,15
+```
+- .productId:取productId字段的值
+- .click|tostring:取click字段的值并转化为string类型
+- []:数组
+- join(","):数组中的元素通过","连接。
 
-
+```
 jq -r '[.productId+"_"+.day,(.click|tostring),(.view|tostring),(.deal|tostring)]|@csv' jsonData.json
 "2723_20130919","60","300","2"
 "2728_20130919","130","800","10"
