@@ -2,6 +2,8 @@
 
 https://github.com/stedolan/jq/blob/master/docs/content/manual/manual.yml
 
+https://github.com/stedolan/jq/wiki/Cookbook
+
 # 查看`jq`帮助信息
 ```
 # jq --help
