@@ -1,9 +1,3 @@
-官网https://stedolan.github.io/jq/manual/
-
-https://github.com/stedolan/jq/blob/master/docs/content/manual/manual.yml
-
-https://github.com/stedolan/jq/wiki/Cookbook
-
 # 查看`jq`帮助信息
 ```
 # jq --help
@@ -1005,3 +999,9 @@ $ jq '. +{F1: "New Fa", F2: "New F2"}' t.json
   ]
 }
 ```
+
+参考：
+- 1、https://programminghistorian.org/lessons/json-and-jq
+- 2、JQ使用手册:https://stedolan.github.io/jq/manual/#Basicfilters
+- 3、JQ Cookbook:https://github.com/stedolan/jq/wiki/Cookbook
+- 4、https://github.com/stedolan/jq/blob/master/docs/content/manual/manual.yml
