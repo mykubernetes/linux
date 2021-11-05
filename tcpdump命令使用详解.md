@@ -128,7 +128,10 @@ tcpdump: listening on ens33, link-type EN10MB (Ethernet), capture size 262144 by
 7.指定数据包大小
 - 使用greater(大于)与less(小于)可以指定数据包大小的范围。
 ```
+# 只抓取大于1024字节的数据包。
 [root@linuxidc ~]# tcpdump -c 100 -tttt -n -i ens33 -w tcpdump.pcap greater 1024
+
+# 只抓取小于1024字节的数据包。
 [root@linuxidc ~]# tcpdump -c 100 -tttt -n -i ens33 -w tcpdump.pcap less 1024
 ```
 
