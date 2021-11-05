@@ -314,6 +314,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 12.以HEX或ASCII格式抓取数据包，分别使用选项-XX和-A即可。
 ```
+# 同时以十六进制和 ASCII 格式捕获数据包，请使用 -XX 选项
 [root@linuxidc ~]# tcpdump -c 3 -i ens33 -XX
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -351,6 +352,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 10 packets received by filter
 0 packets dropped by kernel
 
+# 使用 -A 选项捕获 ASCII 格式的数据包
 [root@linuxidc ~]# tcpdump -c 3 -i ens33 -A
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
