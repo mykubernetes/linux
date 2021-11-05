@@ -242,7 +242,6 @@ proto   修饰符描述id 所属的协议. 可选的协议有: ether, fddi, tr, 
 ```
 
 监听网卡eth0目标主机ctp协议端口号80的
----
 ```
 tcpdump -i eth0 dst ctp port 80 -nn
 ```
