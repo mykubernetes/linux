@@ -125,13 +125,14 @@ tcpdump: listening on ens33, link-type EN10MB (Ethernet), capture size 262144 by
 0 packets dropped by kernel
 ```
 
-该文件如果不指定路径的话，默认在当前操作目录下。不能直接被读取，需要使用tcpdump进行读取。这个命令也可以如下：
+7.指定数据包大小
+- 使用greater(大于)与less(小于)可以指定数据包大小的范围。
 ```
 [root@linuxidc ~]# tcpdump -c 100 -tttt -n -i ens33 -w tcpdump.pcap greater 1024
 [root@linuxidc ~]# tcpdump -c 100 -tttt -n -i ens33 -w tcpdump.pcap less 1024
 ```
 
-7.从tcpdump文件中读取抓取的数据包。
+8.从tcpdump文件中读取抓取的数据包。
 ```
 [root@linuxidc ~]# tcpdump -r tcpdump.pcap
 reading from file tcpdump.pcap, link-type EN10MB (Ethernet)
@@ -147,7 +148,7 @@ reading from file tcpdump.pcap, link-type EN10MB (Ethernet)
 00:58:09.821038 IP 10.1.1.1.55011 > linuxidc.ssh: Flags [P.], seq 53:105, ack 200, win 2052, length 52
 ```
 
-8.抓取指定接口的指定一些TCP/IP四层模型中网络层和传输层协议（如：TCP/UDP/ICMP/IAGMP/ARP/IP/RARP）的数据包。
+9.抓取指定接口的指定一些TCP/IP四层模型中网络层和传输层协议（如：TCP/UDP/ICMP/IAGMP/ARP/IP/RARP）的数据包。
 ```
 [root@linuxidc ~]# tcpdump -c 10 -i ens33 tcp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -201,7 +202,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 0 packets dropped by kernel
 ```
 
-9.抓取指定端口上的数据包。
+10.抓取指定端口上的数据包。
 ```
 [root@linuxidc ~]# tcpdump -c 10 -i ens33 port 22
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -238,7 +239,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 0 packets dropped by kernel
 ```
 
-10.抓取指定源、目的IP上的数据包。
+11.抓取指定源、目的IP上的数据包。
 ```
 [root@linuxidc ~]# tcpdump -c 10 -i ens33 src 223.5.5.5
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -275,7 +276,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 0 packets dropped by kernel
 ```
 
-11.抓取两台主机之间的数据包。
+12.抓取两台主机之间的数据包。
 ```
 [root@linuxidc ~]# tcpdump -c 10 -i ens33 tcp and \( host 223.5.5.5 or host 10.1.1.21 \)
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -312,7 +313,7 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 0 packets dropped by kernel
 ```
 
-12.以HEX或ASCII格式抓取数据包，分别使用选项-XX和-A即可。
+13.以HEX或ASCII格式抓取数据包，分别使用选项-XX和-A即可。
 ```
 # 同时以十六进制和 ASCII 格式捕获数据包，请使用 -XX 选项
 [root@linuxidc ~]# tcpdump -c 3 -i ens33 -XX
