@@ -390,3 +390,6 @@ tcpdump -X -s 0 -w A.cap host 192.168.1.2 and tcp port 8000
 # yum install wireshark-gnome
 # wireshark
 ```
+
+参考:
+- https://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html
