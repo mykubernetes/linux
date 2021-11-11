@@ -26,45 +26,17 @@ EOF
 示例：
 ```
 # curl -w "@curl-format.txt" -o /dev/null -s -L "https://www.baidu.com"
-   time_namelookup: 0.132
-      time_connect: 0.172
-   time_appconnect: 0.386
-     time_redirect: 0.000
-  time_pretransfer: 0.386
-time_starttransfer: 0.428
+   time_namelookup:  0.529108
+      time_connect:  0.688685
+   time_appconnect:  1.201098
+     time_redirect:  0.000000
+  time_pretransfer:  1.201304
+time_starttransfer:  1.418342
                     ----------
-time_total: 0.428
+time_total:  1.540865
 
-
-#循环多次执行
+# 循环多次执行
 for i in $(seq 1000);do curl -w "@curl-format.txt" -o /dev/null -s -L "https://www.baidu.com";echo ------$i---------;sleep 1;done
-   time_namelookup: 0.261
-      time_connect: 0.319
-   time_appconnect: 0.511
-     time_redirect: 0.000
-  time_pretransfer: 0.511
-time_starttransfer: 0.791
-                    ----------
-time_total: 0.912
-------1---------
-   time_namelookup: 0.132
-      time_connect: 0.187
-   time_appconnect: 0.628
-     time_redirect: 0.000
-  time_pretransfer: 0.629
-time_starttransfer: 0.870
-                    ----------
-time_total: 0.981
-------2---------
-   time_namelookup: 0.261
-      time_connect: 0.321
-   time_appconnect: 0.489
-     time_redirect: 0.000
-  time_pretransfer: 0.489
-time_starttransfer: 0.769
-                    ----------
-time_total: 0.941
-------3---------
 ```
 
 计算公式
