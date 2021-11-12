@@ -394,8 +394,22 @@ tcpdump -i eth0 -nnA '!port 22'
 # tcpdump -i any -n -nn dst 192.168.1   # 可以指定范围  ★★★★★ 注意用法  不是一个完整的IP地址
 ```
 
-捕获的数据太多，不断刷屏，可能需要将数据内容记录到文件里，需要使用-w参数：
----
+
+# 捕获的数据太多，不断刷屏，可能需要将数据内容记录到文件里，需要使用-w参数：
+
+```
+将捕获的数据包保存至文件和从文件读取
+
+# 保存至文件中
+tcpdump -w soulchild.cn.pcap 'host soulchild.cn and port 80'
+
+# 从文件读取
+tcpdump -r soulchild.cn.pcap
+
+# 保存到文件中并同时在stdout输出
+tcpdump --print -w soulchild.cn.pcap 'host soulchild.cn and port 80'
+```
+
 ```
 tcpdump -X -s 0 -w A.cap host 192.168.1.2 and tcp port 8000
 ```
