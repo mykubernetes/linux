@@ -210,9 +210,14 @@
 tcpdump 条件表达式
 ---
 expression
-- type: host,net,port,portrange
-- direction: src,dst,src or dst,src and dst
-- proto: ether,ip,arp,tcp,udp,wlan ether是mac
+- type: `host`,`net`,`port`,`portrange`
+  - 例如: `host xxx.com(也可以写ip)`,`net 192.168.1.0/24`,`port 20(这里仅代表tcp和udp)`,`portrange 6000-6008`
+- direction: `src`,`dst`,`src or dst`,`src and dst`
+  - `src 192.168.1.10`,`dst 192.168.1.20`
+  - `src or dst 192.168.1.1`,`src and dst 192.168.1.1`,`src or dst port 20`
+  - `dst net 128.3.0.0`
+- proto: `ether`,`ip`,`arp`,`tcp`,`udp`,`wlan ether`是`mac`
+  - `arp net 128.3`, `tcp port 21`, `udp portrange 7000-7009`
 ```
 type   修饰符指定id 所代表的对象类型, id可以是名字也可以是数字. 
     可选的对象类型有: host, net, port 以及portrange(nt: host 表明id是主机, net 表明id是网络, port 表明id是端口，而portrange 表明id 是一个端口范围).  
@@ -234,6 +239,24 @@ proto   修饰符描述id 所属的协议. 可选的协议有: ether, fddi, tr, 
     tcp and udp, 即通常TCP/IP协议栈中的两个传输层协议).
 ``` 
 
+## 常用原语
+
+- tcpdump捕获的数据包和表达式匹配结果为true，才是我们也要的结果，表达式中可以使用and(&&),or(||),not(!),
+- dst: 目标主机。dst host 1.1.1.1也可以写成dst 1.1.1.1.因为默认是host，host可以被省略
+- src: 源主机。
+- ether dst: ether的目标地址(mac地址)
+- ether src: ether的源地址(mac地址)
+- net: 网络(网段)
+- dst net: 目标网络
+- src net: 源网络
+- port: 端口
+- dst port: 目标端口
+- src port: 源端口
+- portrange: 端口范围
+- dst portrange: 目标端口范围
+- src portrange: 源端口范围
+- less: 数据包的长度小于或等于指定长度。less 32等同于len <= 32
+- greater: 数据包的长度大于或等于指定长度。less 32等同于len >= 32
 
 查看当前机器有哪些网络接口
 ---
