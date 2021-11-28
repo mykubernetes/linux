@@ -7,10 +7,10 @@
 1、压缩包分配
 这里，我有个7.5G的tar.gz的压缩包，由于上传的服务器的限制，单次只能上传到700M，这里我们对此文件进行分片：
 ```
-[root@yuhaohao test]# ls -alh test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz
+# ls -alh test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz
 -rw-r--r-- 1 root root 7.5G May 18 10:24 test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz
 
-[root@yuhaohao test]# split -b 700M test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz. --verbose
+# split -b 700M test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz. --verbose
 creating file ‘test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.aa’
 creating file ‘test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.ab’
 creating file ‘test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.ac’
@@ -28,7 +28,7 @@ creating file ‘test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.ak’
 
 这里我们合并压缩的文件到合并前的目录结构：
 ```
-[root@harbor_reg 1.5.4.1-Debug]# cat test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.a* |tar -zxv 
+# cat test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar.gz.a* |tar -zxv 
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-hehe-gpu-v1.0.0.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-hehe-v1.0.0.tar
@@ -36,7 +36,7 @@ test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-gpu-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
 test-1.5.4.1_patch-1.5.2.1_2020-05-15/test-g-1.5.4.1_patch-1.5.2.1_2020-05-15.tar
 
-[root@harbor_reg 1.5.4.1-Debug]# ls -alh test-1.5.4.1_patch-1.5.2.1_2020-05-15/
+# ls -alh test-1.5.4.1_patch-1.5.2.1_2020-05-15/
 total 18G
 drwxr-xr-x 2 root root  284 May 18 10:05 .
 drwxr-xr-x 4 root root 4.0K May 18 17:49 ..
