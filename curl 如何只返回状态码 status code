@@ -1,0 +1,98 @@
+# CURL 如何只返回状态码 status code
+
+
+## 在写一些 Shell 测试用例时需要检测 url 的状态是否为 200，这时如果能只获取它的状态码是最理想的，curl 可以很方便的实现。
+
+- -w 可以格式化输出 reponse 的返回结果。
+```
+$ curl -w "%{http_code}" https://baidu.com
+
+<html>
+<head><title>302 Found</title></head>
+<body bgcolor="white">
+<center><h1>302 Found</h1></center>
+<hr><center>bfe/1.0.8.18</center>
+</body>
+</html>
+302%
+```
+
+## 访问带有跳转性质的网站，我们还需要加上 -L 做进一步跳转，同时为了避免当资源过大请求缓慢的情况，通过 -I 只返回头信息
+```
+$ curl -IL -w "%{http_code}" https://baidu.com
+
+HTTP/1.1 302 Moved Temporarily
+Server: bfe/1.0.8.18
+Date: Thu, 06 Jun 2019 00:25:02 GMT
+Content-Type: text/html
+Content-Length: 161
+Connection: keep-alive
+Location: http://www.baidu.com/
+
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: private, no-cache, no-store, proxy-revalidate, no-transform
+Connection: Keep-Alive
+Content-Length: 277
+Content-Type: text/html
+Date: Thu, 06 Jun 2019 00:25:05 GMT
+Etag: "575e1f60-115"
+Last-Modified: Mon, 13 Jun 2016 02:50:08 GMT
+Pragma: no-cache
+Server: bfe/1.0.8.18
+
+200%
+```
+
+## 然后隐藏掉打印信息，将打印的结果输出到 /dev/null
+```
+$ curl -IL -w "%{http_code}" -o /dev/null https://baidu.com
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0   161    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0   277    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+200%
+```
+
+竟然还有多余信息，继续使用 -s 不显示进度和错误信息
+```
+$ curl -sIL -w "%{http_code}" -o /dev/null https://baidu.com
+200%
+```
+
+## 最后的最后，默认输出是不换行的，也就是会带有一个 % 符号，我们有两种方式去掉它
+
+### 输出换行
+```
+$ curl -sIL -w "%{http_code}\n" -o /dev/null https://baidu.com
+200
+```
+
+### 使用 echo
+```
+$ echo $(curl -sIL -w "%{http_code}" -o /dev/null https://baidu.com)
+200
+```
+
+## -w 的一些其它参数，没有注明的可以自行测试下
+
+- url_effective
+- http_code 状态码
+- http_connect
+- time_total 请求总用时
+- time_namelookup DNS 域名解析的时候，就是把 https://baidu.com 转换成 ip 地址的过程
+- time_connect TCP 连接建立的时间，就是三次握手的时间
+- time_appconnect SSL/SSH 等上层协议建立连接的时间，比如 connect/handshake 的时间
+- time_redirect 从开始到最后一个请求事务的时间
+- time_pretransfer 从请求开始到响应开始传输的时间
+- time_starttransfer 从请求开始到第一个字节将要传输的时间
+- size_download
+- size_upload
+- size_header
+- size_request
+- speed_download
+- speed_upload
+- content_type
+- num_connects
+- num_redirects
+- ftp_entry_path
