@@ -10,3 +10,18 @@
 wget -O - -q http://nginx/
 
 :smile: :rage: :sweat: :point_down:
+
+
+<table>
+    <tr>
+        <th rowspan="2">课程</th>
+        <th>星期一</th>
+        <th>星期二</th>
+        <th>星期三</th>
+    </tr>
+    <tr>
+        <td>语文</td>
+        <td>数学</td>
+        <td>英语</td>
+    </tr>
+</table>
