@@ -25,3 +25,18 @@ wget -O - -q http://nginx/
         <td>英语</td>
     </tr>
 </table>
+
+
+---
+title: "Kafka常用命令"
+date: "2020-10-13"
+categories:
+    - "技术"
+tags:
+    - "Kafka"
+    - "消息队列"
+    - "常用命令"
+toc: false
+original: true
+draft: false
+---
