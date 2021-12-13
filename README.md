@@ -6,6 +6,7 @@
 | apache | http://archive.apache.org/dist/ |
 | centos_download | http://man.linuxde.net/download/CentOS |
 | 博客 | https://www.cnblogs.com/my-show-time/default.html?page=1 |
+| 博客 | https://www.cnblogs.com/my-show-time/ |
 
 wget -O - -q http://nginx/
 
