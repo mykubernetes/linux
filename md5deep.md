@@ -1,6 +1,8 @@
 # md5deep简介
 
-- ![md5deep](http://md5deep.sourceforge.net/)是用来计算文件的md5校验码的工具，比传统的md5sum指令好用.
+- md5deep是用来计算文件的md5校验码的工具，比传统的md5sum指令好用.
+
+官网 http://md5deep.sourceforge.net/
 
 ```
 # md5deep -h
