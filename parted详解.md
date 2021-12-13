@@ -49,7 +49,7 @@ quit
 mkfs.xfs -f /dev/sdb1
 ```
 
-非交互
+## 非交互
 ```
 # parted -s /dev/sdb mklabel gpt
 # parted -s /dev/sdb mkpart primary 0% 20%
@@ -60,7 +60,7 @@ mkfs.xfs -f /dev/sdb1
 ```
 
 
-# 操作实例  
+# 交互操作实例  
 
 ## 1、选择分区硬盘
 ```
@@ -226,4 +226,110 @@ UUID=d4993a37-4a33-4c95-95de-9711413196c0 /data ext4 defaults 0 0
 使用fdisk或parted工具只是将分区信息写入到磁盘，如果需要使用mkfs格式化并使用分区，则需要重新启动系统。partprobe 是一个可以修改kernel中分区表的工具，可以使kernel重新读取分区表而不用重启系统。
 
 partprobe  /dev/vdb
+```
+
+# 非交互方式
+
+## 1、创建分区表#
+```
+parted /dev/sdl mklabel gpt
+```
+
+## 2、将硬盘所有容量分给主分区#
+```
+parted /dev/sdl mkpart primary 0% 100%
+```
+
+## 3、查询磁盘的已有分区#
+```
+parted /dev/sdl print
+```
+
+## 4、查询硬盘分区#
+```
+fdisk -l
+or
+lsblk
+```
+
+## 5、格式化分区#
+```
+mkfs -t xfs /dev/sdl1
+```
+
+## 6、查询/dev/sdl1的blkid#
+```
+blkid /dev/sdl1
+```
+
+## 7、修改/etc/fstab
+```
+vi /etc/fstab
+
+编辑/etc/fstab使开机可知道挂载文件系统。
+```
+
+## 8、挂载文件系统，查询#
+```
+mount -a
+df -h
+```
+
+# 非交互方式示例
+
+## 1、创建gpt分区表
+```
+[root@my-linux ~]# parted /dev/sdb mklabel gpt
+Information: You may need to update /etc/fstab.
+```
+
+## 2、划分3个分区
+```
+[root@my-linux ~]# parted /dev/sdb mkpart primary 0% 27%
+Information: You may need to update /etc/fstab.
+
+[root@my-linux ~]# parted /dev/sdb mkpart primary 27% 54%
+Information: You may need to update /etc/fstab.
+
+[root@my-linux ~]# parted /dev/sdb mkpart primary 54% 81%
+Information: You may need to update /etc/fstab.
+```
+
+## 3、打印分区
+```
+[root@my-linux ~]# parted /dev/sdb print
+Model: HP LOGICAL VOLUME (scsi)
+Disk /dev/sdb: 3841GB
+Sector size (logical/physical): 512B/4096B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start   End     Size    File system  Name     Flags
+ 1      2097kB  1037GB  1037GB               primary
+ 2      1037GB  2074GB  1037GB               primary
+ 3      2074GB  3111GB  1037GB               primary
+```
+
+## 4、删除分区
+
+删除分区的命令是parted /dev/sdb rm 1其中最后的数字 1 表示分区编号。
+```
+[root@my-linux ~]# parted /dev/sdb rm 1
+Information: You may need to update /etc/fstab.
+
+[root@my-linux ~]# parted /dev/sdb rm 2
+Information: You may need to update /etc/fstab.
+
+[root@my-linux ~]# parted /dev/sdb rm 3
+Information: You may need to update /etc/fstab.
+
+[root@my-linux ~]# parted /dev/sdb print        
+Model: HP LOGICAL VOLUME (scsi)
+Disk /dev/sdb: 3841GB
+Sector size (logical/physical): 512B/4096B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start  End  Size  File system  Name  Flags
+[root@my-linux ~]# 
 ```
