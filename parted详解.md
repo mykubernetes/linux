@@ -58,8 +58,9 @@ mkfs.xfs -f /dev/sdb1
 ```
 
 
-操作实例  
-1、选择分区硬盘
+# 操作实例  
+
+## 1、选择分区硬盘
 ```
 首先类似fdisk一样，先选择要分区的硬盘，此处为/dev/vdb： ((parted)表示在parted中输入的命令，其他为自动打印的信息)
 
@@ -85,14 +86,16 @@ Welcome to GNU Parted! Type 'help' to view a list of commands.
   unit UNIT                                set the default unit to UNIT
   version                                  display the version number and copyright information of GNU Parted
 ```
-2、创建分区
+
+## 2、创建分区
 ```
 选择了/dev/hdd作为我们操作的磁盘，接下来需要创建一个分区表(在parted中可以使用help命令打印帮助信息)：
 
 (parted) mklabel
 新的磁盘标签类型？ gpt  # (我们要正确分区大于2TB的磁盘，应该使用gpt方式的分区表，输入gpt后回车)
 ```
-3、完成分区操作
+
+## 3、完成分区操作
 ```
 创建好分区表以后，接下来就可以进行分区操作了，执行mkpart命令，分别输入分区名称，文件系统和分区 的起止位置：
 
@@ -102,7 +105,8 @@ Welcome to GNU Parted! Type 'help' to view a list of commands.
 起始点？ 1    # 1表示从最开始分区，也可以用百分比表示，比如Start? 0% , End? 50%；
 结束点？ -1   # -1表示到磁盘末尾；也可以分成多个磁盘，写要分配的大小；
 ```
-4、验证分区信息
+
+## 4、验证分区信息
 ```
 分好区后可以使用print命令打印分区信息，下面是一个print的样例：
 
@@ -119,7 +123,8 @@ Number  Start   End     Size    File system  Name   标志
 (parted) quit   # 退出
 信息: You may need to update /etc/fstab.
 ```
-5、删除分区示例
+
+## 5、删除分区示例
 ```
 如果分区错了，可以使用rm命令删除分区，比如我们要删除上面的分区，然后打印删除后的结果
 
@@ -131,7 +136,8 @@ Sector size (logical/physical): 512B/512B
 Partition Table: gpt
 Number Start End Size File system Name Flags
 ```
-6、格式化操作
+
+## 6、格式化操作
 ```
 完成以后我们可以使用quit命令退出parted并使用系统的mkfs命令对分区进行格式化了。 
 
