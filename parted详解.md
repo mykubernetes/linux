@@ -1,12 +1,13 @@
-作用：
-```
-规划大小超过2T的分区，也可用于小分区的规划。
-```
-用法：
+# 作用
+
+- 规划大小超过2T的分区，也可用于小分区的规划。
+
+## 用法
 ```
 parted [选项]... [设备 [命令 [参数]...]...]
 ```
-帮助选项：  
+
+## 帮助选项  
 ```
 -h, --help                    显示此求助信息 
 -l, --list                    列出所有设别的分区信息
@@ -14,7 +15,8 @@ parted [选项]... [设备 [命令 [参数]...]...]
 -s, --script                  从不提示用户 
 -v, --version                 显示版本
 ```
-操作命令：
+
+## 操作命令
 ```
 cp [FROM-DEVICE] FROM-MINOR TO-MINOR           #将文件系统复制到另一个分区 
 help [COMMAND]                                 #打印通用求助信息，或关于 COMMAND 的信息 
@@ -33,7 +35,7 @@ select 设备                                     #选择要编辑的设备
 set MINOR 标志 状态                             #改变编号为 MINOR 的分区的标志
 ```
 
-交互式
+## 交互式
 ```
 parted /dev/sdb              # select /dev/sdb
 mklabel gpt                  # 设置分区类型为gpt
@@ -168,6 +170,7 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.
 ```
 
+## 7、挂载
 ```
 [root@node1 ~]# mkfs.ext4 /dev/vdb1
 mke2fs 1.42.9 (28-Dec-2013)
@@ -217,8 +220,10 @@ tmpfs            32G     0   32G    0% /sys/fs/cgroup
 UUID=6634633e-001d-43ba-8fab-202f1df93339 / ext4 defaults,barrier=0 1 1
 UUID=d4993a37-4a33-4c95-95de-9711413196c0 /data ext4 defaults 0 0
 ```
-注意
+
+注意:
 ```
 使用fdisk或parted工具只是将分区信息写入到磁盘，如果需要使用mkfs格式化并使用分区，则需要重新启动系统。partprobe 是一个可以修改kernel中分区表的工具，可以使kernel重新读取分区表而不用重启系统。
+
 partprobe  /dev/vdb
 ```
