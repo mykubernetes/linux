@@ -230,34 +230,34 @@ partprobe  /dev/vdb
 
 # 非交互方式
 
-## 1、创建分区表#
+## 1、创建分区表
 ```
 parted /dev/sdl mklabel gpt
 ```
 
-## 2、将硬盘所有容量分给主分区#
+## 2、将硬盘所有容量分给主分区
 ```
 parted /dev/sdl mkpart primary 0% 100%
 ```
 
-## 3、查询磁盘的已有分区#
+## 3、查询磁盘的已有分区
 ```
 parted /dev/sdl print
 ```
 
-## 4、查询硬盘分区#
+## 4、查询硬盘分区
 ```
 fdisk -l
 or
 lsblk
 ```
 
-## 5、格式化分区#
+## 5、格式化分区
 ```
 mkfs -t xfs /dev/sdl1
 ```
 
-## 6、查询/dev/sdl1的blkid#
+## 6、查询/dev/sdl1的blkid
 ```
 blkid /dev/sdl1
 ```
@@ -269,7 +269,7 @@ vi /etc/fstab
 编辑/etc/fstab使开机可知道挂载文件系统。
 ```
 
-## 8、挂载文件系统，查询#
+## 8、挂载文件系统，查询
 ```
 mount -a
 df -h
