@@ -7,6 +7,7 @@
 | centos_download | http://man.linuxde.net/download/CentOS |
 | 博客 | https://www.cnblogs.com/my-show-time/default.html?page=1 |
 | 博客 | https://www.cnblogs.com/my-show-time/ |
+| 博客 | https://segmentfault.com/u/toopoo |
 
 wget -O - -q http://nginx/
 
