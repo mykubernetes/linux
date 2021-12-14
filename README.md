@@ -8,6 +8,7 @@
 | 博客 | https://www.cnblogs.com/my-show-time/default.html?page=1 |
 | 博客 | https://www.cnblogs.com/my-show-time/ |
 | 博客 | https://segmentfault.com/u/toopoo |
+| 博客 | https://soulchild.cn/archives.html |
 
 wget -O - -q http://nginx/
 
