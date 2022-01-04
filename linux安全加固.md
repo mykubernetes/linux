@@ -246,3 +246,6 @@ service sshd restart or service ssh restart
 ssh -vv -oCiphers=aes128-cbc,3des-cbc,blowfish-cbc
 <server> ssh -vv -oMACs=hmac-md5 <server>
 ```
+
+参考:
+- https://blog.csdn.net/weixin_46152207/article/details/122170558
