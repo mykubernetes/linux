@@ -9,6 +9,7 @@
 | 博客 | https://www.cnblogs.com/my-show-time/ |
 | 博客 | https://segmentfault.com/u/toopoo |
 | 博客 | https://soulchild.cn/archives.html |
+| 书 | https://www.mianshigee.com/tutorial/explore/t1 |
 
 wget -O - -q http://nginx/
 
