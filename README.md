@@ -10,6 +10,9 @@
 | 博客 | https://segmentfault.com/u/toopoo |
 | 博客 | https://soulchild.cn/archives.html |
 | 书 | https://www.mianshigee.com/tutorial/explore/t1 |
+| 博客 | https://weiyigeek.top/ |
+
+
 
 wget -O - -q http://nginx/
 
