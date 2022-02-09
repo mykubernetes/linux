@@ -12,7 +12,7 @@
 | 书 | https://www.mianshigee.com/tutorial/explore/t1 |
 | 博客 | https://weiyigeek.top/ |
 | 博客 | https://blog.csdn.net/hxpjava1 |
-
+| 博客 | https://xinchen.blog.csdn.net/ |
 
 wget -O - -q http://nginx/
 
