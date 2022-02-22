@@ -1,5 +1,6 @@
 # 内存不足：OOM
 
+![](images/OOM.png)
 
 OOM 即 Out Of Memory，“内存用完了”,在情况在java程序中比较常见。系统会选一个进程将之杀死， 在日志messages中看到类似下面的提示
 ```
