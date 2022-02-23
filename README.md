@@ -13,6 +13,7 @@
 | 博客 | https://weiyigeek.top/ |
 | 博客 | https://blog.csdn.net/hxpjava1 |
 | 博客 | https://xinchen.blog.csdn.net/ |
+| 国内github镜像站 | https://hub.fastgit.xyz/ |
 
 wget -O - -q http://nginx/
 
