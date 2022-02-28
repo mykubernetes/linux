@@ -13,6 +13,7 @@
 | 博客 | https://weiyigeek.top/ |
 | 博客 | https://blog.csdn.net/hxpjava1 |
 | 博客 | https://xinchen.blog.csdn.net/ |
+| 博客 | https://soulchild.cn/archives.html |
 | 国内github镜像站 | https://hub.fastgit.xyz/ |
 | 腾讯视频下载 | https://github.com/HarryWang29/tencentKeTang |
 
