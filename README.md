@@ -15,6 +15,8 @@
 | 博客 | https://xinchen.blog.csdn.net/ |
 | 国内github镜像站 | https://hub.fastgit.xyz/ |
 | 腾讯视频下载 | https://github.com/HarryWang29/tencentKeTang |
+| github加速 | https://hub.fastgit.xyz/docmirror/dev-sidecar/releases |
+
 
 wget -O - -q http://nginx/
 
