@@ -242,7 +242,8 @@ $ loginctl show-user ruanyf
 
 # systemd文件介绍
 
-https://linuxops.org/blog/linux/system_service_config.html
+- https://linuxops.org/blog/linux/system_service_config.html
+- https://www.freedesktop.org/software/systemd/man/systemd.unit.html
 
 在/usr/lib/systemd/system目录下包含了各种unit文件，有service后缀的服务unit，有target后缀的开机级别unit等。服务又分为系统服务（system）和用户服务（user）。
 
@@ -300,6 +301,13 @@ https://linuxops.org/blog/linux/system_service_config.html
   - WorkingDirectory：指定服务的工作目录。
   - RootDirectory：指定服务进程的根目录（ / 目录），如果配置了这个参数后，服务将无法访问指定目录以外的任何文件。
 
+- [Install]段的常用选项： `[Install]通常是配置文件的最后一个区块，用来定义如何启动，以及是否开机启动。它的主要字段如下。`
+  - Alias：别名，可使用systemctlcommand Alias.service
+  - RequiredBy：被哪些units所依赖，强依赖(它的值是一个或多个 Target，当前 Unit 激活时，符号链接会放入/etc/systemd/system目录下面以 Target 名 + .required后缀构成的子目录中)
+  - WantedBy：被哪些units所依赖，弱依赖(它的值是一个或多个 Target，当前 Unit 激活时（enable）符号链接会放入/etc/systemd/system目录下面以 Target 名 + .wants后缀构成的子目录中)
+  - Also：安装本服务的时候还要安装别的相关服务
+
+
 1.建立服务文件
 ```
 vim /usr/lib/systemd/system/nginx.service
@@ -333,4 +341,89 @@ systemctl disable nginx.service         #停止开机自启动
 systemctl status nginx.service          #查看服务当前状态
 systemctl restart nginx.service         #重新启动服务
 systemctl list-units --type=service     #查看所有已启动的服务
+```
+
+
+# journalctl功能强大，用法非常多。
+```
+# 查看所有日志（默认情况下 ，只保存本次启动的日志）
+$ journalctl
+
+# 查看内核日志（不显示应用日志）
+$ journalctl -k
+
+# 查看系统本次启动的日志
+$ journalctl -b
+$ journalctl -b -0
+
+# 查看上一次启动的日志（需更改设置）
+$ journalctl -b -1
+
+# 查看指定时间的日志
+$ journalctl --since="2012-10-30 18:17:16"
+$ journalctl --since "20 min ago"
+$ journalctl --since yesterday
+$ journalctl --since "2015-01-10" --until "2015-01-11 03:00"
+$ journalctl --since 09:00 --until "1 hour ago"
+
+# 显示尾部的最新10行日志
+$ journalctl -n
+
+# 显示尾部指定行数的日志
+$ journalctl -n 20
+
+# 实时滚动显示最新日志
+$ journalctl -f
+
+# 查看指定服务的日志
+$ journalctl /usr/lib/systemd/systemd
+
+# 查看指定进程的日志
+$ journalctl _PID=1
+
+# 查看某个路径的脚本的日志
+$ journalctl /usr/bin/bash
+
+# 查看指定用户的日志
+$ journalctl _UID=33 --since today
+
+# 查看某个 Unit 的日志
+$ journalctl -u nginx.service
+$ journalctl -u nginx.service --since today
+
+# 实时滚动显示某个 Unit 的最新日志
+$ journalctl -u nginx.service -f
+
+# 合并显示多个 Unit 的日志
+$ journalctl -u nginx.service -u php-fpm.service --since today
+
+# 查看指定优先级（及其以上级别）的日志，共有8级
+# 0: emerg
+# 1: alert
+# 2: crit
+# 3: err
+# 4: warning
+# 5: notice
+# 6: info
+# 7: debug
+$ journalctl -p err -b
+
+# 日志默认分页输出，--no-pager 改为正常的标准输出
+$ journalctl --no-pager
+
+# 以 JSON 格式（单行）输出
+$ journalctl -b -u nginx.service -o json
+
+# 以 JSON 格式（多行）输出，可读性更好
+$ journalctl -b -u nginx.serviceqq
+-o json-pretty
+
+# 显示日志占据的硬盘空间
+$ journalctl --disk-usage
+
+# 指定日志文件占据的最大空间
+$ journalctl --vacuum-size=1G
+
+# 指定日志文件保存多久
+$ journalctl --vacuum-time=1years
 ```
