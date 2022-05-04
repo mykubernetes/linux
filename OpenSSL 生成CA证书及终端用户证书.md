@@ -1,3 +1,104 @@
+# 自建CA认证和证书
+
+## 一些概念：
+
+PKI：Public Key Infrastructure
+- 签证机构：CA（Certificate Authority）
+- 注册机构：RA（Register Authority）
+- 证书吊销列表：CRL（Certificate Revoke Lists）
+- 证书存取库
+
+X.509：
+- 定义了证书的结构和认证协议的标准。包括版本号、序列号、签名算法、颁发者、有效期限、主体名称、主体公钥、CRL分发点、扩展信息、发行者签名等
+
+获取证书的两种方法：
+- 使用证书授权机构
+- 生成签名请求（csr）
+- 将csr发送给CA
+- 从CA处接收签名
+- 自签名的证书
+- 自已签发自己的公钥重点介绍一下自建CA颁发机构和自签名。
+
+## 自建CA颁发机构和自签名
+实验用两台服务器，一台做ca颁发证书，一台去请求签名证书。
+
+证书申请及签署步骤：
+- 1、生成申请请求
+- 2、CA核验
+- 3、CA签署
+- 4、获取证书
+
+我们先看一下openssl的配置文件：/etc/pki/tls/openssl.cnf
+```
+####################################################################
+[ ca ]
+default_ca  = CA_default        # The default ca section(默认的CA配置，是CA_default,下面第一个小节就是)
+####################################################################
+[ CA_default ]
+dir     = /etc/pki/CA              # Where everything is kept （dir变量）
+certs       = $dir/certs           # Where the issued certs are kept（认证证书目录）
+crl_dir     = $dir/crl             # Where the issued crl are kept（注销证书目录）
+database    = $dir/index.txt       # database index file.（数据库索引文件）
+new_certs_dir   = $dir/newcerts    # default place for new certs.（新证书的默认位置）
+certificate = $dir/cacert.pem      # The CA certificate（CA机构证书）
+serial      = $dir/serial          # The current serial number（当前序号，默认为空，可以指定从01开始）
+crlnumber   = $dir/crlnumber       # the current crl number（下一个吊销证书序号）
+                                   # must be commented out to leave a V1 CRL
+crl     = $dir/crl.pem             # The current CRL（下一个吊销证书）
+private_key = $dir/private/cakey.pem   # The private key（CA机构的私钥）
+RANDFILE    = $dir/private/.rand   # private random number file（随机数文件）
+x509_extensions = usr_cert         # The extentions to add to the cert
+# Comment out the following two lines for the "traditional"
+# (and highly broken) format.
+name_opt    = ca_default           # Subject Name options（被颁发者，订阅者选项）
+cert_opt    = ca_default           # Certificate field options（认证字段参数）
+# Extension copying option: use with caution.
+# copy_extensions = copy
+# Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
+# so this is commented out by default to leave a V1 CRL.
+# crlnumber must also be commented out to leave a V1 CRL.
+# crl_extensions    = crl_ext
+default_days    = 365              # how long to certify for （默认的有效期天数是365）
+default_crl_days= 30               # how long before next CRL
+default_md  = sha256               # use SHA-256 by default
+preserve    = no                   # keep passed DN ordering
+# A few difference way of specifying how similar the request should look
+# For type CA, the listed attributes must be the same, and the optional
+# and supplied fields are just that :-)
+policy      = policy_match         # 是否匹配规则
+# For the CA policy
+[ policy_match ]
+countryName     = match            # 国家名是否匹配，match为匹配
+stateOrProvinceName = match        # 州或省名是否需要匹配
+organizationName    = match        # 组织名是否需要匹配
+organizationalUnitName  = optional # 组织的部门名字是否需要匹配
+commonName      = supplied         # 注释
+emailAddress        = optional     # 邮箱地址
+# For the 'anything' policy
+# At this point in time, you must list all acceptable 'object'
+# types.
+[ policy_anything ]
+countryName     = optional
+stateOrProvinceName = optional
+localityName        = optional
+organizationName    = optional
+organizationalUnitName  = optional
+commonName      = supplied
+emailAddress        = optional
+####################################################################
+```
+
+重点关注下面的几个参数：
+```
+dir             = /etc/pki/CA           # Where everything is kept （dir变量）
+certs           = $dir/certs            # Where the issued certs are kept（认证证书目录）
+database        = $dir/index.txt        # database index file.（数据库索引文件）
+new_certs_dir   = $dir/newcerts         # default place for new certs.（新证书的默认位置）
+certificate     = $dir/cacert.pem       # The CA certificate（CA机构证书）
+serial          = $dir/serial           # The current serial number（当前序号，默认为空，可以指定从01开始）
+private_key     = $dir/private/cakey.pem# The private key（CA机构的私钥）
+```
+
 
 一、生成CA根证书
 ---
@@ -92,3 +193,6 @@ Chrome 58以后不再使用CN校验地址（就是就是浏览器地址栏URL中
 ```
 # openssl x509 -req -days 3650 -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt -extensions req_ext -extfile server.conf
 ```
+
+参考：
+- https://www.zybuluo.com/mrz1/note/1011025
