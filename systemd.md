@@ -308,32 +308,27 @@ $ loginctl show-user ruanyf
   - Also：安装本服务的时候还要安装别的相关服务
 
 
-1.建立服务文件
+## 服务Unit文件示例：
 ```
-vim /usr/lib/systemd/system/nginx.service
+# vim /usr/lib/systemd/system/nginx.service
 [Unit]
-Description=nginx - high performance web server
-After=network.target remote-fs.target nss-lookup.target
-[Service]
-Type=forking
-ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
-ExecReload=/usr/local/nginx/sbin/nginx -s reload
-ExecStop=/usr/local/nginx/sbin/nginx -s stop
+Description=nginx - high performance web server               # 描述服务
+After=network.target remote-fs.target nss-lookup.target       # 描述服务类别
+[Service]                                                     # 服务运行参数的设置
+Type=forking                                                  # 是后台运行的形式
+ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf  #服务的具体运行命令
+ExecReload=/usr/local/nginx/sbin/nginx -s reload              # 重启命令
+ExecStop=/usr/local/nginx/sbin/nginx -s stop                  # 停止命令
 [Install]
 WantedBy=multi-user.target
 ```
-- Description:描述服务
-- After:描述服务类别
-- [Service]服务运行参数的设置
-- Type=forking是后台运行的形式
-- ExecStart为服务的具体运行命令
-- ExecReload为重启命令
-- ExecStop为停止命令
-- PrivateTmp=True表示给服务分配独立的临时空间
+- systemctl daemon-reload
+- systemctl start bak
+  - 启动计算机的时候，需要启动大量的 Unit。如果每一次启动，都要一一写明本次启动需要哪些 Unit，显然非常不方便。Systemd 的解决方案就是 Target。
+  - 简单说，Target 就是一个 Unit 组，包含许多相关的 Unit 。启动某个 Target 的时候，Systemd 就会启动里面所有的 Unit。从这个意义上说，Target 这个概念类似于”状态点”，启动某个 Target 就好比启动到某种状态。
+  - 传统的init启动模式里面，有 RunLevel 的概念，跟 Target 的作用很类似。不同的是，RunLevel 是互斥的，不可能多个 RunLevel 同时启动，但是多个 Target 可以同时启动。
 
-注意：启动、重启、停止命令全部要求使用绝对路径
-
-2.常用命令
+## 常用命令
 ```
 systemctl start nginx.service           #启动nginx服务
 systemctl enable nginx.service          #设置开机自启动
@@ -341,6 +336,60 @@ systemctl disable nginx.service         #停止开机自启动
 systemctl status nginx.service          #查看服务当前状态
 systemctl restart nginx.service         #重新启动服务
 systemctl list-units --type=service     #查看所有已启动的服务
+```
+
+# 运行级别
+```
+ target units：
+     unit配置文件：.target
+     ls /usr/lib/systemd/system/*.target
+     systemctl list-unit-files --type target  --all
+ 运行级别：
+ 0  ==> runlevel0.target -> poweroff.target
+ 1  ==> runlevel1.target -> rescue.target
+ 2  ==> runlevel2.target -> multi-user.target
+ 3  ==> runlevel3.target -> multi-user.target
+ 4  ==> runlevel4.target -> multi-user.target
+ 5  ==> runlevel5.target -> graphical.target
+ 6  ==> runlevel6.target -> reboot.target
+
+（1）默认的 RunLevel（在/etc/inittab文件设置）现在被默认的 Target 取代，位置是/etc/systemd/system/default.target，通常符号链接到graphical.target（图形界面）或者multi-user.target（多用户命令行）。
+
+（2）启动脚本的位置，以前是/etc/init.d目录，符号链接到不同的 RunLevel 目录 （比如/etc/rc3.d、/etc/rc5.d等），现在则存放在/lib/systemd/system和/etc/systemd/system目录。
+
+（3）配置文件的位置，以前init进程的配置文件是/etc/inittab，各种服务的配置文件存放在/etc/sysconfig目录。现在的配置文件主要存放在/lib/systemd目录，在/etc/systemd目录里面的修改可以覆盖原始设置。
+
+ 查看依赖性：
+ systemctl list-dependencies graphical.target
+
+ 级别切换：
+ initN ==> systemctl isolate name.target
+ systemctl isolate multi-user.target
+ 注：只有/lib/systemd/system/*.target文件中AllowIsolate=yes 才能切换(修改文件需执行systemctl daemon-reload才能生效)
+
+ 查看target：
+ runlevel;   who -r
+ systemctl list-units --type target
+
+ 获取默认运行级别：
+ /etc/inittab==> systemctl get-default
+ 修改默认级别：
+ /etc/inittab==> systemctl set-default name.target
+ systemctl set-default multi-user.target
+ ls –l /etc/systemd/system/default.target
+
+ 其它命令
+ 切换至紧急救援模式（单用户状态）：
+ systemctl rescue 
+ 切换至emergency模式： 
+ systemctl emergency
+ 其它常用命令：
+ 传统命令init，poweroff，halt，reboot都成为systemctl的软链接
+ 关机：systemctl halt、systemctl poweroff
+ 重启：systemctl reboot
+ 挂起：systemctl suspend
+ 休眠：systemctl hibernate
+ 休眠并挂起：systemctl hybrid-sleep
 ```
 
 
