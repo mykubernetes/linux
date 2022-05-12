@@ -156,3 +156,14 @@ $ git stash pop
 ```
 $ git archive                               # 生成一个可供发布的压缩包
 ```
+
+常见操作
+```
+vim .gitignore               #定义忽略文件上传至gitlib
+git reset --hard HEAD^^      #git版本回滚，HEAD为当前版本，加一个^为上一个版本，^^为上上一个版本
+git reflog                   #获取每次提交的ID,可以使用--hard 根据提交的ID进行版本回退
+git reset --hard 5ae4b06     #回退到指定id的版本
+git branch                   #查看当前所处的分支
+git checkout -b develop      #创建并切换到一个新分支
+git checkout devlop          #切换分支
+```
