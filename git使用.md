@@ -167,3 +167,6 @@ git branch                   #查看当前所处的分支
 git checkout -b develop      #创建并切换到一个新分支
 git checkout devlop          #切换分支
 ```
+
+参考:
+- https://blog.51cto.com/u_15077548/4553175
