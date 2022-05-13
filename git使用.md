@@ -163,6 +163,7 @@ git config --global user.name "[name]"             #设置全局用户名
 git config --global user.email "[email address]"   #设置全局邮箱
 git config --global --list   #列出用户全局设置
 git add {index.html / .}     #添加指定为文件、目录或当前目录下所有数据到暂存区
+git rm --cached [file]       #会直接从暂存区删除文件，工作区则不做出改变
 git commit -m '注释信息'     #提交文件到本地仓库
 git status                   #查看工作区的状态
 git push                     #提交代码到服务器
@@ -182,3 +183,4 @@ git checkout devlop          #切换分支
 - https://www.cnblogs.com/hgzero/p/12890875.html
 - https://blog.csdn.net/wittylamb/article/details/116504559
 - https://blog.csdn.net/m0_46168595/article/details/114839387
+- https://www.runoob.com/git/git-tutorial.html
