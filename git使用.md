@@ -33,7 +33,7 @@ $ git config [--global] user.email "[email address]"
 
 # 三、在暂存区增加/删除文件
 ```
-$ git add [file1] [file2] ...           # 添加指定文件到暂存区
+$ git add [file1] [file2] ...           # 把指定的文件添加到暂存区中
 $ git add [dir]                         # 添加指定目录到暂存区，包括子目录
 $ git add .                             # 添加当前目录的所有文件到暂存区
 
@@ -63,7 +63,8 @@ $ git commit --amend [file1] [file2] ...    # 重做上一次commit，并包括�
 $ git branch                                # 列出所有本地分支
 $ git branch -r                             # 列出所有远程分支
 $ git branch -a                             # 列出所有本地分支和远程分支
-$ git branch [branch-name]                  # 新建一个分支，但依然停留在当前分支
+$ git branch -v                             # 列出本地的所有分⽀并显⽰最后⼀次提交，当前所在分⽀以 "*" 标出
+$ git branch [branch-name]                  # 新建一个分支，新的分支基于上一次提交建立，但依然停留在当前分支
 $ git checkout -b [branch]                  # 新建一个分支，并切换到该分支
 $ git branch [branch] [commit]              # 新建一个分支，指向指定commit
 $ git branch --track [branch] [remote-branch]     # 新建一个分支，与指定的远程分支建立追踪关系
@@ -71,12 +72,17 @@ $ git checkout [branch-name]                # 切换到指定分支，并更新�
 $ git checkout -                            # 切换到上一个分支
 $ git branch --set-upstream [branch] [remote-branch]      # 建立追踪关系，在现有分支与指定的远程分支之间
 $ git merge [branch]                        # 合并指定分支到当前分支
-$ git cherry-pick [commit]                  # 选择一个commit，合并进当前分支
+$ git cherry-pick [commit ID]               # 把一个已经commit的记录合并进当前分支
 $ git branch -d [branch-name]               # 删除分支
+
+# 修改分支名称
+$ git branch -m [src-branch-name] [new-branch-name]  # 如果不指定原分支名称则为当前所在分支
+$ git branch -M [src-branch-name] [new-branch-name]  # 强制修改分支名称
 
 # 删除远程分支
 $ git push origin --delete [branch-name]
-$ git branch -dr [remote/branch]
+$ git branch -dr [remote/branch]            # 删除指定的本地分支
+$ git branch -D [branch-name]               # 强制删除指定的本地分支
 ```
 
 # 六、标签
