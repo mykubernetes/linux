@@ -18,6 +18,7 @@
 | 腾讯视频下载 | https://github.com/HarryWang29/tencentKeTang |
 | github加速 | https://hub.fastgit.xyz/docmirror/dev-sidecar/releases |
 | Google、Edge、Firefox使用应用商店插件 | https://iguge.xyz/ |
+| 有点加速 | https://note.youdao.com/scholar.html |
 
 wget -O - -q http://nginx/
 
