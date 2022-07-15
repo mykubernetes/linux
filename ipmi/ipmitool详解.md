@@ -251,7 +251,63 @@ ipmitool -I lanplus -H 192.168.205.143 -U admin -P 密码 chassis power cycle
 ipmitool -I lanplus -H 192.168.205.143 -U admin -P admin mc reset cold
 ```
 
-## 7：IPMItool命令备忘单
+## 7:用户配置管理
+```
+1、查看用户清单
+ipmitool user list 1
+ID  Name	     Callin  Link Auth	IPMI Msg   Channel Priv Limit
+1   ADMIN         false    false      true       ADMINISTRATOR
+
+2、创建用户：
+格式： ipmitool user set name 用户ID  用户名
+root@master:~# ipmitool user set name 3 aaa
+root@master:~# ipmitool user list 1
+ID  Name	     Callin  Link Auth	IPMI Msg   Channel Priv Limit
+3   aaa           true    false      false      Unknown (0x00)
+
+3、设置密码：
+格式： ipmitool user set password  用户ID号  密码
+root@master:~# ipmitool user set password 3 123.com
+Set User Password command successful (user 3)
+
+4、给用户权限
+格式：ipmitool channel setaccess 1 用户ID callin=on ipmi=on link=on privilege=值
+ 【on为开启、off为关闭，是该用户对于通道的权限】
+
+privilege的值：
+1 callback 
+2 user 
+3 operator 
+4 administrator 
+5 OEM
+
+eg：
+# ipmitool channel setaccess 1 3 callin=on ipmi=on link=on privilege=4
+Set User Access (channel 1 id 3) successful.
+
+查看 用户id 为3的用户的情况：
+# ipmitool user list 1
+ID  Name	     Callin  Link Auth	IPMI Msg   Channel Priv Limit
+1                    true    false      false      Unknown (0x00)
+2   ADMIN            false   false      true       ADMINISTRATOR
+3   aaa              true    true       true       ADMINISTRATOR
+
+5、查看授权：
+格式：ipmitool channel getaccess 1  用户ID
+# ipmitool channel getaccess  1 3
+Maximum User IDs     : 10
+Enabled User IDs     : 2
+
+User ID              : 3
+User Name            : aaa
+Fixed Name           : No
+Access Available     : callback
+Link Authentication  : disabled
+IPMI Messaging       : disabled
+Privilege Level      : ADMINISTRATOR
+```
+
+## 8：IPMItool命令备忘单
 
 | IPMItool命令 | 描述 |
 |-------------|-------|
