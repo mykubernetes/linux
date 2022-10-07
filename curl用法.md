@@ -656,4 +656,7 @@ curl -x james:cats@myproxy.com:8080 https://www.example.com
 curl -X POST https://www.example.com
 ```
 
-http://www.zhangblog.com/2019/07/20/curl03/
+# 带token
+```
+curl -X PUT -H 'X-Access-Token:{{你的token}}' ttps://www.example.com
+```
