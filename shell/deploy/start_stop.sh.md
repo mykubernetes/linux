@@ -121,7 +121,7 @@ function checkdown() {
 
 function removeCron() {
 # 新增agent定时任务
-old=$(crontab -l | grep -v zxops_agent)
+old=$(crontab -l | grep -v agent)
 cat <<EOF | sed -e '/^$/d' | crontab -
 $old
 EOF
