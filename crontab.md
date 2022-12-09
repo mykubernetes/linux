@@ -85,6 +85,19 @@ fi
 rm $temp_file
 ```
 
+或者这种删除脚本
+```
+function removeCron() {
+# 删除agent定时任务
+old=$(crontab -l | grep -v agent)
+cat <<EOF | sed -e '/^$/d' | crontab -
+$old
+EOF
+}
+
+removeCron
+```
+
 ## 二, 增加一项cron任务
 ```
 #普通用户可以执行
