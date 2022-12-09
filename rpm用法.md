@@ -276,3 +276,6 @@ rpmlib(PayloadIsXz) <= 5.2-1
 [root@192 ~]# rpm -qf /usr/bin/iostat
 sysstat-10.1.5-19.el7.x86_64
 ```
+
+参考：
+- https://mohen.blog.csdn.net/article/details/128135206?spm=1001.2014.3001.5502
