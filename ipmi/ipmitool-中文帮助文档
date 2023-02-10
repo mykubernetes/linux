@@ -1,0 +1,484 @@
+ipmitool 中文 帮助 文档
+
+Name(名字) 
+    Ipmitool ——   对于控制支持IPMI的设备有效.
+
+Synopsis（概要）
+ipmitool [-c|-h|-v|-V] -I open <command>
+ipmitool [-c|-h|-v|-V] -I lan -H <hostname>
+         [-p <port>]
+         [-U <username>]
+         [-A <authtype>]
+         [-L <privlvl>]
+         [-a|-E|-P|-f <password>]
+         [-o <oemtype>]
+         <command>
+ipmitool [-c|-h|-v|-V] -I lanplus -H <hostname>
+         [-p <port>]
+         [-U <username>]
+         [-L <privlvl>]
+         [-a|-E|-P|-f <password>]
+         [-o <oemtype>]
+         [-C <ciphersuite>]
+         <command>
+Description(描述)
+    这个程序能够使你通过一个kernel设备驱动或者一个远程系统，利用IPMI v1.5或IPMIv2.0 来 管理本地系统的任何一个智能平台管理接口（IPMI)功能。这些功能包括打印FRU（现场可替换装置）信息、LAN配置、传感器读数、以及远程机架电源控制。 
+    一个本地系统接口的IPMI管理功能需要一个兼容IPMI的kernel驱动程序被安装以及配置。在linux中，这个驱动叫做OpenIPMI，他被包括在了标准化分配中。在Solaris系统中，这个驱动叫做BMC，他被包括在了Solaris 10中。远程控制的管理需要授权以及配置IPMI-over-LAN接口。根据每个系统独特的需要，它可以通过系统接口来使LAN接口使用 ipmitool。
+
+Options(选项) 
+-
+a 提示输入远程服务器的密码
+-
+A <
+authtype>
+ 当IPMIv1.
+5会话激活时，指定使用一个认证类型。
+-
+c 使输出格式为 CSV(
+逗号分隔的变量)
+格式。但是不是针对所有命令都有效。
+-
+C <
+ciphersuite>
+ 为IPMIv2 lanplus连接使用远程服务器身份验证、完整性和加密算法。请看IPMIv2说明书中的表格 22
+-
+19
+。
+    默认的三个格式为：指定RAKP-
+HMAC-
+SHA1
+为验证，HMAC-
+SHA1-
+96
+为完整性，AES-
+CBC-
+128
+为加密算法。
+-
+E 远程服务密码通过环境变量IPMI_PASSWORD来指定。
+-
+f <
+password_file>
+ 指定一个文件，而这个文件中包含了远程服务密码。如果这个选项没有被使用，或者指定的文件不存在，
+    那么那么密码将默认为NULL
+。
+-
+h 获取基本帮助
+-
+H <
+address>
+ 远程服务地址，可以为ip地址或者是主机名。Lan和lanplus接口都需要这个操作。
+-
+I <
+interface>
+ 选择使用的IPMI接口。编译支持的接口都在使用帮助输出中可见。
+-
+L <
+privlvl>
+ 力量会话特权级别。可以为CALLBACK,
+ USER,
+ OPERATOR,
+ ADMIN。默认为ADMIN。
+-
+m <
+local_address>
+ 设置本地IPMB（智能平台管理总线）地址。默认的为0x20
+。如果是一般的操作，那么就没有必要更改它。
+-
+o <
+oemtype>
+ 选择支持的OEM（原始设备制造商）类型。这通常涉及到代码中的小窍门，以解决各种BMC在不同制造商的怪癖到位。
+    使用命令“-
+o list
+”来查看当前支持的OEM类型的列表。
+-
+p <
+port>
+ 设置要连接的远程服务UPD端口，默认为623
+。
+-
+P <
+password>
+ 在命令行中指定远程服务密码。如果支持，他将会进程列表中被掩盖。注意！：不推荐在命令行中指定密码。
+-
+t <
+target_address>
+ 桥接IPMI的请求到远程目标地址。
+-
+U <
+username>
+ 远程服务用户名，默认为NULL
+。
+-
+v 提高详细输出的级别。这个操作可以指定多次用来提高调试输出的级别。如果指定三次，那么你将会得到所有传入和传出的数据包。
+-
+V 列出版本信息。
+ 
+ 如果没有密码方法被指定，那么ipmitool将会提示用户输入密码。如果用户没有输入密码，那么远程服务密码将会设置为NULL
+。
+ 
+SECURITY（安全） 
+    在使用IPMI LAN 接口之前，有一些需要注意的安全问题。一个远程控制站有这个能力去控制一个系统的power状态，同样也可以去收集某些平台上的信息。为了减少脆弱性强烈建议IPMI LAN接口只能用在“trusted”环境中，在这个环境中系统的安全性不是一个问题或存在安全是一个专门的“管理网络”。
+    此外，我们强烈建议您不要启用没有设置密码的远程访问的IPMI，同时，这个密码不应该与那个系统的其他密码一样。
+    当利用ipmiv1.5 lan接口改变了远程机器的IPMI密码后，新密码将作为明文用过网络被发送。这个可以被观察到并且可以被利用来攻击远程系统。因此建议的IPMI密码管理只有通过IPMIv2.0 lanplus接口或在本地站系统接口完成。
+    在IPMIv1.5，最大密码长度为16个字符。超过16字符的密码部分将被去掉。
+    在IPMI 2.0，最大密码长度为20个字符;较长的密码将被截断。
+
+COMMANDS（指令集） 
+      help   这个可以在ipmitool命令行中获取命令行帮助。也可以写在其他参数后面来选择使用帮助。
+      ipmitool help
+             Commands:
+                        raw      发送一个RAW（未加工的） IPMI请求然后输出响应。
+                        lan       配置LAN通道。
+                        chassis      获取机架状态并且设置power状态。
+                        event      发送预定义的状态给MC(管理控制器)
+                        mc      管理控制器状态和全局是否可使用。
+                        sdr      打印传感数据仓库输入与文本
+                        sensor      输出详细的传感器信息。
+                        fru      输出内嵌的FRU（现场可替换装置）和扫描FRU 定位器的SDR（系统定义记录）
+                        sel      打印系统事件日志（SEL）。
+                        pef      配置平台事件过滤（PEF）
+                        sol      配置IPMIv2.0 Serial-over-LAN
+                        isol      配置IPMIv1.5 Serial-over-LAN
+                        user     配置管理控制器用户
+                        channel      配置管理控制器通道
+                        session      打印session信息
+                        exec      从文件中运行一系列的命令
+                        set      为shell和exec设置运行变量。
+           ipmitool chassis help  机架命令：status, power, identify, policy, restart_cause, poh, bootdev
+           Ipmitool chassis power help    机架power状态：status, on, off, cycle, reset, diag, soft
+     bmc/mc
+            reset <warm|cold>
+                              指示BMC执行一个warm或cold得复位。
+            Info
+                              显示BMC硬件的信息，包括了 设备版本、固件版本、IPMI版本支持、制造商id、额外设备支持的信息。
+            getenables
+                             显示一个列表，显示目前BMC的可用的操作选项。
+            setenables <option>=[on|off]
+                            启用或禁用特定的选项。此命令根据IPMI规    范仅支持系统接口。当前option支持的选项有：
+            recv_msg_intr    接收消息队列中断。
+            event_msg_intr    事件消息缓冲区满中断
+            event_msg        事件消息缓冲区
+            system_event_log        系统事件日志记录
+            oem0    oem定义选项#0
+            oem1    oem定义选项#1
+            oem2    oem定义选项#2
+    channel
+            authcap <channel number> <max priv>
+                            显示有关选定的信息通道的身份验证功能，在指定的权限级别.
+                        可能的特权级别包括：
+                                    1 Callback level
+                                    2 User level
+                                    3 Operator level
+                                    4 Administrator level
+                                    5 OEM Proprietary level
+            info [channel  number]
+                          显示选定的通道的信息。如果没有给定通道，那么它将显示当前使用的通道的信息。
+            ipmitool channel info
+                        Channel 0xf info:
+                        Channel Medium Type   : System Interface
+                        Channel Protocol Type : KCS
+                        Session Support       : session-less
+                        Active Session Count  : 0
+                        Protocol Vendor ID    : 7154
+           getaccess <channel  number> [userid]
+                        将给定的userid作为给定的通道的默认值。当给定的通道被使用，那么默认的用户就是给定的这个用户id。
+           setaccess <channel number> <userid>
+                        [callin=on|off] [ipmi=on|off] [link=on|off] [privilege=level]
+                        在给定的通道下为给定的userid配置用户访问信息
+           getciphers <all | supported> <ipmi | sol> [channel]
+                        为给定的应用（ipmi或sol）在给定的通道下显示支持的密码套件列表
+    Chassis
+    Status
+   显示关于系统机架和主电源子系统的高级别状态的信息。
+    poh
+   这个命令将会返回power on的时间（单位为小时）。
+    identify <interval>
+   控制面板标识灯。默认是15，用0表示关掉。
+    restart_cause 查询系统最后一次重启的原因。
+    Policy 设置如果停电时的机架电源策略。
+  list  显示所有支持的策略
+  always-on  当电源恢复时on
+  previous  当电源恢复时返回到原先的状态。
+  always-off  当电源恢复时保持off。
+    power 执行机架控制命令来查看和更改电源状态。
+  Status  显示当前状态。
+  on   电源开
+  off   电源关闭机架到软关闭（S4/S5状态）。
+    cycle 规定关闭的区间至少为1秒。当机架电源状态在s4/s5状态时将不会有动作发生，我们建议首先检查电源状态，
+     如果系统电源on或低于S4/S5休眠状态，此时在使用cycle命令。
+    reset 这个命令将执行硬重置。
+    diag  向处理器直接发送一个诊断中断。
+    soft  通过ACPI（高级配置与电源接口）来执行软件关机。这个可以在多种方式下实现，一般是通过模拟过高温度或模拟关键键。
+   这是必要的，要有操作系统的ACPI支持。
+    Bootdev <device> 请系统再下次重启时从系统启动备用引导设备启动。
+   目前支持的<device>包括：
+   Pxe： pxe启动
+   Disk: 从BIOS默认的启动设备处启动。
+   Safe: 从BIOS默认的启动设备处启动,但是要求有安全模式。
+   Diag: 从诊断分区启动。
+   Cdrom: 从CD/DVD启动
+   Bios: 进入bios设置。
+    event
+   < predefined event number>
+      发送预先定义的事件到系统事件日志。下面的事件包括作为一种手段，以测试系统事件日志的BMC的组件功能（每一次都会增加一个输入，
+   event n命令被执行）
+      目前支持的n值为：
+         1 温度：上临界值：走向高
+         2 电压临界值：下临界值：走向低
+         3 内存：可纠正的ECC错误检测
+      注意：这些预先定义的事件可能不会产生一个特定的系统“准确”的SEL（系统事件日志）记录，因为他们不能正确绑定到一个有效
+   的传感器数量，但是这些足以证明了的SEL正确操作。
+   file <filename>
+  filename文件中详细描述的事件日志记录将被添加到系统事件日志。
+  该文件中的每一行的格式如下：
+      <{EvM Revision} {Sensor Type} {Sensor Num} {Event Dir/Type} {Event Data 0} {Event Data 1} 
+   {Event Data 2}>[# COMMENT] 
+      注意：Event Dir/Type中，事件路径的编码作为高7位，事件类型的编码作为低7位。
+      如：0x4 0x2 0x60 0x1 0x52 0x0 0x0# Voltage threshold: Lower Critical: Going Low。
+   exec <filename>
+      从filename中读取ipmitool命令。每一行都是一个完整的命令。这些命令的语法定义在本页的COMMANDS中。每一行都可以在
+   行尾加个可选择的注释，以‘#’为限定符。
+      如，一个两行命令的文件：
+      sdr list # get a list of sdr records 
+      sel list # get a list of sel records
+    fru
+   print
+    这个命令将会读取所有的现场可替换装置（FRU）的库存数据，提取这些信息作为序号，零件编号，资产标签，以及描述了机架、
+   电路板或产品的短字符串。
+    i2c <i2caddr> <read bytes> [<write data>]
+  这将允许你执行i2c命令。
+    isol
+   setup <baud rate>
+  为IPMI v1.5 Serial-over-LAN设置传输频率。
+    lan  
+   print <channel>
+  输出给定通道的当前配置信息。
+   Set <channel> <parameter>
+    为给定的通道设置给定的参数。有效的parameter有：
+   ipaddr <x.x.x.x> 
+    为这个通道设置ip
+   netmask <x.x.x.x> 
+    为这个通道设置网络掩码
+   macaddr <xx:xx:xx:xx:xx:xx>  
+  为这个通道设置mac地址。
+   defgw ipaddr <x.x.x.x> 
+    设置默认网关的ip地址。
+   defgw macaddr <xx:xx:xx:xx:xx:xx>  
+    设置默认网关的mac地址。
+   bakgw ipaddr <x.x.x.x> 
+    设置备份网关的ip地址。
+   bakgw macaddr <xx:xx:xx:xx:xx:xx> 
+    设置备份网关的ip地址
+   password <pass> 
+    设置无用户的密码。
+   snmp <community string> 
+  设置SNMP的团体字符串
+   user 
+  启用用户访问模式为用户标识1。
+   access <on|off> 
+  设置LAN通道access模式。
+   ipsrc <source> 
+    设置ip地址源：
+    none 没有指定；
+    static  手动配置静态IP地址
+    dhcp 通过BMC运行DHCP来得到地址
+    bios 通过BIOS或系统软件来装载地址
+   arp respond <on|off> 
+  设置BMC生成ARP回复。
+   arp generate <on|off> 
+  设置BMC生成免费的ARP
+   arp interval <seconds> 
+  设置BMC生成免费的ARP间隔。
+   auth <level,...> <type,...> 
+  给一个指定的授权级别一个有效的授权类型。
+  Levels: callback, user, operator, admin
+    Types: none, md2, md5, password, oem 
+   cipher_privs <privlist> 
+      相关研究密码套件数目连同最高权限级别是去使用它。这样，密码套件可以用一个给定的权限级别来限制用户。
+    例如，管理员需要使用比一般用户更强的密码套件。
+      Privlist的格式为如下，每个字符代表一个权限级别，字符位置标识密码套件的数目。
+    例如，第一个字符表示密码套件1（密码套件0是保留），第二个字符表示套件2，
+      以此类推。Privlist必须有15个字符。
+    在privlist中使用的字符和其相关权限级别为：
+      X      Cipher Suite Unused
+      c      CALLBACK
+      u      USER
+      o      OPERATOR
+      a      ADMIN
+      O      OEM
+    所以，设置最高权限时，将套装1分配给USER，套装2分配给ADMIN，命令如：
+      ipmitool -I interface lan set channel cipher_privs uaXXXXXXXXXXXXX
+    pef
+   info
+  这个命令将会查询BMC，并且打印出PEF所支持功能的信息。
+   status
+  这个命令打印出当前的pef的状态（BMC最后一次向SEL德输入，等等）
+       policy
+  此命令列出了PEF的策略表条目。每个策略项描述警报目的地。一个政策设置是一个表项的集合。PEF警报动作参考策略集。
+   list
+  这个命令列举出PEF表项。每一个PEF输入关联一个传感器事件给一个行动。当PEF是活跃的，每个平台事件导致BMC去扫描匹配的事件
+  条目表，并采取一定可能的行动。
+  采取行动，执行优先顺序（高临界第一）。
+   raw <netfn> <cmd> [data]
+   这将允许你执行原始的IPMI命令。作为一个例子，用一个原始命令来查询POH（通道开销）计数器：
+    ipmitool -v raw 0x0 0xf 
+    RAW REQ (netfn=0x0 cmd=0xf data_len=0) 
+    RAW RSP (5 bytes) 
+    3c 72 0c 00 00 
+   sdr
+   info
+  这个命令将会查询BMC中相关的SDR(传感器数据记录)信息。
+   list [all|full|compact|event|mcloc|fru|generic]
+    这个命令将会读取传感器数据记录（SDR）以及提取传感器给定type的信息，之后将会查询每一个传感器并打印出相应的名字、状态等信息。
+  可用的类型如下：
+    all  所有的SDR记录（传感器和定位器）
+    full  完全的传感器记录
+    compact 简洁的传感器记录
+    event        传感器记录的事件信息
+    mcloc  管理控制器定位器记录
+    fru  FRU(现场可替换装置)的定位器记录
+    generic 一般的SDR记录
+   entity <id>[.<instance>]
+         显示所有的实体关联的传感器。通过运行命令`sdr list'和一个操作符‘-v’获得一个有效的实体在目标系统上的ID列表。
+  所有实体的id列表可以在IPMI规范中找到。
+   dump <file>
+  将原始的SDR数据写入文件file。
+   sel
+  注意：如果SEL时钟需要设置的话，SEL写入次数作为`Pre-Init Time-stamp'被显示。
+  保证SEL时钟被命令`sel time get' 和 `sel time set <time string>'所精确的更改。
+ Info
+  这个命令将会查询BMC中关于SEL和其内容的相关信息。
+ clear
+  这个命令将会清空SEL中的信息。它不能被撤消所以要小心。
+ list
+  当运行没有参数的此命令时，SEL中全部的信息将会被显示出来。
+ <count>|first <count>
+  显示SEL中最先的count条信息。如果count是0，那么所有的信息将会显示。
+ last <count>
+  显示SEL中最后的count条信息。如果count是0，那么所有的信息将会显示。
+ delete <number>
+  删除一个单一事件。
+ time 
+  get
+   显示SEL时钟的当前时间。
+  set <time string>
+   设置SEL 时钟。未来的SEL条目将使用此命令设置时间。<time string>的格式为"MM/DD/YYYY HH:MM:SS"。
+   注意，小时是24小时格式。建议在设置时间之前将其清除。
+   sensor
+ list
+  用广泛的表格式来列举出传感器和阈值。
+ get <id> … [<id>]
+  打印出指定name的传感器的信息。
+ thresh <id> <threshold> <setting>
+  这允许您设置一个特定的阈值传感器。该传感器通过name指定。可用的thresholes有：
+   unr    较高不可恢复
+   ucr    上临界
+   unc    上非关键
+   lnc     下非关键
+   lcr     下临界l
+   lnr     较低不可恢复
+   session
+ info < active | all | id 0xnnnnnnnn | handle 0xnn>
+  显示指定的session的信息。你可以识别session通过id、处理数量、工作状态、或通过关键字‘all’来指定所有的session。
+   sol
+ info [<channel number>]
+  检索指定的通道的Serial-Over-LAN配置信息。如果没有指定通道，那么它将显示出当前使用的通道的SOL配置数据。
+ set <parameter> <value> [channel]
+  为Serial Over Lan配置参数。如果没有通道被指定，它会显示出当前使用的通道的SOL配置信息。
+  配置参数的升级呗自动监视通过将parameter设为set-in-progress。
+  可用的parameters和value为：
+    set-in-progress 
+   set-complete set-in-progress commit-write 
+    enabled 
+   true false 
+    force-encryption 
+   true false 
+    force-authentication 
+   true false 
+    privilege-level 
+   user operator admin oem 
+    character-accumulate-level 
+   十进制数给予5毫秒增量
+    character-send-threshold 
+   十进制数
+    retry-count 
+   十进制数，0表示没有数据包发送后重试。
+    retry-interval 
+   十毫秒增量的十进制数。0表示重试应送回回来。
+    non-volatile-bit-rate 
+   serial, 19.2, 38.4, 57.6, 115.2   设置此值，以串行显示，BMC应该使用被IPMI over serial通道使用的设置。
+    volatile-bit-rate 
+   serial, 19.2, 38.4, 57.6, 115.2.  设置此值，以串行显示，BMC应该使用被IPMI over serial通道使用的设置。
+ activate
+  使ipmitool进入Serial Over LAN模式，仅仅当使用lanplus接口时有用。一个RMCP+连接连向BMC，终端被设置为原始模式，
+  用户输入发送到串行控制台的远程服务器。在退出时，SOL的有效负载模式失效，终端也将被回复到原来的模式。
+  特别的转义字符被提供用来控制SOL会话：
+   ~.     终止连接 
+   ~^Z    挂起的ipmitool 
+   ~B     发送中断 
+   ~~     通过输入两次来发送转义字符
+   ~?     输出所支持的转移字符
+ deactivate
+  停用串行局域网在BMC模式。退出Serial Over LAN模式将会自动的将这个命令发送到BMC，但是对于无意识的退出SOL模式的情况，
+  这个命令将会很有用来重置BMC状态。
+   user
+ summary
+  显示用户id信息的简单概要，包括最大数量的用户id、可用的用户id 的数目、和 已定义好的名字的数目。
+ list
+  显示出所有用户的信息。
+ set
+  name <userid> <username>  设定给定用户id以给定的用户名
+  password <userid> [<password>] 设定给定的用户以给定的密码。如果没有给定密码，那么此用户的密码将为NULL。当从
+  管理员级别的账户中删除密码时要注意。
+  disable <userid> 使指定的用户禁用访问BMC。
+  Enable <userid>  使指定的用户启用访问BMC。
+  test <userid> <16|20> [<password>] 确定密码是否已被16或20个字节存储。
+  注意：要确定LAN接口位于哪个通道，使用命令`channel info channel'。
+ 
+OPEN INTERFACE（开放接口） 
+        Ipmitool的open接口利用openipmi的内核设备驱动程序。该驱动存在于所有的现代2.4和所有2.6核心中，以及它应该出现在最新的 Linux发行版的内核中。在OpenIPMI的主页中同样有各种针对于使不同版本的核心可用的IPMI驱动核心补丁。
+        2.4和2.6核心所需要的核心模块是不一样的。
+        下列的核心模块就需要装载一个2.4基础核心，从而保证ipmitool顺利运行：
+                 ipmi_msghandler
+                       为IPMI接口处理传入和传出的信息
+                 ipmi_kcs_drv 
+                       一个针对消息处理的IPMI键盘控制器的风格接口。
+                 ipmi_devintf
+                       Linux字符的消息处理设备接口
+    
+    下列的核心模块就需要装载一个2.6基础核心，从而保证ipmitool顺利运行：
+                ipmi_msghandler
+                        为IPMI接口处理传入和传出的信息
+                ipmi_si
+                        一个IPMI的系统消息处理程序接口的驱动程序。该模块支持各种IPMI的系统接口，例如KCS, BT, SMIC，甚至2.6核心下的SMBus。
+                ipmi_devintf
+                         Linux字符的消息处理设备接口
+    一旦需要的模块被加载，将会有一个动态的字符输入装置存在于/dev/ipmi0。对于系统，使用devfs或udev将会在/dev/ipmi/0中。
+    要创建设备节点，首先要通过查看/proc/devices来确定内核指派的动态主设备号，以及检查ipmidev输入。通常，如果这是第一个动态设备，那么主设备号为254，第一个系统接口的次设备号为0，所以，你可以通过输入以下命令来创建设备：
+               mknod /dev/ipmi0 c 254 0
+               ipmitool包括了一些简单的初始化代码，这样就可以在启动时自动执行一些任务。
+    为了使ipmitool使用openipmi设备接口，你可以用以下的命令：
+        ipmitool -I open <command> 
+
+ BMC INTERFACE 
+              Ipmitool bmc接口利用了bmc设备驱动，它被Solaris 10以上的版本所提供。为了使ipmitool使用这个接口，使用命令：<pp> ipmitool -I bmc <command> 
+                  下列的文件都与bmc设备有关系： 
+                       /platform/i86pc/kernel/drv/bmc 
+                            32-bit ELF kernel module for the bmc driver. 
+                      /platform/i86pc/kernel/drv/amd64/bmc 
+                            64-bit ELF kernel module for the bmc driver. 
+                      /dev/bmc 
+                            Character device node used to communicate with the bmc driver.
+
+ LIPMI INTERFACE 
+        Ipmitool的lipmide接口利用了Solaris 9 Ipmi核心设备驱动程序。你可以使用下列命令行来使ipmitool使用这个接口：
+            ipmitool -I lipmi <expression>
+ 
+ LAN INTERFACE 
+       Ipmitool的lan接口在IPv4下利用UDP通过一个以太局域网连接与BMC相关联。UDP数据报被格式化，通过一个IPMI会话头与RMCP（远程管理控制协议）头 来包含IPMI请求/回复。
+       IPMI-over-LAN利用了1版本的远程管理控制协议（RMCP）来支持预操作系统和操作系统缺失的管理。RMCP是一个在623端口上利用UDP数据报的一个请求-回复传输协议。
+       LAN接口是一个自动的多会话连接；移交给BMC的信息可以用一个 攻击/回应 协议来认证，使用一个直密码/key 或 消息摘要算法。Ipmitool将会尝试着使用administrator权限级别来连接 从而来执行机架电源功能。
+       你可以让ipmitool使用lan接口通过“-I lan”操作：
+           ipmitool -I lan -H <hostname> [-U <username>] [-P <password>] <command>
+       当使用ipmitool的lan接口时，在命令行中必须要主机名。密码部分是可选的；如果在命令行中没有提供密码，ipmitool将会在无验证的情况下去连接。如果你指定了密码，他将使用MD5认证。
