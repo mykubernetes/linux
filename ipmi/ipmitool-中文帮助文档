@@ -21,9 +21,12 @@ ipmitool [-c|-h|-v|-V] -I lanplus -H <hostname>
          [-o <oemtype>]
          [-C <ciphersuite>]
          <command>
+
 Description(描述)
-    这个程序能够使你通过一个kernel设备驱动或者一个远程系统，利用IPMI v1.5或IPMIv2.0 来 管理本地系统的任何一个智能平台管理接口（IPMI)功能。这些功能包括打印FRU（现场可替换装置）信息、LAN配置、传感器读数、以及远程机架电源控制。 
-    一个本地系统接口的IPMI管理功能需要一个兼容IPMI的kernel驱动程序被安装以及配置。在linux中，这个驱动叫做OpenIPMI，他被包括在了标准化分配中。在Solaris系统中，这个驱动叫做BMC，他被包括在了Solaris 10中。远程控制的管理需要授权以及配置IPMI-over-LAN接口。根据每个系统独特的需要，它可以通过系统接口来使LAN接口使用 ipmitool。
+    
+    这个程序能够使你通过一个kernel设备驱动或者一个远程系统，利用IPMI v1.5或IPMIv2.0 来 管理本地系统的任何一个智能平台管理接口（IPMI)功能。这些功能包括打印FRU（现场可替换装置）信息、LAN配置、传感器读数、以及远程机架电源控制。 
+    
+    一个本地系统接口的IPMI管理功能需要一个兼容IPMI的kernel驱动程序被安装以及配置。在linux中，这个驱动叫做OpenIPMI，他被包括在了标准化分配中。在Solaris系统中，这个驱动叫做BMC，他被包括在了Solaris 10中。远程控制的管理需要授权以及配置IPMI-over-LAN接口。根据每个系统独特的需要，它可以通过系统接口来使LAN接口使用 ipmitool。
 
 Options(选项) 
 -a 提示输入远程服务器的密码
@@ -56,36 +59,35 @@ COMMANDS（指令集） 
       help   这个可以在ipmitool命令行中获取命令行帮助。也可以写在其他参数后面来选择使用帮助。
       ipmitool help
              Commands:
-                        raw      发送一个RAW（未加工的） IPMI请求然后输出响应。
+                        raw       发送一个RAW（未加工的） IPMI请求然后输出响应。
                         lan       配置LAN通道。
-                        chassis      获取机架状态并且设置power状态。
-                        event      发送预定义的状态给MC(管理控制器)
-                        mc      管理控制器状态和全局是否可使用。
-                        sdr      打印传感数据仓库输入与文本
-                        sensor      输出详细的传感器信息。
-                        fru      输出内嵌的FRU（现场可替换装置）和扫描FRU 定位器的SDR（系统定义记录）
-                        sel      打印系统事件日志（SEL）。
-                        pef      配置平台事件过滤（PEF）
-                        sol      配置IPMIv2.0 Serial-over-LAN
+                        chassis   获取机架状态并且设置power状态。
+                        event     发送预定义的状态给MC(管理控制器)
+                        mc        管理控制器状态和全局是否可使用。
+                        sdr       打印传感数据仓库输入与文本
+                        sensor    输出详细的传感器信息。
+                        fru       输出内嵌的FRU（现场可替换装置）和扫描FRU 定位器的SDR（系统定义记录）
+                        sel       打印系统事件日志（SEL）。
+                        pef       配置平台事件过滤（PEF）
+                        sol       配置IPMIv2.0 Serial-over-LAN
                         isol      配置IPMIv1.5 Serial-over-LAN
-                        user     配置管理控制器用户
-                        channel      配置管理控制器通道
-                        session      打印session信息
+                        user      配置管理控制器用户
+                        channel   配置管理控制器通道
+                        session   打印session信息
                         exec      从文件中运行一系列的命令
-                        set      为shell和exec设置运行变量。
-           ipmitool chassis help  机架命令：status, power, identify, policy, restart_cause, poh, bootdev
-           Ipmitool chassis power help    机架power状态：status, on, off, cycle, reset, diag, soft
+                        set       为shell和exec设置运行变量。
+           
+           ipmitool chassis help  机架命令：status, power, identify, policy, restart_cause, poh, bootdev
+           
+           Ipmitool chassis power help    机架power状态：status, on, off, cycle, reset, diag, soft
      bmc/mc
-            reset <warm|cold>
-                              指示BMC执行一个warm或cold得复位。
-            Info
-                              显示BMC硬件的信息，包括了 设备版本、固件版本、IPMI版本支持、制造商id、额外设备支持的信息。
-            getenables
-                             显示一个列表，显示目前BMC的可用的操作选项。
+            reset <warm|cold>     指示BMC执行一个warm或cold得复位。
+            Info                  显示BMC硬件的信息，包括了 设备版本、固件版本、IPMI版本支持、制造商id、额外设备支持的信息。
+            getenables            显示一个列表，显示目前BMC的可用的操作选项。
             setenables <option>=[on|off]
-                            启用或禁用特定的选项。此命令根据IPMI规    范仅支持系统接口。当前option支持的选项有：
+                            启用或禁用特定的选项。此命令根据IPMI规范仅支持系统接口。当前option支持的选项有：
             recv_msg_intr    接收消息队列中断。
-            event_msg_intr    事件消息缓冲区满中断
+            event_msg_intr   事件消息缓冲区满中断
             event_msg        事件消息缓冲区
             system_event_log        系统事件日志记录
             oem0    oem定义选项#0
@@ -117,12 +119,9 @@ COMMANDS（指令集） 
            getciphers <all | supported> <ipmi | sol> [channel]
                         为给定的应用（ipmi或sol）在给定的通道下显示支持的密码套件列表
     Chassis
-    Status
-   显示关于系统机架和主电源子系统的高级别状态的信息。
-    poh
-   这个命令将会返回power on的时间（单位为小时）。
-    identify <interval>
-   控制面板标识灯。默认是15，用0表示关掉。
+    Status   显示关于系统机架和主电源子系统的高级别状态的信息。
+    poh      这个命令将会返回power on的时间（单位为小时）。
+    identify <interval>    控制面板标识灯。默认是15，用0表示关掉。
     restart_cause 查询系统最后一次重启的原因。
     Policy 设置如果停电时的机架电源策略。
   list  显示所有支持的策略
