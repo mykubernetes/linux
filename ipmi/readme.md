@@ -188,3 +188,8 @@ BMC 防火墙策略配置全部拒绝导致无法访问
 # ipmitool user set password 1 abcdefg          #改ipmi 用户名1的密码,#root 修改后默认密码abcdefg
 # ipmitool user set password 2 abcdefg          #修改ipmi 用户名2的密码,#admin 修改后默认密码abcdefg
 ```
+
+参考：
+- https://www.cnblogs.com/HByang/p/16127044.html
+- https://www.ngui.cc/el/1245028.html?action=onClick
+- https://www.doc88.com/p-5943803613445.html
