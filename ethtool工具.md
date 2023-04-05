@@ -41,6 +41,9 @@ ethtool -s eth0 speed    # 改变网卡速度   10/100/1000
 
 例如：
 ```
+Syntax:
+ethtool –s [device_name] speed [10/100/1000] duplex [half/full] autoneg [on/off]
+
 ethtool -s eth0 speed 1000 duplex full autoneg off
 ```
 此指令将eth0设备设置为全双工自适应，速度为100Mbs。若要eth0启动时设置这些参数, 修改文件`/etc/sysconfig/network-scripts/ifcfg-eth0`，添加如下一行:
