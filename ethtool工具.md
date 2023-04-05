@@ -98,33 +98,33 @@ ethtool version 5.8
 ```
 # ethtool ens5f0
 Settings for ens5f0:
-        Supported ports: [ FIBRE ]
-        Supported link modes:   1000baseKX/Full           ##支持的链路模式
+        Supported ports: [ FIBRE ]                       ##支持协议
+        Supported link modes:   1000baseKX/Full          ##支持的链路模式
                                 10000baseKR/Full 
                                 25000baseCR/Full 
                                 25000baseKR/Full 
                                 25000baseSR/Full 
         Supported pause frame use: Symmetric             ##暂停帧的支持，以太网流量控制
-        Supports auto-negotiation: Yes                   ##链路自动协商
-        Supported FEC modes: None BaseR        
-        Advertised link modes:  1000baseKX/Full 
+        Supports auto-negotiation: Yes                   ##是否支持自动协商
+        Supported FEC modes: None BaseR                  ##支持的 FEC 模式
+        Advertised link modes:  1000baseKX/Full          ##通告模式
                                 10000baseKR/Full 
                                 25000baseCR/Full 
                                 25000baseKR/Full 
                                 25000baseSR/Full 
-        Advertised pause frame use: Symmetric
-        Advertised auto-negotiation: Yes                  ##建议自动协商  
-        Advertised FEC modes: None                        ##建议的FEC mode
-        Speed: 10000Mb/s                                  ##速率
-        Duplex: Full                                      ##双工模式
+        Advertised pause frame use: Symmetric             ##是否支持暂停帧使用
+        Advertised auto-negotiation: Yes                  ##是否支持自动协商
+        Advertised FEC modes: None                        ##支持的 FEC 模式
+        Speed: 10000Mb/s                                  ##当前速率
+        Duplex: Full                                      ##工作模式全双工
         Port: FIBRE                                       ##port类型，，还会有
         PHYAD: 0                                          ##网卡的物理标识，如果两个device的PHYAD相同，表示在一块物理网卡上
-        Transceiver: internal                             ##internal — Use internal transceiver、external — Use external transceiver.
-        Auto-negotiation: on                    
-        Supports Wake-on: d
+        Transceiver: internal                             ##收发器：内部,internal — Use internal transceiver、external — Use external transceiver.
+        Auto-negotiation: on                              ##自动协商：打开
+        Supports Wake-on: d                               ##支持唤醒
         Wake-on: d                                        ##Wake On LAN是否启用,d:禁用，g:启用
-        Current message level: 0x00000004 (4)
-                               link
+        Current message level: 0x00000004 (4)             ##当前消息级别
+                               link                       ##链路探测
         Link detected: yes                                ##对于link也有一个比较实用的redhat kb:https://access.redhat.com/solutions/46885
 ```
 
@@ -203,3 +203,5 @@ Link test (on/offline) 0
 - https://blog.csdn.net/carefree2005/article/details/121541876
 - https://linux.cn/article-12290-1.html
 - https://blog.csdn.net/A___LEi/article/details/127661416
+- https://www.shuzhiduo.com/A/nAJv8jm3dr/
+- https://www.shuzhiduo.com/A/6pdDpp0qdw/
