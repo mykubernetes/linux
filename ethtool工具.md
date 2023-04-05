@@ -149,6 +149,36 @@ Loopback test (offline) 0
 Link test (on/offline) 0
 ```
 
+7、设置网设备的速度
+
+- 可以根据需要改变以太网的速度。当你进行此更改时，网卡将自动掉线，你需要使用 ifup 命令 或 ip 命令或 nmcli 命令将其重新上。
+```
+# ethtool -s eth0 speed 100
+# ip link set eth0 up
+```
+
+8、在 Linux 上启用/禁用以太网卡的自动协商？
+
+- 可以使用 ethtool 命令中的 autoneg 选项启用或禁用自动协商。
+```
+# ethtool -s eth0 autoneg off
+# ethtool -s eth0 autoneg on
+```
+
+9、如何检查特定网卡的自动协商、RX 和 TX
+
+- 要查看关于特定以太网设备的自动协商等详细信息，请使用以下格式：
+```
+# ethtool -a eth0
+```
+
+10、如何从多个设备中识别出特定的网卡（闪烁网卡上的 LED）
+
+- 如果你想识别一个特定的物理接口，这个选项非常有用。下面的 ethtool 命令会使 eth0 端口的 LED 灯闪烁：
+```
+# ethtool -p eth0
+```
+
 参考：
 - https://blog.csdn.net/carefree2005/article/details/121541876
 - https://linux.cn/article-12290-1.html
