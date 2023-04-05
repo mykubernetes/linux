@@ -72,28 +72,36 @@ ethtool version 5.8
 
 - 显示yes表示端口为up状态，使用命令ethtool devicename查看。
 ```
-# ethtool eth0
-Settings for eth0:
-        Supported ports: [ TP ]
-        Supported link modes: 1000baseT/Full
-                              10000baseT/Full
-        Supported pause frame use: No
-        Supports auto-negotiation: Yes           #端口自协商模式
-        Supported FEC modes: Not reported
-        Advertised link modes: Not reported
-        Advertised pause frame use: No
-        Advertised auto-negotiation: No
-        Advertised FEC modes: Not reported
-        Speed: 10000Mb/s             #协商结果为10000M
-        Duplex: Full                 #全双共
-        Port: Twisted Pair
-        PHYAD: 0
-        Transceiver: internal
-        Auto-negotiation: off
-        MDI-X: Unknown
-        Supports Wake-on: uag
-        Wake-on: d
-        Link detected: yes             #表示端口up
+# ethtool ens5f0
+Settings for ens5f0:
+        Supported ports: [ FIBRE ]
+        Supported link modes:   1000baseKX/Full           ##支持的链路模式
+                                10000baseKR/Full 
+                                25000baseCR/Full 
+                                25000baseKR/Full 
+                                25000baseSR/Full 
+        Supported pause frame use: Symmetric             ##暂停帧的支持，以太网流量控制
+        Supports auto-negotiation: Yes                   ##链路自动协商
+        Supported FEC modes: None BaseR        
+        Advertised link modes:  1000baseKX/Full 
+                                10000baseKR/Full 
+                                25000baseCR/Full 
+                                25000baseKR/Full 
+                                25000baseSR/Full 
+        Advertised pause frame use: Symmetric
+        Advertised auto-negotiation: Yes                  ##建议自动协商  
+        Advertised FEC modes: None                        ##建议的FEC mode
+        Speed: 10000Mb/s                                  ##速率
+        Duplex: Full                                      ##双工模式
+        Port: FIBRE                                       ##port类型，，还会有
+        PHYAD: 0                                          ##网卡的物理标识，如果两个device的PHYAD相同，表示在一块物理网卡上
+        Transceiver: internal                             ##internal — Use internal transceiver、external — Use external transceiver.
+        Auto-negotiation: on                    
+        Supports Wake-on: d
+        Wake-on: d                                        ##Wake On LAN是否启用,d:禁用，g:启用
+        Current message level: 0x00000004 (4)
+                               link
+        Link detected: yes                                ##对于link也有一个比较实用的redhat kb:https://access.redhat.com/solutions/46885
 ```
 
 5、查询指定网卡的驱动程序信息
