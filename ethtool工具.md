@@ -68,11 +68,11 @@ ETHTOOL_OPTS="speed 1000 duplex full autoneg off"
 | –r ethX | 重置ethX网口到自适应模式 |
 | –S ethX | 查询ethX网口收发包统计 |
 | -s,–change | 更改基本选项 |
-| –s ethX [speed 10|100|1000] | 设置网口速率10/100/1000M |
-| –s ethX [duplex half|full] | 设置网口半/全双工 |
-| –s ethX [autoneg on|off] | 设置网口是否自协商 |
-| –s ethX [port tp|aui|bnc|mii] | 设置网口类型 |
-| -s ethX wol p|u|m|b|a|g|s|d… | 网卡唤醒参数设置，pumbagsd分别对应对应物理连接、单播、组播、广播、arp请求、magic包、关闭 |
+| –s ethX [speed 10\|100\|1000] | 设置网口速率10/100/1000M |
+| –s ethX [duplex half\|full] | 设置网口半/全双工 |
+| –s ethX [autoneg on\|off] | 设置网口是否自协商 |
+| –s ethX [port tp\|aui\|bnc\|mii] | 设置网口类型 |
+| -s ethX wol p\|u\|m\|b\|a\|g\|s\|d… | 网卡唤醒参数设置，pumbagsd分别对应对应物理连接、单播、组播、广播、arp请求、magic包、关闭 |
 | -t,–test | 网卡自测 |
 | –version | 查看命令版本 |
 
