@@ -1,10 +1,10 @@
-```
+```shell
 $ ls
 checklist.sh  servicelist.txt
 ```
 
 服务列表
-```
+```shell
 $ cat servicelist.txt 
 aiops-kfk01=zookeeper kafka redis-server
 aiops-kfk02=zookeeper kafka redis-server
@@ -14,7 +14,7 @@ aiops-kfk05=zookeeper kafka
 ```
 
 脚本
-```
+```shell
 $ cat checklist.sh 
 #!/bin/bash
 host=$(cat servicelist.txt |awk -F= '{print $1}')
@@ -45,7 +45,7 @@ done
 ```
 
 执行结果
-```
+```shell
 $ sh checklist.sh 
 zookeeper up
 kafka up
