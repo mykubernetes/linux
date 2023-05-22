@@ -52,7 +52,7 @@ kafka up
 redis-server up
 ```
 
-# 服务重启脚本
+# hadoop服务重启脚本
 ```
 #!/bin/bash
 
